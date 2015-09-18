@@ -1,0 +1,5 @@
+#!/usr/bin/env ruby
+#^syntax detection
+site 'https://supermarket.getchef.com/api/v1'
+
+cookbook 'nodejs', '~> 2.4.2'
