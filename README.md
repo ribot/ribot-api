@@ -27,7 +27,15 @@ To start the node project on the VM you now need to SSH into it, change into the
 vagrant ssh
 cd app
 npm install
-node app.js
+npm start
+```
+
+## Running the tests
+The best way to run tests is from inside the Vagrant VM:
+
+```sh
+vagrant ssh
+npm test
 ```
 
 ## Adding a new dependency to the VM

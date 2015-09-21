@@ -29,3 +29,7 @@ var init = function init() {
 
 // Get the party started
 init();
+
+
+// Exports
+module.exports = app;

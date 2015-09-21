@@ -1,0 +1,4 @@
+--require should
+--ui bdd
+--recursive
+--timeout 6000
