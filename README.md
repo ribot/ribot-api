@@ -62,4 +62,9 @@ vagrant provision
 ```
 
 ## Deploying the app
-TODO
+Changes to master will automatically cause the app to be deployed to [Dokku](https://ribot-api.ribot.io). You should not need to deploy manually. If you do however you can set up your machine by adding a new git remote and then push to it:
+
+```sh
+git remote add deploy dokku@ribot.io:ribot-api
+git push deploy master
+```
