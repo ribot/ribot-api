@@ -63,6 +63,12 @@ librarian-chef install
 
 This will download all the cookbooks needed for MongoDB and place them in the `cookbooks` folder. All these changes can be commited to git. Sometimes people choose not to commit the `cookbooks` directory, however we choose to commit this to avoid each developer having to install librarian just to start developing the project.
 
+You now need to tell Vagrant to install this recipe when provisoning. Add a new line to the `Vagrantfile` with the name of the new cookbook:
+
+```sh
+chef.add_recipe "mongodb"
+```
+
 The last step is to "provision" your VM again. This means that the VM will be restarted with all the new dependancies by running Chef again. This also needs to be done by every other developer who created the VM before the changes to the `cookbooks` folder were made. Thankfully it's a simple command!
 
 ```sh
