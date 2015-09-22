@@ -26,7 +26,8 @@ To start the node project on the VM you now need to SSH into it, change into the
 ```sh
 vagrant ssh
 cd app
-npm install
+npm install --no-bin-links
+node data/setup.js --seed
 npm start
 ```
 
@@ -82,3 +83,13 @@ Changes to master will automatically cause the app to be deployed to [Dokku](htt
 git remote add deploy dokku@ribot.io:ribot-api
 git push deploy master
 ```
+
+## Testing Google OAuth
+
+1. Go to the [Google OAuth playground with the correct basic settings](https://developers.google.com/oauthplayground/#step2&apisSelect=https%3A//www.googleapis.com/auth/userinfo.email%2Chttps%3A//www.googleapis.com/auth/userinfo.profile%2Chttps%3A//www.googleapis.com/auth/userinfo.email%2Chttps%3A//www.googleapis.com/auth/userinfo.profile&auth_code=4/giB9Uhx-o1yD6wpFhuf52uqQhFqkIBKTj2T4Um78HmY&url=https%3A//&content_type=application/json&http_method=GET&useDefaultOauthCred=checked&oauthEndpointSelect=Google&oauthAuthEndpointValue=https%3A//accounts.google.com/o/oauth2/auth&oauthTokenEndpointValue=https%3A//www.googleapis.com/oauth2/v3/token&includeCredentials=unchecked&accessTokenType=query&autoRefreshToken=unchecked&accessType=offline&forceAprovalPrompt=unchecked&response_type=code)
+2. Click the cog in the top right and enter the *Client ID* and *Client Secret* from the `.env` file you are using
+3. In the list of scopes find *Google OAuth  API v2* and select the *user.email* and *user.profile* scopes
+4. Press *Authorize APIs* and follow the steps with your ribot account
+5. Copy the *Authorization code*
+6. Use Paw/Postman/cURL to make a request to `POST /auth/sign-in` with the `googleAuthorizationCode` you copied along with a `googleRedirectUri` of `https://developers.google.com/oauthplayground`
+7. You should now be logged in

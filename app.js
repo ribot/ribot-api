@@ -1,9 +1,14 @@
 // External dependencies
-var express = require( 'express' );
+var express = require( 'express' ),
+    bodyParser = require( 'body-parser' ),
+    passport = require( 'passport' );
 
 
 // Dependencies
-var environment = require( './app/lib/environment' );
+var logger = require( './app/lib/logger' ),
+    environment = require( './app/lib/environment' ),
+    router = require( './app/lib/router' ),
+    middleware = require( './app/lib/routing-middleware' );
 
 
 // Local variables
@@ -15,15 +20,26 @@ var app = express();
  */
 var init = function init() {
 
-  app.get( '/', function ( req, res ) {
-    res.send( 'Hello World!' );
-  } );
+  // Setup middleware
+  app.use( middleware.removeTrailingSlash );
+  app.use( bodyParser.urlencoded( { extended: true } ) );
+  app.use( bodyParser.json() );
+  app.use( passport.initialize() );
+  app.use( router );
 
+  // Setup models
+  require( './app/models' );
+
+  // Setup controllers
+  require( './app/controllers' );
+
+  // Start the server
   var server = app.listen( environment.port, function () {
-    console.log( 'Example app listening at %s', environment.baseUrl );
+    logger.debug( 'ribot API listening at %s', environment.baseUrl );
   } );
 
-  console.log( environment );
+  // Log the environment
+  logger.info( environment );
 
 };
 
