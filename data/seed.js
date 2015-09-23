@@ -27,7 +27,8 @@ var date = moment().format(),
 var seedData = {
 
   ribot: [
-    { id: uuids[ 0 ], first_name: 'Robert', last_name: 'Douglas', email: 'rob@douglas.com', is_authenticated: true, created_date: date, updated_date: date }
+    { id: uuids[ 0 ], first_name: 'Robert', last_name: 'Douglas', email: 'rob@douglas.com', date_of_birth: '1970-01-01', avatar: 'http://exmaple.com/avatar.png', hex_color: '#C0FFEE', is_authenticated: true, created_date: date, updated_date: date },
+    { id: uuids[ 1 ], first_name: 'Matt', last_name: 'Oakes', email: 'matt@ribot.co.uk', date_of_birth: '1970-02-02', avatar: 'http://exmaple.com/avatar2.png', hex_color: '#C0FFEE', is_authenticated: false, created_date: date, updated_date: date }
   ],
 
   access_token: [

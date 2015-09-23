@@ -36,7 +36,7 @@ describe( 'Authentication: /auth/sign-in', function( done ) {
     done();
   } );
 
-  describe( 'Handle *new* application user with valid Google authorization code', function( done ) {
+  describe( 'Handle user with valid Google authorization code but no ribot profile', function( done ) {
 
     before( function( done ) {
 
@@ -45,7 +45,8 @@ describe( 'Authentication: /auth/sign-in', function( done ) {
         .then( function() {
 
           // Set up scope for assertions
-          this.expectedStatusCode = 200;
+          this.expectedStatusCode = 403;
+          this.expectedError = new ResponseError( 'noProfile' );
           this.googleAuthorizationRequest = _.extend( {}, fixtures.googleAuthorizationRequest, { googleAuthorizationCode: getValidAuthCode() } );
 
           // Set up nock interceptors
@@ -70,15 +71,13 @@ describe( 'Authentication: /auth/sign-in', function( done ) {
 
     // Shared assertions
     shared.shouldRespondWithCorrectStatusCode();
-    shared.shouldReturnAccessTokenAndUserProfile();
-    shared.shouldHaveUserInDatabase();
-    shared.shouldHaveGoogleAccessTokenInDatabase();
-    shared.shouldHaveAccessTokenInDatabase();
-    shared.shouldReturnValidResponseSchema();
+    shared.shouldRespondWithCorrectError();
+    shared.shouldNotHaveUserInDatabase();
+    shared.shouldReturnValidErrorSchema();
 
   } );
 
-  describe( 'Handle *existing* application user with valid Google authorization code', function( done ) {
+  describe( 'Handle user with valid Google authorization code and a valid ribot profile', function( done ) {
 
     before( function( done ) {
 
@@ -121,7 +120,7 @@ describe( 'Authentication: /auth/sign-in', function( done ) {
 
   } );
 
-  describe( 'Handle invalid google auth code', function( done ) {
+  describe( 'Handle user with invalid google auth code', function( done ) {
 
     before( function( done ) {
 
@@ -162,7 +161,7 @@ describe( 'Authentication: /auth/sign-in', function( done ) {
 
   } );
 
-  describe( 'Handle no google auth code', function( done ) {
+  describe( 'Handle user with no google auth code', function( done ) {
 
     before( function( done ) {
 
@@ -193,7 +192,7 @@ describe( 'Authentication: /auth/sign-in', function( done ) {
 
   } );
 
-  describe( 'Handle when a valid authorisation code has already been used', function( done ) {
+  describe( 'Handle user with a valid authorisation code which has already been used', function( done ) {
 
     before( function( done ) {
       // Set up db tables and seed

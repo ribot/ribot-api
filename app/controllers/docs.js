@@ -7,7 +7,8 @@ var fs = require( 'fs' ),
 var logger = require( '../lib/logger' ),
     environment = require( '../lib/environment' ),
     router = require( '../lib/router' ),
-    ResponseError = require( '../lib/response-error' );
+    ResponseError = require( '../lib/response-error' ),
+    utils = require( '../lib/utils' );
 
 
 var specHtml;
@@ -73,10 +74,11 @@ var getSpecHtml = function getSpecHtml ( done ) {
     }
 
     blueprint = spec.data.toString();
-    blueprint = blueprint.replace( '{{lastModifiedDate}}', spec.stats.mtime );
+    blueprint = blueprint.replace( '{{lastModifiedDate}}', utils.formatDateTime( spec.stats.mtime ) );
 
     options = {
-      theme: 'flatly'
+      theme: 'flatly',
+      themeFullWidth: true
     };
 
     aglio.render( blueprint, options, function ( error, html, warnings ) {
@@ -137,6 +139,7 @@ var requestGetSpec = function requestGetSpec ( request, response, next ) {
       return response.send( responseError );
     }
 
+    response.set( 'Content-Disposition', 'attachment; filename="ribot-api-spec.markdown"' );
     response.set( 'Content-Type', 'text/markdown' );
     response.send( spec.data );
 

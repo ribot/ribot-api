@@ -40,7 +40,7 @@ var shouldReturnValidErrorSchema = function shouldReturnValidErrorSchema(){
       if ( error ) { return done( error ); }
 
       // Blueprint assertions
-      result.errors.should.be.empty;
+      result.errors.should.have.a.lengthOf(0);
 
       done();
 
@@ -54,17 +54,14 @@ var shouldReturnValidResponseSchema = function shouldReturnValidResponseSchema()
   it( 'should validate successful response against the blueprint schema', function( done ) {
 
     var options = { type: 'response', route: this.blueprintRoute || this.route, method: this.method, statusCode: this.expectedStatusCode };
-    console.log( options );
 
     // Validate response against blueprint schema
     this.blueprintSchema.validate( this.response.body, options, function( error, result ) {
-      console.log( error );
-      console.log( result );
 
       if ( error ) { return done( error ); }
 
       // Blueprint assertions
-      result.errors.should.be.empty;
+      result.errors.should.have.a.lengthOf(0);
 
       done();
 

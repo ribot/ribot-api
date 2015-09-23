@@ -85,16 +85,16 @@ var formatId = function formatId( uuid ) {
  * Uses ISO-8601 with no time component
  */
 var formatDate = function formatDate( date ) {
-  return moment( date ).format( 'YYY-MM-DD' );
+  return moment( date ).format( 'YYYY-MM-DD' );
 };
 
 
 /**
  * Format date with time
- * Uses RFC822 format
+ * Uses ISO-8601 format
  */
 var formatDateTime = function formatDateTime( date ) {
-  return moment( date ).format( 'ddd, DD MMM YYYY HH:mm:ss ZZ' );
+  return moment( date ).toISOString();
 };
 
 

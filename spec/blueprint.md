@@ -1,19 +1,32 @@
 FORMAT: 1A
 
 # ribot API Documentation
-
-API for ribot.
-
 **Last updated:** {{lastModifiedDate}}
 
-Request and response payloads include data schemas, to the [JSON schema spec](http://json-schema.org/).
+This is the API documentation for the *ribot API*. This API allows you to access information about each ribot, as well as perform actions on your own profile such as update your location, status and availability. It will also allow access to health information such as water consumption.
 
-## Errors
+This document lists the requests and responses possible, along with example payloads. The payloads are formatted in JSON, and each example includes a data schema in the [JSON schema](http://json-schema.org/) format.
 
-Any error response from the API uses the appropriate HTTP status code.
+::: note
+## :paw_prints: Using with Paw
+It is possible to import this spec directly into [Paw](https://luckymarmot.com/paw) to easily test and explore this API.
 
-### Error example
+1. [Download the API blueprint markdown file](/spec).
+2. [Install the API Blueprint Importer extension](https://luckymarmot.com/paw/extensions/APIBlueprintImporter).
+3. Open Paw, create a new document and Press *File -> Import*.
+4. Select the API blueprint markdown file you downloaded.
+5. Enjoy testing nirvana!
+:::
 
+::: note
+## :exclamation: Errors
+Any error response from the API uses the appropriate HTTP status code. It also includes:
+
+* A `code` which can be used to identify the error type
+* A `message` that will be give the developer a clear idea of what the error message is
+* An array of `errors` which describes the data validation errors when the `code` is `invalidData`
+
+### Example
     {
       "code": "invalidData",
       "message": "Invalid request data.",
@@ -29,8 +42,7 @@ Any error response from the API uses the appropriate HTTP status code.
       ]
     }
 
-### Error schema
-
+### Schema
     {
       "$schema": "http://json-schema.org/draft-04/schema#",
       "title": "Error",
@@ -82,16 +94,13 @@ Any error response from the API uses the appropriate HTTP status code.
         }
       }
     }
-
+:::
 
 # Group Auth
-
 Authentication operations.
 
 ## Sign-in [/auth/sign-in]
-
 ### Sign-in [POST]
-
 Exchanges credentials for an access token. If the Google account is valid but the account does not have a ribot profile setup, an error will be returned.
 
 + Request (application/json)
@@ -140,7 +149,6 @@ Exchanges credentials for an access token. If the Google account is valid but th
                   "avatar": "http://stuff.co.uk/images/lionel-richtea.jpg",
                   "dateOfBirth": "1946-06-20T15:00:00+00:00",
                   "bio": "Say some stuff..."
-                  }
                 }
               }
             }
@@ -174,6 +182,7 @@ Exchanges credentials for an access token. If the Google account is valid but th
                         "name",
                         "email",
                         "hexColor",
+                        "avatar",
                         "dateOfBirth"
                       ],
                       "properties": {
@@ -220,4 +229,37 @@ Exchanges credentials for an access token. If the Google account is valid but th
                   }
                 }
               }
+            }
+
++ Response 400 (application/json)
+
+    + Body
+
+            {
+              "code": "invalidGoogleCode",
+              "message": "The user\'s Google authorization code is not valid.",
+              "statusCode": 400,
+              "errors": []
+            }
+
++ Response 403 (application/json)
+
+    + Body
+
+            {
+              "code": "noProfile",
+              "message": "Google Auth was successful, but the user does not have a ribot profile set up.",
+              "statusCode": 403,
+              "errors": []
+            }
+
++ Response 500 (application/json)
+
+    + Body
+
+            {
+              "code": "google",
+              "message": "Could not communicate with Google.",
+              "statusCode": 500,
+              "errors": []
             }
