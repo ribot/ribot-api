@@ -71,6 +71,20 @@ var shared = {
     } );
   },
 
+  shouldNotHavePreviousAccessTokenInDatabase: function shouldNotHavePreviousAccessTokenInDatabase() {
+    it( 'should no longer have previous application access token in the database', function( done ) {
+      // Response assertions
+      helpers.db.fetch( 'access_token', { token: this.existingApplicationAccessToken } )
+      .then( function( results ) {
+
+        results.length.should.eql( 0 );
+        done();
+
+      }.bind( this ) );
+
+    } );
+  },
+
   shouldHaveGoogleAccessTokenInDatabase: function shouldHaveGoogleAccessTokenInDatabase() {
     it( 'should save Google access and refresh tokens in the database', function( done ) {
       // Response assertions
@@ -78,7 +92,7 @@ var shared = {
       .then( function( results ) {
 
         results.length.should.eql( 1 );
-        results[ 0 ].access_token.should.not.eql( this.existingAccessToken );
+        results[ 0 ].access_token.should.not.eql( this.existingGoogleAccessToken );
         done();
 
       }.bind( this ) );

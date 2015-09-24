@@ -187,9 +187,6 @@ var BaseModel = db.bookshelf.Model.extend( {
    * On before delete event handler
    */
   onBeforeDelete: function onBeforeRead( model, options ) {
-
-    this.validateModel( model );
-
     return Promise.resolve();
   },
 
