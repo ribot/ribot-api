@@ -89,7 +89,8 @@ describe( 'Authentication: /auth/sign-in', function( done ) {
           this.googleAuthorizationRequest = _.extend( {}, fixtures.googleAuthorizationRequest, { googleAuthorizationCode: getValidAuthCode() } );
           this.expectedStatusCode = 200;
           this.googleProfileResponse = _.extend( {}, fixtures.googleProfileResponse, { emails: [ { value: 'rob@douglas.com', type: 'account' } ] } );
-          this.existingAccessToken = seed.provider_credential[ 0 ].access_token;
+          this.existingGoogleAccessToken = seed.provider_credential[ 0 ].access_token;
+          this.existingApplicationAccessToken = seed.access_token[ 0 ].token;
 
           // Set up nock interceptors
           helpers.nock.setAuthorizationSuccessResponse( this.googleAuthorizationResponse );
@@ -116,6 +117,7 @@ describe( 'Authentication: /auth/sign-in', function( done ) {
     shared.shouldHaveUserInDatabase();
     shared.shouldHaveGoogleAccessTokenInDatabase();
     shared.shouldHaveAccessTokenInDatabase();
+    shared.shouldNotHavePreviousAccessTokenInDatabase();
     shared.shouldReturnValidResponseSchema();
 
   } );

@@ -101,9 +101,9 @@ var getGoogleProfile = function getGoogleProfile( googleAuthorizer ) {
 /**
  * Create Sign-in resource
  */
-var createSignInResource = function createSignInResource( ribot ) {
-  var ribotJson = ribot.toJSON(),
-      accessTokenJson = ribot.related( 'accessTokens' ).at( 0 ).toJSON();
+var createSignInResource = function createSignInResource( result ) {
+  var ribotJson = result.ribot.toJSON(),
+      accessTokenJson = result.accessToken.toJSON();
 
   return {
     accessToken: accessTokenJson.accessToken,
@@ -153,14 +153,15 @@ var requestPostSignIn = function requestPostSignIn( request, response, next ) {
       } )
 
       .then( function() {
-        return result.ribot.createAccessToken( { transacting: transaction } );
+        return result.ribot.createAccessToken( { transacting: transaction } )
+          .tap( function cacheToken( accessToken ) { result.accessToken = accessToken; } );
       } );
 
   } )
 
   .then( function() {
-    var responseBody = createSignInResource( result.ribot );
 
+    var responseBody = createSignInResource( result );
     response.status( 200 ).send( responseBody );
 
   } )

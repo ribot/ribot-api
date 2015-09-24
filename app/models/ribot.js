@@ -149,7 +149,13 @@ var Ribot = BaseModel.extend( {
   },
 
   createAccessToken: function createAccessToken( options ) {
-    return this.related( 'accessTokens' ).create( {}, { transacting: options.transacting } );
+    return this.related( 'accessTokens' ).fetch()
+      .then( function( previousAccessTokens ) {
+        return previousAccessTokens.invokeThen( 'destroy', { transacting: options.transacting } )
+          .then( function() {
+            return this.related( 'accessTokens' ).create( {}, { transacting: options.transacting } );
+          }.bind( this ) );
+      }.bind( this ) );
   },
 
   attemptRemove: function attemptRemove( options ) {
