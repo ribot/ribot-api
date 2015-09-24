@@ -1,6 +1,7 @@
 # ribot API
 
 ## Introduction
+This API allows you to access information about each ribot, as well as perform actions on your own profile such as update your location, status and availability. It will also allow access to health information such as water consumption.
 
 ## Setting up your development environment
 We are using [Vagrant](https://www.vagrantup.com/) to manage the development environment. This ensure that all developers can be set up very quickly and in the same configuration. This in turn avoids issues where "it works on my machine".

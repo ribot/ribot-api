@@ -139,15 +139,7 @@ var requestPostSignIn = function requestPostSignIn( request, response, next ) {
       } )
 
       .then( function( profile ) {
-        return Ribot.findOrCreate( {
-          firstName: profile.name.givenName,
-          lastName: profile.name.familyName,
-          email: getMainEmailFromProfile( profile.emails ),
-          isAuthenticated: true
-        }, {
-          transacting: transaction,
-          forceUpdate: true
-        } )
+        return Ribot.findByEmail( getMainEmailFromProfile( profile.emails ), { transacting: transaction } )
           .tap( function cacheRibot( ribot ) { result.ribot = ribot; } );
       } )
 

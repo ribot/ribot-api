@@ -171,48 +171,31 @@ var Ribot = BaseModel.extend( {
 
 
 /**
- * Find or create ribot by email, if options.forceUpdate is true, attributes will override found record
+ * Find a ribot by email
  */
-Ribot.findOrCreate = function findOrCreate( attributes, options ) {
+Ribot.findByEmail = function findByEmail( email, options ) {
 
-  // Find or create ribot by email if present, otherwise create a new ribot
-  if ( attributes.hasOwnProperty( 'email' ) ) {
+  if ( email ) {
 
     return new Ribot( {
-      email: attributes.email
+      email: email
     } )
       .fetch( options )
       .then( function( ribot ) {
 
         if ( ribot ) {
-          if ( options.forceUpdate === true ) {
-            ribot.set( attributes );
-            return ribot.save( null, {
-              transacting: options.transacting
-            } );
-          } else {
-            return ribot;
-          }
+          ribot.set( { isAuthenticated: true } );
+          return ribot.save( null, {
+            transacting: options.transacting
+          } );
         } else {
-          return new Ribot( attributes )
-            .save( null, {
-              transacting: options.transacting
-            } );
+          throw new ResponseError( 'noProfile' );
         }
 
       } );
 
   } else {
-
-    if ( attributes.hasOwnProperty( 'isAuthenticated' ) ) {
-      delete attributes.isAuthenticated;
-    }
-
-    return new Ribot( attributes )
-      .save( null, {
-        transacting: options.transacting
-      } );
-
+    throw new ResponseError( 'noProfile' );
   }
 
 };
