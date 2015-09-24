@@ -28,7 +28,6 @@ To start the node project on the VM you now need to SSH into it, change into the
 vagrant ssh
 cd app
 npm install --no-bin-links
-node data/setup.js --seed
 npm start
 ```
 
@@ -39,6 +38,29 @@ The best way to run tests is from inside the Vagrant VM:
 vagrant ssh
 npm test
 ```
+
+## Database setup
+When the app is started the server will look at the database and determine if it needs to make any changes to the database.
+
+If this is the first time the app is run it will detect there are no tables and create them all from the `data/schema.js` file description. If it's not running in production it will also seed the database with the data in the `data/seed.js` file.
+
+The database schema is also versioned. The `data/schema.js` version always has the most up-to-data schema which will be set up on a blank database. The schema version number is stored inside the database in the `metadata` table. This allows the server to check when it is run if the version of schema the database has matches the version it expects. If it does not it will run a series of migration scripts to alter the table to the format it expects.
+
+These migration scripts live in `data/migrations` and export a single function that accepts a Knex transaction as a parameter. It can then make the changes it needs to increment the database schema from one version to another.
+
+A migration script will only make the changes up a single version. For example if the latest schema version is `5` and the current database schema version is `2` the app will run script `3` to make the changes from `2` to `3`, and so on until the schema is at the latest version.
+
+### Making changes to the database schema
+When you change the database schema you need to ensure you write a migration script so the system is able to migrate the database up to the new version.
+
+The first step is to change the schema in the `data/schema.js` file and increment the `version` variable at the top of the file.
+
+You then need to write a migration script that makes all the changes needed to migrate the database up to your new version. To do this:
+
+1. Create a new migration script in the `data/migrations` folder using `example-migration.js` as a base. The name should begin with the new schema version number so it is easy to see the sequence of migrations
+2. Add in all the SQL commands that are needed to ensure the tables and data is correct for your new version
+3. Add a new line to the `exports` of the `data/migrations/index.js` file with the new schema number and a `require` to your migration script. There is an example at the top of the file
+4. Test your migration works on your local machine!
 
 ## Adding a new dependency to the VM
 Sometimes you may want to add a new dependency to the VM, for example MongoDB, Redis or Postgres. These sort of dependencies are installed on the VM using [Chef](https://www.chef.io/).

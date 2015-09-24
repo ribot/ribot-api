@@ -4,10 +4,8 @@
   "description": "",
   "main": "app.js",
   "scripts": {
-    "db_setup": "node data/setup.js",
-    "db_migrate": "node data/migrate.js",
     "start": "./node_modules/nodemon/bin/nodemon.js -L app.js",
-    "test": "env NODE_ENV=test PORT=8988 BASE_URL=http://localhost:8988 LOG_LEVEL=info DB_DEBUG=false DB_URL=postgresql://vagrant@localhost/ribot-api-test  node_modules/mocha/bin/mocha"
+    "test": "env NODE_ENV=test PORT=8988 BASE_URL=http://localhost:8988 LOG_LEVEL=info DB_DEBUG=false DB_URL=postgresql://vagrant@localhost/ribot-api-test node_modules/mocha/bin/mocha"
   },
   "author": "",
   "license": "ISC",
@@ -43,6 +41,7 @@
     "mocha": "^2.3.3",
     "nock": "^2.12.0",
     "nodemon": "^1.7.0",
-    "should": "^7.1.0"
+    "should": "^7.1.0",
+    "should-promised": "^0.3.1"
   }
 }

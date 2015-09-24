@@ -10,15 +10,18 @@ var helpers = require( './helpers' );
  */
 before( function( done ) {
 
-  // Require app
-  var app = require( '../../app' );
-
   helpers.blueprint.getBlueprintSchema( function( error, blueprintSchema ) {
     if ( error ) {
       return error;
     }
     this.blueprintSchema = blueprintSchema;
-    done();
+
+    helpers.db.setupForTests()
+      .then( function() {
+        // Start the app, letting the tests run when it is running correctly
+        var app = require( '../../app' );
+        app.init().then( done );
+      } );
   }.bind( this ) );
 
 } );

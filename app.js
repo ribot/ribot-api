@@ -8,7 +8,10 @@ var express = require( 'express' ),
 var logger = require( './app/lib/logger' ),
     environment = require( './app/lib/environment' ),
     router = require( './app/lib/router' ),
-    middleware = require( './app/lib/routing-middleware' );
+    middleware = require( './app/lib/routing-middleware' ),
+    db = require( './data' ),
+    schema = require( './data/schema' ),
+    migrations = require( './data/migrations' );
 
 
 // Local variables
@@ -33,19 +36,30 @@ var init = function init() {
   // Setup controllers
   require( './app/controllers' );
 
-  // Start the server
-  var server = app.listen( environment.port, function () {
-    logger.debug( 'ribot API listening at %s', environment.baseUrl );
-  } );
-
   // Log the environment
   logger.info( environment );
 
+  // Ensure the database is set up correctly and then start the server
+  return db.setupDatabase( schema, migrations ).then( function() {
+    var server = app.listen( environment.port, function () {
+      logger.debug( 'ribot API listening at %s', environment.baseUrl );
+    } );
+  } )
+    .catch( function( error ) {
+      logger.error( 'Cannot start server due to error', error.stack || error );
+      process.exit( 1 );
+    } );
+
 };
 
-// Get the party started
-init();
+// Get the party started, unless we're running tests
+if ( environment.name != 'test' ) {
+  init();
+}
 
 
 // Exports
-module.exports = app;
+module.exports = {
+  init: init,
+  app: app
+};

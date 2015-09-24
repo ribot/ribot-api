@@ -3,11 +3,11 @@ var Promise = require( 'bluebird' );
 
 
 // Dependencies
-var db = require( './index' ),
-    schema = require( './schema' ),
-    environment = require( '../app/lib/environment' ),
-    logger = require( '../app/lib/logger' ),
-    seed = require( './seed' );
+var db = require( '../index' ),
+    schema = require( '../schema' ),
+    environment = require( '../../app/lib/environment' ),
+    logger = require( '../../app/lib/logger' ),
+    seed = require( '../seed' );
 
 
 var init = function() {
@@ -16,7 +16,7 @@ var init = function() {
       shouldSeed = ( args && ( args === '--seed' || args === '-s' ) ),
       records = ( shouldSeed ) ? seed : null;
 
-  db.dropTables( schema )
+  db.dropTables( schema.schema )
     .then( function() {
       return db.createTables( schema, records );
     } )

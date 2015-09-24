@@ -247,8 +247,8 @@ var BaseModel = db.bookshelf.Model.extend( {
           type;
 
       // Convert dates
-      if ( schema[ this.tableName ].columns.hasOwnProperty( snakeCaseKey ) ) {
-        type = schema[ this.tableName ].columns[ snakeCaseKey ].type;
+      if ( schema.schema[ this.tableName ].columns.hasOwnProperty( snakeCaseKey ) ) {
+        type = schema.schema[ this.tableName ].columns[ snakeCaseKey ].type;
         if ( type == 'dateTime' || type == 'date' || type == 'time' ) {
           if ( value !== null ) {
             value = utils.formatDateTime( value );
@@ -292,7 +292,7 @@ BaseModel.sanitize = function sanitize( attributes ) {
   return _.chain( attributes )
     .omit( [ 'createdDate', 'updatedDate' ] )
     .pick( function( value, key ) {
-      return schema[ this.prototype.tableName ].columns.hasOwnProperty( _.str.underscored( key ) )
+      return schema.schema[ this.prototype.tableName ].columns.hasOwnProperty( _.str.underscored( key ) )
         || ( this.prototype.hasOwnProperty( 'virtuals' ) && this.prototype.virtuals.hasOwnProperty( key ) );
     }.bind( this ) )
     .value();
