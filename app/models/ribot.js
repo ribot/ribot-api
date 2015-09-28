@@ -56,6 +56,9 @@ var Ribot = BaseModel.extend( {
   accessTokens: function accessTokens() {
     return this.hasMany( 'AccessToken' );
   },
+  checkIns: function checkIns() {
+    return this.hasMany( 'CheckIn' );
+  },
 
   validations: {
     id: {
@@ -158,19 +161,8 @@ var Ribot = BaseModel.extend( {
       }.bind( this ) );
   },
 
-  attemptRemove: function attemptRemove( options ) {
-    if ( this.get( 'isAuthenticated' ) ) {
-      return Promise.resolve();
-    } else {
-      return this.load( [ 'families', 'helperTo' ], { transacting: options.transacting || null } )
-        .then( function() {
-          if ( !this.related( 'families' ).size() && !this.related( 'helperTo' ).size() ) {
-            return this.destroy( { transacting: options.transacting || null } );
-          } else {
-            return Promise.resolve();
-          }
-        }.bind( this ) );
-    }
+  createCheckIn: function createCheckIn( attributes, options ) {
+    return this.related( 'checkIns' ).create( attributes, options );
   }
 
 } );

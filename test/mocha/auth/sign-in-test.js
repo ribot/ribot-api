@@ -9,8 +9,7 @@ var http = require( 'http' ),
 
 
 // Dependencies
-var environment = require( '../../../app/lib/environment' ),
-    ResponseError = require( '../../../app/lib/response-error' ),
+var ResponseError = require( '../../../app/lib/response-error' ),
     helpers = require( '../helpers' ),
     fixtures = require( './fixtures' ),
     seed = require( '../../../data/seed' ),
@@ -18,9 +17,7 @@ var environment = require( '../../../app/lib/environment' ),
 
 
 // Local variables
-var apiUrl = environment.baseUrl,
-    getValidAuthCode = hat,
-    blueprintSchema;
+var getValidAuthCode = hat;
 
 
 // Start the tests

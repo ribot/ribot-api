@@ -5,7 +5,7 @@ FORMAT: 1A
 
 This is the API documentation for the *ribot API*. This API allows you to access information about each ribot, as well as perform actions on your own profile such as update your location, status and availability. It will also allow access to health information such as water consumption.
 
-This document lists the requests and responses possible, along with example payloads. The payloads are formatted in JSON, and each example includes a data schema in the [JSON schema](http://json-schema.org/) format.
+This document lists the requests and responses possible, along with example payloads. The payloads are formatted in JSON, and each example includes a data schema in the [JSON schema](http://json-schema.org/) format. All dates use the ISO-8601 format.
 
 ::: note
 ## :paw_prints: Using with Paw
@@ -100,6 +100,7 @@ Any error response from the API uses the appropriate HTTP status code. It also i
 Authentication operations.
 
 ## Sign-in [/auth/sign-in]
+
 ### Sign-in [POST]
 Exchanges credentials for an access token. If the Google account is valid but the account does not have a ribot profile setup, an error will be returned.
 
@@ -147,7 +148,7 @@ Exchanges credentials for an access token. If the Google account is valid but th
                   "email": "lionel@ribot.co.uk",
                   "hexColor": "#C0FFEE",
                   "avatar": "http://stuff.co.uk/images/lionel-richtea.jpg",
-                  "dateOfBirth": "1946-06-20T15:00:00+00:00",
+                  "dateOfBirth": "1946-06-20",
                   "bio": "Say some stuff..."
                 }
               }
@@ -217,7 +218,7 @@ Exchanges credentials for an access token. If the Google account is valid but th
                           "type": "string"
                         },
                         "dateOfBirth": {
-                          "description": "The ribot's date of birth. ISO-8601 with no time component.",
+                          "description": "The ribot's date of birth. No time component.",
                           "type": "string"
                         },
                         "bio": {
@@ -263,3 +264,259 @@ Exchanges credentials for an access token. If the Google account is valid but th
               "statusCode": 500,
               "errors": []
             }
+
+# Group Check-ins
+Check-in operations.
+
+## Check-in [/check-ins]
+
++ Model
+
+    + Body
+
+            {
+              "id": "123",
+              "isCheckedOut": false,
+              "checkedOutDate": null,
+              "venue": {
+                "id": "123"
+              },
+              "ribot": {
+                "id": "123"
+              },
+              "encounters": [
+                {
+                  "id": "123",
+                  "beacon": {
+                    "id": "123",
+                    "zone": {
+                      "id": "123",
+                      "label": "Terrace",
+                      "venue": {
+                        "id": "123",
+                        "label": "Maple Café",
+                        "latitude": 50.8313189,
+                        "longitude": -0.1471577
+                      }
+                    }
+                  }
+                }
+              ]
+            }
+
+    + Schema
+
+            {
+              "$schema": "http://json-schema.org/draft-04/schema#",
+              "title": "Check-in model",
+              "type": "object",
+              "required": [
+                "id",
+                "isCheckedOut",
+                "ribot"
+              ],
+              "properties": {
+                "id": {
+                  "description": "Check-in ID.",
+                  "type": "string"
+                },
+                "label": {
+                  "description": "Location name. Only to be used if not attached to a specific venue.",
+                  "type": "string"
+                },
+                "latitude": {
+                  "description": "Latitude of the check-in. Only to be used if not attached to a specific venue.",
+                  "type": "number"
+                },
+                "longitude": {
+                  "description": "Longitude of the check-in. Only to be used if not attached to a specific venue.",
+                  "type": "number"
+                },
+                "isCheckedOut": {
+                  "description": "Explicit flag whether the user has become out of range. Only applicable if the venue has beacons.",
+                  "type": "boolean"
+                },
+                "checkedOutDate": {
+                  "description": "Date of check-out, if the venue has beacons.",
+                  "type": "string"
+                },
+                "venue": {
+                  "description": "Optional venue relationship. Minimal object.",
+                  "type": "object"
+                },
+                "ribot": {
+                  "description": "Related ribot. Minimal object.",
+                  "type": "object",
+                  "required": [
+                    "id"
+                  ],
+                  "properties": {
+                    "id": {
+                      "title": "The ID of the ribot making the check-in",
+                      "type": "string"
+                    }
+                  },
+                  "additionalProperties": false
+                },
+                "encounters": {
+                  "description": "Optional beacon encounter collection.",
+                  "type": "array",
+                  "items": {
+                    "description": "Beacon encounter.",
+                    "type": "object",
+                    "required": [
+                      "id",
+                      "beaconUuid"
+                    ],
+                    "properties": {
+                      "id": {
+                        "description": "Encounter ID.",
+                        "type": "string"
+                      },
+                      "beaconUuid": {
+                        "description": "Beacon UUID.",
+                        "type": "string"
+                      },
+                      "zone": {
+                        "description": "The name of the zone the beacon represents within the venue.",
+                        "type": "string"
+                      }
+                    }
+                  }
+                }
+              },
+              "additionalProperties": false
+            }
+
+### Perform check-in [POST /check-ins]
+Creates a check-in resource.
+
++ Request (application/json)
+
+    + Headers
+
+            Authorization: Bearer <token>
+
+    + Body
+
+            {
+              "label": "Maple Café",
+              "latitude": 50.8313189,
+              "longitude": -0.1471577,
+              "venueId": "123"
+            }
+
+    + Schema
+
+            {
+              "$schema": "http://json-schema.org/draft-04/schema#",
+              "title": "/check-ins POST request",
+              "type": "object",
+              "required": [
+                "label"
+              ],
+              "properties": {
+                "label": {
+                  "description": "Location label, aim to keep naming consistent for data integrity.",
+                  "type": "string",
+                  "minLength": 1
+                },
+                "latitude": {
+                  "description": "Latitude, if the check-in didn't happen at an existing venue.",
+                  "type": "number",
+                  "minimum": -90,
+                  "maximum": 90
+                },
+                "longitude": {
+                  "description": "Longitude, if the check-in didn't happen at an existing venue.",
+                  "type": "number",
+                  "minimum": -180,
+                  "maximum": 180
+                },
+                "venueId": {
+                  "description": "Optional venue ID.",
+                  "type": "string"
+                }
+              },
+              "dependencies": {
+                "latitude": [ "longitude" ],
+                "longitude": [ "latitude" ]
+              },
+              "additionalProperties": false
+            }
+
++ Response 201 (application/json)
+
+    [Check-in][]
+
+### Retrieve check-in [GET /check-ins/{checkInId}?embed=encounters]
+Retrieve a single check-in.
+
++ Parameters
+
+    + checkInId (required, string, `123`) ... Check-in ID.
+    + embed (optional, string, `encounters`) ... Optionally embed a check-in's beacon encounters collection.
+
++ Request
+
+    + Headers
+
+            Authorization: Bearer <token>
+
++ Response 200 (application/json)
+
+    [Check-in][]
+
+### Retrieve check-in collection [GET /check-ins?ribotId={ribotId}&venueId={venueId}&dateFrom={dateFrom}&dateTo={dateTo}]
+Retrieves a collection of check-ins in date order.
+
++ Parameters
+
+    + ribotId (optional, string, `123`) ... Filter check-ins performed by ribot
+    + venueId (optional, string, `123`) ... Filter check-ins performed at the given venue
+    + dateFrom (optional, string, `2015-09-20T19:31:36Z`) ... Filter check-ins performed after date
+    + dateTo (optional, string, `2015-09-20T19:31:36Z`) ... Filter check-ins performed before provided date
+
++ Request
+
+    + Headers
+
+            Authorization: Bearer <token>
+
++ Response 200 (application/json)
+
+    + Body
+
+            [
+              {
+                "id": "123",
+                "label": "Maple Café",
+                "isPresent": true,
+                "dateCheckedOut": null,
+                "venue": {
+                  "id": "123"
+                },
+                "ribot": {
+                  "id": "123"
+                },
+                "encounters": [
+                  {
+                    "id": "123",
+                    "beacon": {
+                      "id": "123",
+                      "zone": {
+                        "id": "123",
+                        "label": "Terrace",
+                        "venue": {
+                          "id": "123",
+                          "label": "Maple Café",
+                          "latitude": 50.8313189,
+                          "longitude": -0.1471577
+                        }
+                      }
+                    }
+                  }
+                ]
+              }
+            ]
+

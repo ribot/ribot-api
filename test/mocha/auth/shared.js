@@ -22,7 +22,10 @@ var shared = {
         } );
         done();
 
-      }.bind( this ) );
+      }.bind( this ) )
+      .catch( function( error ) {
+        done( error );
+      } );
 
     } );
   },
@@ -36,6 +39,9 @@ var shared = {
         results.should.be.empty;
         done();
 
+      } )
+      .catch( function( error ) {
+        done( error );
       } );
 
     } );
@@ -66,7 +72,10 @@ var shared = {
         results.length.should.eql( 1 );
         done();
 
-      }.bind( this ) );
+      }.bind( this ) )
+      .catch( function( error ) {
+        done( error );
+      } );
 
     } );
   },
@@ -80,7 +89,10 @@ var shared = {
         results.length.should.eql( 0 );
         done();
 
-      }.bind( this ) );
+      }.bind( this ) )
+      .catch( function( error ) {
+        done( error );
+      } );
 
     } );
   },
@@ -95,7 +107,10 @@ var shared = {
         results[ 0 ].access_token.should.not.eql( this.existingGoogleAccessToken );
         done();
 
-      }.bind( this ) );
+      }.bind( this ) )
+      .catch( function( error ) {
+        done( error );
+      } );
 
     } );
   }

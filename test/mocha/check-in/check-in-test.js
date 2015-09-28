@@ -1,0 +1,152 @@
+// External dependencies
+
+
+// Dependencies
+var seed = require( '../../../data/seed' ),
+    utils = require( '../../../app/lib/utils' ),
+    helpers = require( '../helpers' ),
+    shared = require( './shared' ),
+    fixtures = require( './fixtures' ),
+    ResponseError = require( '../../../app/lib/response-error' );
+
+
+// Helper functions
+var testWithValidAndInvalidAccessTokensAndBody = function testWithValidAndInvalidAccessTokensAndBody( requestBody ) {
+  describe( 'Handle invalid access token', function( done ) {
+    before( function( done ) {
+      // Set up db tables and seed
+      helpers.db.setupForTests()
+        .then( function() {
+          // Set up scope for assertions
+          this.expectedStatusCode = 401;
+          this.expectedError = new ResponseError( 'unauthorized' );
+
+          // Make request
+          helpers.request.bind( this )( {
+            method: this.method,
+            route: this.route,
+            body: requestBody
+          }, done );
+        }.bind( this ) );
+    } );
+
+    shared.shouldRespondWithCorrectStatusCode();
+    shared.shouldRespondWithCorrectError();
+    shared.shouldNotHaveCheckInForUserInDatabase();
+    shared.shouldReturnValidErrorSchema();
+  } );
+
+  describe( 'Handle user with valid access token', function( done ) {
+    before( function( done ) {
+      // Set up db tables and seed
+      helpers.db.setupForTests()
+        .then( function() {
+          // Set up scope for assertions
+          this.expectedStatusCode = 201;
+
+          // Make request
+          helpers.request.bind( this )( {
+            method: this.method,
+            route: this.route,
+            headers: {
+              'Authorization': 'Bearer ' + utils.decodeToken( seed.access_token[0].token )
+            },
+            body: requestBody
+          }, done );
+        }.bind( this ) );
+    } );
+
+    shared.shouldRespondWithCorrectStatusCode();
+    shared.shouldHaveSingleCheckInForUserInDatabase();
+    shared.shouldReturnValidResponseSchema();
+  } );
+};
+
+var testInvalidDataErrorWithBody = function testInvalidDataErrorWithBody( requestBody ) {
+  before( function( done ) {
+    // Set up db tables and seed
+    helpers.db.setupForTests()
+      .then( function() {
+        // Set up scope for assertions
+        this.expectedStatusCode = 400;
+        this.expectedError = new ResponseError( 'invalidData' );
+
+        // Make request
+        helpers.request.bind( this )( {
+          method: this.method,
+          route: this.route,
+          headers: {
+            'Authorization': 'Bearer ' + utils.decodeToken( seed.access_token[0].token )
+          },
+          body: requestBody
+        }, done );
+      }.bind( this ) );
+  } );
+
+  shared.shouldRespondWithCorrectStatusCode();
+  shared.shouldRespondWithCorrectError();
+  shared.shouldNotHaveCheckInForUserInDatabase();
+  shared.shouldReturnValidErrorSchema();
+};
+
+
+// Start the tests
+describe( 'Check-in', function( done ) {
+
+  describe( 'Perform Check-in: /check-ins', function( done ) {
+
+    before( function() {
+
+      // Needed for blueprint validation
+      this.route = '/check-ins';
+      this.method = 'post';
+
+    } );
+
+    describe( 'Handle with just label', function( done ) {
+      testWithValidAndInvalidAccessTokensAndBody( fixtures.performCheckInBodyWithLabel );
+    } );
+
+    describe( 'Hanel with label and coordinates', function( done ) {
+      testWithValidAndInvalidAccessTokensAndBody( fixtures.performCheckInBodyWithAndLocation );
+    } );
+
+    describe( 'Handle with no label', function( done ) {
+      testInvalidDataErrorWithBody( fixtures.performCheckInBodyInvalidLabel );
+    } );
+
+    describe( 'Check with label and invalid coordinates', function( done ) {
+
+      describe( 'Handle only latitude', function( done ) {
+        testInvalidDataErrorWithBody( fixtures.performCheckInBodyOnlyLatitude );
+      });
+
+      describe( 'Handle only longitude', function( done ) {
+        testInvalidDataErrorWithBody( fixtures.performCheckInBodyOnlyLongitude );
+      });
+
+      describe( 'Handle invalid latitude (low)', function( done ) {
+        testInvalidDataErrorWithBody( fixtures.performCheckInBodyInvalidLatitudeLow );
+      });
+
+      describe( 'Handle invalid latitude (high)', function( done ) {
+        testInvalidDataErrorWithBody( fixtures.performCheckInBodyInvalidLatitudeHigh );
+      });
+
+      describe( 'Handle invalid longitude (low)', function( done ) {
+        testInvalidDataErrorWithBody( fixtures.performCheckInBodyInvalidLongitudeLow );
+      });
+
+      describe( 'Handle invalid longitude (high)', function( done ) {
+        testInvalidDataErrorWithBody( fixtures.performCheckInBodyInvalidLongitudeHigh );
+      });
+
+    } );
+
+    describe( 'Handle with additional properties', function( done ) {
+      testInvalidDataErrorWithBody( fixtures.performCheckInBodyInvalidExtraProperty );
+    } );
+
+  } );
+
+} );

@@ -1,4 +1,4 @@
-var version = 1;
+var version = 2;
 
 var schema = {
 
@@ -49,6 +49,20 @@ var schema = {
       ribot_id:                { type: 'uuid', nullable: false, references: { table: 'ribot', column: 'id' } },
       token:                   { type: 'text', nullable: false, unique: true },
       last_used_date:          { type: 'dateTime', nullable: false },
+      created_date:            { type: 'dateTime', nullable: false },
+      updated_date:            { type: 'dateTime', nullable: false }
+    }
+  },
+
+  check_in: {
+    primary: 'id',
+    columns: {
+      id:                      { type: 'uuid' },
+      ribot_id:                { type: 'uuid', nullable: false, references: { table: 'ribot', column: 'id' } },
+      label:                   { type: 'text' },
+      latitude:                { type: 'float' },
+      longitude:               { type: 'float' },
+      checkedOutDateTime:      { type: 'dateTime' },
       created_date:            { type: 'dateTime', nullable: false },
       updated_date:            { type: 'dateTime', nullable: false }
     }

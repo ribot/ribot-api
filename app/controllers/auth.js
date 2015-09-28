@@ -18,7 +18,8 @@ var logger = require( '../lib/logger' ),
     ValidationError = require( '../lib/validation-error' ),
     middleware = require( '../lib/routing-middleware' ),
     GoogleAuthorizer = require( '../lib/google-authorizer' ),
-    Ribot = require( '../models/ribot' );
+    Ribot = require( '../models/ribot' ),
+    AccessToken = require( '../models/access-token' );
 
 
 var googlePlus = google.plus( 'v1' );
@@ -45,14 +46,14 @@ var init = function init() {
  * Passport Bearer handler: Find user by access token
  */
 var findPersonByAccessToken = function findPersonByAccessToken( accessToken, done ) {
-  return AccessToken.fetchAndSetLastUsedDate( { token: accessToken }, { withRelated: [ 'person' ] } )
+  return AccessToken.fetchAndSetLastUsedDate( { token: accessToken }, { withRelated: [ 'ribot' ] } )
     .then( function( accessToken ) {
       var user = {};
 
       if ( accessToken ) {
 
         user.accessToken = accessToken;
-        user.person = accessToken.related( 'person' );
+        user.ribot = accessToken.related( 'ribot' );
 
         done( null, user );
 

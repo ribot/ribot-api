@@ -1,6 +1,7 @@
 // External dependencies
 var _ = require( 'lodash' ),
-    Promise = require( 'bluebird' );
+    Promise = require( 'bluebird' ),
+    passport = require( 'passport' );
 
 
 // Dependencies
@@ -27,6 +28,32 @@ var removeTrailingSlash = function removeTrailingSlash ( request, response, next
 
 
 /**
+ * Authorization check
+ */
+var isAuthorized = function isAuthorized( request, response, next ) {
+
+  passport.authenticate( 'bearer', { session: false }, function ( error, user ) {
+    var responseError;
+
+    if ( user ) {
+
+      request.user = user;
+      next();
+
+    } else {
+
+      responseError = new ResponseError( 'unauthorized' );
+      response.status( responseError.statusCode ).send( responseError );
+      request.destroy();
+
+    }
+
+  } )( request, response, next );
+
+};
+
+
+/**
  * Request body schema validation
  */
 var validateBody = function validateBody( request, response, next ) {
@@ -35,10 +62,6 @@ var validateBody = function validateBody( request, response, next ) {
   .then( function ( blueprint ) {
     return new Promise( function( resolve, reject ) {
       var requestBody = request.body;
-
-      if ( _.isEmpty( requestBody ) ) {
-        return reject( new ResponseError( 'invalidData' ) );
-      }
 
       blueprint.validate( requestBody, {
         type: 'request',
@@ -100,5 +123,6 @@ var validateBody = function validateBody( request, response, next ) {
 // Exports
 module.exports = {
   removeTrailingSlash: removeTrailingSlash,
+  isAuthorized: isAuthorized,
   validateBody: validateBody
 };

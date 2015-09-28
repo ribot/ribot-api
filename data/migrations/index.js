@@ -8,5 +8,5 @@
  *  };
  */
 module.exports = {
-
+  2: require( './2-add-check-in-table' )
 };
