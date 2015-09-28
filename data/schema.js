@@ -1,4 +1,14 @@
+var version = 1;
+
 var schema = {
+
+  metadata: {
+    primary: 'key',
+    columns: {
+      key:                     { type: 'string', unique: true },
+      value:                   { type: 'string' }
+    }
+  },
 
   ribot: {
     primary: 'id',
@@ -46,4 +56,7 @@ var schema = {
 
 };
 
-module.exports = schema;
+module.exports = {
+  version: version,
+  schema: schema
+};

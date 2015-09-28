@@ -7,7 +7,8 @@ var _ = require( 'lodash' ),
 
 
 // Dependencies
-var environment = require( '../app/lib/environment' );
+var environment = require( '../app/lib/environment' ),
+    logger = require( '../app/lib/logger' );
 
 
 // Local variables
@@ -77,6 +78,62 @@ var Db = function Db() {
 };
 
 Db.prototype = {
+
+  /**
+   * Setup the database for app startup by checking the schema version and creating
+   * the databases or migrating up to the correct schema
+   */
+  setupDatabase: function setupDatabase( schema, migrations ) {
+    return this.getSchemaVersion()
+      .then( function( result ) {
+        var schemaVersion = result.value,
+            latestSchemaVersion = schema.version;
+
+        if ( schemaVersion < 1 ) {
+          // Create the database if the schema version is reported as less than 1
+          logger.info( 'Creating tables' );
+          return this.createTables( schema );
+
+        } else if ( schemaVersion < latestSchemaVersion ) {
+          // Start migrating the database if it's version is less than the code schema version
+          logger.info( 'Migrating tables' );
+          return this.migrateDatabase( migrations, schemaVersion, latestSchemaVersion )
+
+        } else if ( schemaVersion > latestSchemaVersion ) {
+
+          // Return an error if the database version is higher than the code schema version
+          return Promise.reject( 'Current database schema version is greater than the code schema version' );
+        } else {
+
+          // If the versions are the same we have nothing to do!
+          logger.info( 'Nothing needed' );
+          return Promise.resolve();
+        }
+      }.bind( this ) )
+        .bind( this )
+  },
+
+  /**
+   * Run the migrations needed to upgrade from currentSchemaVersion to latestSchemaVersion. For
+   * example to upgrade from 2 to 5, it would run migration scripts 3, 4 and 5
+   */
+  migrateDatabase: function migrateDatabase( migrations, currentSchemaVersion, latestSchemaVersion ) {
+    return this.knex.transaction( function( trx ) {
+
+      var migrationNumbers = _.range( currentSchemaVersion, latestSchemaVersion)
+        .map( function( migration ) {
+          return migration + 1;
+        } );
+
+      return Promise.each( migrationNumbers, function( migrationNumber ) {
+        return migrations[ migrationNumber ]( trx );
+      }.bind( this ) )
+        .then( function() {
+          // Update the database schema to match after these migrations
+          return this.createSchemaVersionRecord( trx, latestSchemaVersion );
+        }.bind( this ) );;
+    }.bind( this ) );
+  },
 
   /**
    * Create a table
@@ -215,7 +272,7 @@ Db.prototype = {
   createTables: function createTables( schema, seed ) {
     this.foreignKeyStatements = [];
 
-    var sortedTableNames = sortTables( schema ).reverse();
+    var sortedTableNames = sortTables( schema.schema ).reverse();
 
     return this.knex.transaction( function( trx ) {
       return Promise.all( [
@@ -223,15 +280,21 @@ Db.prototype = {
         trx.raw( 'SET CONSTRAINTS ALL DEFERRED;' ),
 
         Promise.map( sortedTableNames, function( tableName ) {
-          var tableSchema = schema[ tableName ];
+          var tableSchema = schema.schema[ tableName ];
           var records = ( seed ) ? seed[ tableName ] : null;
           return this.createTable( tableName, tableSchema, records, trx );
         }.bind( this ) )
+          .then( function() {
+            return this.createSchemaVersionRecord( trx, schema.version );
+          }.bind( this ) )
+            .bind( this )
+          .then( function() {
+            return this.createForeignKeys( trx )
+          }.bind( this ) )
+            .bind( this )
 
       ] );
-    }.bind( this ) )
-      .bind( this )
-      .then( this.createForeignKeys );
+    }.bind( this ) );
   },
 
   updateTables: function updateTables( updates, seed ) {
@@ -247,29 +310,55 @@ Db.prototype = {
           var records = ( seed ) ? seed[ tableName ] : null;
           return this.updateTable( tableName, tableSchema, records, trx );
         }.bind( this ) )
+          .then( function() {
+            return createSchemaVersionRecord( trx, schema.version );
+          } )
+          .then( function() {
+            return this.createForeignKeys( trx )
+          }.bind( this ) )
+            .bind( this )
 
       ] );
-    }.bind( this ) )
-      .bind( this )
-      .then( this.createForeignKeys );
+    }.bind( this ) );
   },
 
   /**
    * Create foreign keys in separate function to maintain constraints
    */
-  createForeignKeys: function createForeignKeys() {
-    return this.knex.transaction( function( trx ) {
-      return Promise.all( [
+  createForeignKeys: function createForeignKeys( trx ) {
+    return Promise.all( [
 
-        trx.raw( 'SET CONSTRAINTS ALL DEFERRED;' ),
+      Promise.map( this.foreignKeyStatements, function( statement ) {
+        return trx.raw( statement );
+      } )
 
-        Promise.map( this.foreignKeyStatements, function( statement ) {
-          return trx.raw( statement );
-        } )
+    ] );
+  },
 
-      ] );
-    }.bind( this ) )
-      .bind( this );
+  /**
+   * Create a record identifying the schema version of the database
+   */
+  createSchemaVersionRecord: function createSchemaVersionRecord( trx, schemaVersion ) {
+    return trx.where( { key: 'schema_version' } ).delete().from( 'metadata' )
+      .then( function() {
+        return trx.insert( {
+          key: 'schema_version',
+          value: schemaVersion
+        } ).into( 'metadata' )
+      } );
+  },
+
+  /**
+   * Gets the current version of the database, ruturning 0 if there is an error getting the table
+   */
+  getSchemaVersion: function createSchemaVersionRecord() {
+    return this.knex.select( 'value' ).from( 'metadata' ).where( { key: 'schema_version' } ).limit( 1 )
+      .reduce( function( memo, row ) {
+        return row;
+      } )
+      .catch( function( error ) {
+        return { value: '0' }
+      } );
   },
 
   /**

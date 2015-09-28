@@ -41,13 +41,10 @@ var helpers = {
 
     setupForTests: function setupForTests() {
 
-      return db.dropTables( schema )
+      return db.dropTables( schema.schema )
         .bind( db )
         .then( function() {
           return db.createTables( schema, seed );
-        } )
-        .catch( function( error ) {
-          console.log( error.stack );
         } );
     },
 
