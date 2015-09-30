@@ -24,7 +24,7 @@ var CheckIn = BaseModel.extend( {
   virtuals: _.extend( {}, BaseModel.prototype.virtuals, {
     isCheckedOut: {
       get: function getIsCheckedOut() {
-        return (this.get( 'checkedOutDateTime' ) != null);
+        return (this.get( 'checked_out_date' ) != null);
       }
     }
   } ),

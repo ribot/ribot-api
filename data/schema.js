@@ -62,7 +62,7 @@ var schema = {
       label:                   { type: 'text' },
       latitude:                { type: 'float' },
       longitude:               { type: 'float' },
-      checkedOutDateTime:      { type: 'dateTime' },
+      checked_out_date:        { type: 'dateTime' },
       created_date:            { type: 'dateTime', nullable: false },
       updated_date:            { type: 'dateTime', nullable: false }
     }

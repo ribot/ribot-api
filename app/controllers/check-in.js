@@ -32,14 +32,11 @@ var init = function init() {
 /**
  * Create check-in response payload
  */
-var createCheckInResponcePayload = function createCheckInResponcePayload( checkIn ) {
+var createCheckInResponsePayload = function createCheckInResponsePayload( results ) {
 
-  return checkIn.related( 'ribot' ).fetch()
-    .then( function( ribot ) {
-      var payload = checkIn.toJSON();
-      payload.ribot = _.pick( ribot.toJSON(), 'id' );
-      return payload;
-    } );
+  var payload = results.checkIn.toJSON();
+  payload.ribot = _.pick( results.ribot.toJSON(), 'id' );
+  return payload;
 
 };
 
@@ -49,13 +46,20 @@ var createCheckInResponcePayload = function createCheckInResponcePayload( checkI
  * Receive location to check-in to and responds with the new check-in object
  */
 var requestPostCheckIn = function requestPostCheckIn( request, response, next ) {
+  var results = {};
 
   request.user.ribot.createCheckIn( request.body )
-    .then( function( checkIn ) {
-      return createCheckInResponcePayload( checkIn );
+    .tap( function( checkIn ) {
+      results.checkIn = checkIn;
     } )
-    .then( function( payload ) {
-      response.status( 201 ).send( payload );
+    .then( function( checkIn ) {
+      return checkIn.related( 'ribot' ).fetch()
+        .tap( function( ribot ) {
+          results.ribot = ribot;
+        } );
+    } )
+    .then( function() {
+      response.status( 201 ).send( createCheckInResponsePayload( results ) );
     } )
 
     .catch( ValidationError, function( validationError ) {
