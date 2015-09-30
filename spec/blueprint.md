@@ -265,6 +265,304 @@ Exchanges credentials for an access token. If the Google account is valid but th
               "errors": []
             }
 
+# Group ribots
+
+## ribot [/ribots/{ribotId}]
+
++ Model
+
+    + Body
+
+            {
+              "profile": {
+                "name": {
+                  "first": "Lionel",
+                  "last": "Rich-Tea"
+                },
+                "email": "lionel@ribot.co.uk",
+                "hexColor": "#C0FFEE",
+                "avatar": "http://stuff.co.uk/images/lionel-richtea.jpg",
+                "dateOfBirth": "1946-06-20",
+                "bio": "Say some stuff..."
+              },
+              "checkIns": [
+                {
+                  id: '98ba31e55818861b4870553a008ce16d',
+                  label: 'Home',
+                  isCheckedOut: false
+                }
+              ]
+            }
+
+    + Schema
+
+            {
+              "$schema": "http://json-schema.org/draft-04/schema#",
+              "description": "Object describing the logged in ribot",
+              "type": "object",
+              "required": [
+                "profile"
+              ],
+              "properties": {
+                "profile": {
+                  "description": "Object containing the profile of a ribot. This information is mostly static.",
+                  "type": "object",
+                  "required": [
+                    "name",
+                    "email",
+                    "hexColor",
+                    "avatar",
+                    "dateOfBirth"
+                  ],
+                  "properties": {
+                    "name": {
+                      "descrption": "The ribot's name.",
+                      "type": "object",
+                      "required": [
+                        "first",
+                        "last"
+                      ],
+                      "properties": {
+                        "first": {
+                          "description": "The ribot's first name",
+                          "type": "string"
+                        },
+                        "last": {
+                          "description": "The ribot's last name",
+                          "type": "string"
+                        }
+                      }
+                    },
+                    "email": {
+                      "description": "The ribot's email address.",
+                      "type": "string"
+                    },
+                    "hexColor": {
+                      "description": "The ribot's hex colour.",
+                      "type": "string"
+                    },
+                    "avatar": {
+                      "description": "The ribot's avatar as a URL.",
+                      "type": "string"
+                    },
+                    "dateOfBirth": {
+                      "description": "The ribot's date of birth. No time component.",
+                      "type": "string"
+                    },
+                    "bio": {
+                      "description": "A short biography of the ribot.",
+                      "type": "string"
+                    }
+                  }
+                },
+                "checkIns": {
+                  "type": "array",
+                  "items": {
+                    "title": "Check-in model",
+                    "type": "object",
+                    "required": [
+                      "id",
+                      "isCheckedOut"
+                    ],
+                    "properties": {
+                      "id": {
+                        "description": "Check-in ID.",
+                        "type": "string"
+                      },
+                      "label": {
+                        "description": "Location name. Only to be used if not attached to a specific venue.",
+                        "type": "string"
+                      },
+                      "latitude": {
+                        "description": "Latitude of the check-in. Only to be used if not attached to a specific venue.",
+                        "type": "number"
+                      },
+                      "longitude": {
+                        "description": "Longitude of the check-in. Only to be used if not attached to a specific venue.",
+                        "type": "number"
+                      },
+                      "isCheckedOut": {
+                        "description": "Explicit flag whether the user has become out of range. Only applicable if the venue has beacons.",
+                        "type": "boolean"
+                      },
+                      "checkedOutDate": {
+                        "description": "Date of check-out, if the venue has beacons.",
+                        "type": "string"
+                      },
+                      "venue": {
+                        "description": "Optional venue relationship. Minimal object.",
+                        "type": "object"
+                      },
+                      "encounters": {
+                        "description": "Optional beacon encounter collection.",
+                        "type": "array",
+                        "items": {
+                          "description": "Beacon encounter.",
+                          "type": "object",
+                          "required": [
+                            "id",
+                            "beaconUuid"
+                          ],
+                          "properties": {
+                            "id": {
+                              "description": "Encounter ID.",
+                              "type": "string"
+                            },
+                            "beaconUuid": {
+                              "description": "Beacon UUID.",
+                              "type": "string"
+                            },
+                            "zone": {
+                              "description": "The name of the zone the beacon represents within the venue.",
+                              "type": "string"
+                            }
+                          }
+                        }
+                      }
+                    },
+                    "additionalProperties": false
+                  }
+                }
+              }
+            }
+
+### Retrieve single ribot [GET /ribots/{ribotId}?embed={embed}]
+Returns a specific ribot object.
+
++ Parameters
+
+    + ribotId (string) ... The ID of the ribot you want the receive information about.
+    + embed (optional, string, `checkins`) ... Optionally embed latest check-in's collection *(Note: Must also provide an access token to receive the checkin information)*.
+
++ Response 200 (application/json)
+
+    [ribot][]
+
+## Authenticated ribot [/ribots/me]
+
+### Retrieve authenticated ribot [GET /ribots/me?embed={embed}]
+Returns the ribot object for the authenticated user.
+
++ Parameters
+
+    + embed (optional, string, `checkins`) ... Optionally embed latest check-in's collection.
+
++ Request
+
+    + Headers
+
+            Authorization: Bearer <token>
+
++ Response 200 (application/json)
+
+    [ribot][]
+
+## Collection of ribots [/ribots]
+
+## Retrieve ribot collection [GET /ribots]
+Returns a collection of all ribots.
+
++ Response 200 (application/json)
+
+    + Body
+
+            [
+              {
+                "profile": {
+                  "name": {
+                    "first": "Lionel",
+                    "last": "Rich-Tea"
+                  },
+                  "email": "lionel@ribot.co.uk",
+                  "hexColor": "#C0FFEE",
+                  "avatar": "http://stuff.co.uk/images/lionel-richtea.jpg",
+                  "dateOfBirth": "1946-06-20",
+                  "bio": "Say some stuff..."
+                }
+              },
+              {
+                "profile": {
+                  "name": {
+                    "first": "Lionel",
+                    "last": "Rich-Tea"
+                  },
+                  "email": "lionel@ribot.co.uk",
+                  "hexColor": "#C0FFEE",
+                  "avatar": "http://stuff.co.uk/images/lionel-richtea.jpg",
+                  "dateOfBirth": "1946-06-20",
+                  "bio": "Say some stuff..."
+                }
+              }
+            ]
+
+    + Schema
+
+            {
+              "$schema": "http://json-schema.org/draft-04/schema#",
+              "description": "Array of ribot objects",
+              "type": "array",
+              "items": {
+                "description": "Object describing the logged in ribot",
+                "type": "object",
+                "required": [
+                  "profile"
+                ],
+                "properties": {
+                  "profile": {
+                    "description": "Object containing the profile of a ribot. This information is mostly static.",
+                    "type": "object",
+                    "required": [
+                      "name",
+                      "email",
+                      "hexColor",
+                      "avatar",
+                      "dateOfBirth"
+                    ],
+                    "properties": {
+                      "name": {
+                        "descrption": "The ribot's name.",
+                        "type": "object",
+                        "required": [
+                          "first",
+                          "last"
+                        ],
+                        "properties": {
+                          "first": {
+                            "description": "The ribot's first name",
+                            "type": "string"
+                          },
+                          "last": {
+                            "description": "The ribot's last name",
+                            "type": "string"
+                          }
+                        }
+                      },
+                      "email": {
+                        "description": "The ribot's email address.",
+                        "type": "string"
+                      },
+                      "hexColor": {
+                        "description": "The ribot's hex colour.",
+                        "type": "string"
+                      },
+                      "avatar": {
+                        "description": "The ribot's avatar as a URL.",
+                        "type": "string"
+                      },
+                      "dateOfBirth": {
+                        "description": "The ribot's date of birth. No time component.",
+                        "type": "string"
+                      },
+                      "bio": {
+                        "description": "A short biography of the ribot.",
+                        "type": "string"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+
 # Group Check-ins
 Check-in operations.
 
@@ -449,7 +747,7 @@ Creates a check-in resource.
 
     [Check-in][]
 
-### Retrieve check-in [GET /check-ins/{checkInId}?embed=encounters]
+### Retrieve check-in [GET /check-ins/{checkInId}?embed={embed}]
 Retrieve a single check-in.
 
 + Parameters
