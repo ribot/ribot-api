@@ -14,7 +14,7 @@
   },
   "dependencies": {
     "aglio": "^2.1.1",
-    "api-blueprint-json-schema": "^0.2.0",
+    "api-blueprint-json-schema": "^0.3.0",
     "bluebird": "^2.10.1",
     "body-parser": "^1.14.0",
     "bookshelf": "^0.8.2",

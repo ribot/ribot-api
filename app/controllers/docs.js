@@ -111,6 +111,7 @@ var requestGetIndex = function requestGetIndex ( request, response, next ) {
   getSpecHtml( function ( error, html ) {
 
     if ( error ) {
+      logger.error( error );
       logger.error( error.stack );
       responseError = new ResponseError();
       response.status( responseError.statusCode );

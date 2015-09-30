@@ -37,6 +37,10 @@ var errors = {
     message: 'Google Auth was successful, but the user does not have a ribot profile set up.',
     statusCode: 403
   },
+  'unauthorized': {
+    message: 'The user is not authorized. The access token may not exist or has expired.',
+    statusCode: 401
+  },
   'notImplemented': {
     message: 'We haven\'t got round to that one yet.',
     statusCode: 501

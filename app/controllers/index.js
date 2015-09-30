@@ -12,6 +12,7 @@ var router = require( '../lib/router' );
 var init = function init() {
 
   require( './auth' );
+  require( './check-in' );
   require( './docs' );
 
 };
