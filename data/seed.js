@@ -37,7 +37,11 @@ var seedData = {
 
   provider_credential: [
     { id: uuids[ 0 ], ribot_id: uuids[ 0 ], provider: 'google', access_token: '123', refresh_token: '234', expiry_date: futureDate, created_date: date, updated_date: date }
-  ]
+  ],
+
+  venue: [
+    { id: uuids[ 0 ], label: 'Home', latitude: -10, longitude: 70, created_date: date, updated_date: date }
+  ],
 
 };
 

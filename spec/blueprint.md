@@ -818,3 +818,130 @@ Retrieves a collection of check-ins in date order.
               }
             ]
 
+# Group Venues
+
+## Collection of venues [GET /venues]
+Returns an array of venues common venues.
+
++ Request
+
+    + Headers
+
+            Authorization: Bearer <token>
+
++ Response 200 (application/json)
+
+    + Body
+
+            [
+              {
+                "id": "123",
+                "label": "Maple Café",
+                "latitude": 50.8313189,
+                "longitude": -0.1471577
+              }
+            ]
+
+    + Schema
+
+            {
+              "$schema": "http://json-schema.org/draft-04/schema#",
+              "type": "array",
+              "items": {
+                "required": [
+                  "id",
+                  "label"
+                ],
+                "properties": {
+                  "id": {
+                    "description": "Venue ID.",
+                    "type": "string"
+                  },
+                  "label": {
+                    "description": "Location label, aim to keep naming consistent for data integrity.",
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "latitude": {
+                    "description": "Latitude, if the check-in didn't happen at an existing venue.",
+                    "type": "number",
+                    "minimum": -90,
+                    "maximum": 90
+                  },
+                  "longitude": {
+                    "description": "Longitude, if the check-in didn't happen at an existing venue.",
+                    "type": "number",
+                    "minimum": -180,
+                    "maximum": 180
+                  }
+                },
+                "dependencies": {
+                  "latitude": [ "longitude" ],
+                  "longitude": [ "latitude" ]
+                },
+                "additionalProperties": false
+              }
+            }
+
+## Retreive single venues [GET /venues/{venueId}]
+Returns a single venue with a given venue ID.
+
++ Parameters
+
+    + venueId (string, `123`) ... The venue ID to retreive.
+
++ Request
+
+    + Headers
+
+            Authorization: Bearer <token>
+
++ Response 200 (application/json)
+
+    + Body
+
+            {
+              "id": "123",
+              "label": "Maple Café",
+              "latitude": 50.8313189,
+              "longitude": -0.1471577
+            }
+
+    + Schema
+
+            {
+              "$schema": "http://json-schema.org/draft-04/schema#",
+              "type": "object",
+              "required": [
+                "id",
+                "label"
+              ],
+              "properties": {
+                "id": {
+                  "description": "Venue ID.",
+                  "type": "string"
+                },
+                "label": {
+                  "description": "Location label, aim to keep naming consistent for data integrity.",
+                  "type": "string",
+                  "minLength": 1
+                },
+                "latitude": {
+                  "description": "Latitude, if the check-in didn't happen at an existing venue.",
+                  "type": "number",
+                  "minimum": -90,
+                  "maximum": 90
+                },
+                "longitude": {
+                  "description": "Longitude, if the check-in didn't happen at an existing venue.",
+                  "type": "number",
+                  "minimum": -180,
+                  "maximum": 180
+                }
+              },
+              "dependencies": {
+                "latitude": [ "longitude" ],
+                "longitude": [ "latitude" ]
+              },
+              "additionalProperties": false
+            }

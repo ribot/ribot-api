@@ -15,6 +15,7 @@ var init = function init() {
   require( './check-in' );
   require( './docs' );
   require( './ribot' );
+  require( './venue' );
 
 };
 
