@@ -29,14 +29,14 @@ var init = function init() {
 };
 
 /**
- * Returns a promise that checks if the call is authenticated if the it is asking for
- * check-ins. If it is not asking for check-ins, it resolves as no authentication is needed.
+ * Returns a promise that checks if the call is authenticated if the it is asking for sensitive data.
+ * If it is not asking for sensitive information, it resolves as no authentication is needed.
  */
-var checkAuthenticatedIfAskingForCheckIns = function checkAuthenticatedIfAskingForCheckIns( request, response ) {
+var checkAuthenticatedIfRequired = function checkAuthenticatedIfRequired( request, response ) {
 
   return new Promise( function( resolve, reject ) {
 
-    if ( !shouldLoadCheckIns( request ) ) {
+    if ( !requestingSensitiveData( request ) ) {
       resolve();
     } else {
       middleware.isAuthorized( request, response, function() {
@@ -50,9 +50,9 @@ var checkAuthenticatedIfAskingForCheckIns = function checkAuthenticatedIfAskingF
 
 
 /**
- * Returns true if the request says we should load check-ins.
+ * Returns true if the request asks for sensitive information.
  */
-var shouldLoadCheckIns = function shouldLoadCheckIns( request ) {
+var requestingSensitiveData = function requestingSensitiveData( request ) {
   return request.query.embed == 'checkins';
 };
 
@@ -61,10 +61,10 @@ var shouldLoadCheckIns = function shouldLoadCheckIns( request ) {
  */
 var createRibotPayload = function createRibotPayload( ribot ) {
 
-  var ribotProfileJson = _.omit( ribot.toJSON(), 'checkIns' );
-  var checkInsJson = ribot.related( 'checkIns' ).toJSON();
+  var payload = {},
+      ribotProfileJson = _.omit( ribot.toJSON(), 'checkIns' ),
+      checkInsJson = ribot.related( 'checkIns' ).toJSON();
 
-  var payload = {};
   payload.profile = ribotProfileJson;
 
   if ( checkInsJson.length > 0 ) {
@@ -82,12 +82,12 @@ var createRibotPayload = function createRibotPayload( ribot ) {
  */
 var requestGetRibotCollection = function requestGetRibotCollection( request, response, next ) {
 
-  checkAuthenticatedIfAskingForCheckIns( request, response )
+  checkAuthenticatedIfRequired( request, response )
     .then( function() {
 
       var options = {};
 
-      if ( shouldLoadCheckIns( request ) ) {
+      if ( requestingSensitiveData( request ) ) {
         options.withRelated = [ 'checkIns' ];
       }
 
@@ -138,9 +138,9 @@ var requestGetRibotCollection = function requestGetRibotCollection( request, res
  */
 var requestGetAuthenticatedRibot = function requestGetAuthenticatedRibot( request, response, next ) {
 
-  checkAuthenticatedIfAskingForCheckIns( request, response )
+  checkAuthenticatedIfRequired( request, response )
     .then( function() {
-      if ( shouldLoadCheckIns( request ) ) {
+      if ( requestingSensitiveData( request ) ) {
         return request.user.ribot.related( 'checkIns' ).fetch();
       } else {
         return Promise.resolve();
@@ -188,12 +188,12 @@ var requestGetAuthenticatedRibot = function requestGetAuthenticatedRibot( reques
  */
 var requestGetSingleRibot = function requestGetSingleRibot( request, response, next ) {
 
-  checkAuthenticatedIfAskingForCheckIns( request, response )
+  checkAuthenticatedIfRequired( request, response )
     .then( function() {
 
       var options = {};
 
-      if ( shouldLoadCheckIns( request ) ) {
+      if ( requestingSensitiveData( request ) ) {
         options.withRelated = [ 'checkIns' ];
       }
 
