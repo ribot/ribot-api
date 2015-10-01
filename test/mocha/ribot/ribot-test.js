@@ -1,5 +1,5 @@
 // External dependencies
-
+var hat = require( 'hat' );
 
 // Dependencies
 var seed = require( '../../../data/seed' ),
@@ -191,16 +191,14 @@ describe( 'ribot collection', function( done ) {
 
   describe( 'Get single ribot: /ribots/:ribotId', function( done ) {
 
-    before( function() {
-      // Needed for blueprint validation
-      this.blueprintRoute = '/ribots/{ribotId}';
-      this.route = this.blueprintRoute.replace( /\{ribotId\}/g, seed.ribot[0].id );
-      this.method = 'get';
-    } );
-
     describe( 'Handle getting just the ribots', function() {
 
       before( function( done ) {
+        // Needed for blueprint validation
+        this.blueprintRoute = '/ribots/{ribotId}';
+        this.route = this.blueprintRoute.replace( /\{ribotId\}/g, seed.ribot[0].id );
+        this.method = 'get';
+
         // Set up scope for assertions
         this.expectedStatusCode = 200;
 
@@ -217,7 +215,39 @@ describe( 'ribot collection', function( done ) {
 
     } );
 
+    describe( 'Handle getting invalid ribots', function() {
+
+      before( function( done ) {
+        // Needed for blueprint validation
+        this.blueprintRoute = '/ribots/{ribotId}';
+        this.route = this.blueprintRoute.replace( /\{ribotId\}/g, hat() );
+        this.method = 'get';
+
+        // Set up scope for assertions
+        this.expectedStatusCode = 404;
+        this.expectedError = new ResponseError( 'notFound' );
+
+        // Make request
+        helpers.request.bind( this )( {
+          method: this.method,
+          route: this.route
+        }, done );
+      } );
+
+      shared.shouldRespondWithCorrectStatusCode();
+      shared.shouldRespondWithCorrectError();
+      shared.shouldReturnValidErrorSchema();
+
+    } );
+
     describe( 'Get ribot with checkins', function() {
+
+      before( function() {
+        // Needed for blueprint validation
+        this.blueprintRoute = '/ribots/{ribotId}';
+        this.route = this.blueprintRoute.replace( /\{ribotId\}/g, seed.ribot[0].id );
+        this.method = 'get';
+      } );
 
       describe( 'Handle invalid access token', function() {
 

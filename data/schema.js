@@ -1,4 +1,4 @@
-var version = 2;
+var version = 3;
 
 var schema = {
 
@@ -63,6 +63,18 @@ var schema = {
       latitude:                { type: 'float' },
       longitude:               { type: 'float' },
       checked_out_date:        { type: 'dateTime' },
+      created_date:            { type: 'dateTime', nullable: false },
+      updated_date:            { type: 'dateTime', nullable: false }
+    }
+  },
+
+  venue: {
+    primary: 'id',
+    columns: {
+      id:                      { type: 'uuid' },
+      label:                   { type: 'text', nullable: false },
+      latitude:                { type: 'float' },
+      longitude:               { type: 'float' },
       created_date:            { type: 'dateTime', nullable: false },
       updated_date:            { type: 'dateTime', nullable: false }
     }
