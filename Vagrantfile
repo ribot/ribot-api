@@ -19,7 +19,7 @@ Vagrant.configure("2") do |config|
 
     chef.json = {
       "nodejs" => {
-        "version" => "0.10.26"
+        "version" => "0.10.40"
       },
       "postgresql" => {
         "pg_hba" => [
