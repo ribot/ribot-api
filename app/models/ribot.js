@@ -200,6 +200,34 @@ Ribot.findByEmail = function findByEmail( email, options ) {
 
 
 /**
+ * Find a ribot by id
+ */
+Ribot.findById = function findById( id, options ) {
+
+  if ( id ) {
+
+    return new Ribot( {
+      id: id
+    } )
+      .fetch( options )
+      .then( function( ribot ) {
+
+        if ( ribot ) {
+          return ribot;
+        } else {
+          throw new ResponseError( 'notFound' );
+        }
+
+      } );
+
+  } else {
+    throw new ResponseError( 'notFound' );
+  }
+
+};
+
+
+/**
  * Update ribot
  */
 Ribot.update = function personUpdate( query, attributes, options ) {

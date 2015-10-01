@@ -41,3 +41,6 @@ sftp-config.json
 # Vagrant
 .vagrant/
 tmp/
+
+# Tests
+xunit.xml

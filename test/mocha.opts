@@ -1,4 +1,5 @@
 --require should
 --ui bdd
+--reporter mocha-multi
 --recursive
 --timeout 6000
