@@ -24,6 +24,10 @@ var Venue = BaseModel.extend( {
 
   } ),
 
+  checkIns: function checkIns() {
+    return this.hasMany( 'CheckIn' );
+  },
+
   validations: {
     id: {
       uuid: true

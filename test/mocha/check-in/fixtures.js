@@ -1,3 +1,8 @@
+// Dependencies
+var hat = require( 'hat' ),
+    seed = require( '../../../data/seed' );
+
+
 // Exports
 module.exports = {
 
@@ -46,6 +51,12 @@ module.exports = {
     "latitude": 0,
     "longitude": 0,
     "notInSchema": "MUHAHA"
+  },
+  performCheckInBodyWithVenueId: {
+    "venueId": seed.venue[0].id
+  },
+  performCheckInBodyWithInvalidVenueId: {
+    "venueId": hat()
   }
 
 };

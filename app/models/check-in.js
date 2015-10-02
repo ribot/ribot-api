@@ -18,6 +18,7 @@ var CheckIn = BaseModel.extend( {
 
   hidden: _.union( BaseModel.prototype.hidden, [
     'ribotId',
+    'venueId',
     '_sys'
   ] ),
 
@@ -33,11 +34,18 @@ var CheckIn = BaseModel.extend( {
     return this.belongsTo( 'Ribot' );
   },
 
+  venue: function venue() {
+    return this.belongsTo( 'Venue' );
+  },
+
   validations: {
     id: {
       uuid: true
     },
     ribotId: {
+      uuid: true
+    },
+    venueId: {
       uuid: true
     }
   }

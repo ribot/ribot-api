@@ -32,6 +32,25 @@ var shared = {
           done( error );
         } );
     } );
+  },
+
+  shouldReturnVenueObject: function shouldReturnVenueObject() {
+    it( 'should return venue object in response', function() {
+      this.response.body.should.have.property( 'venue' );
+    } );
+  },
+
+  shouldNotReturnVenueObject: function shouldNotReturnVenueObject() {
+    it( 'should not return venue object in response', function() {
+      this.response.body.should.not.have.property( 'venue' );
+    } );
+  },
+
+  shouldHaveVenueIdError: function shouldHaveVenueIdError() {
+    it( 'should have an error for invalid venue id', function() {
+      this.response.body.errors.length.should.eql( 1 );
+      this.response.body.errors[0].property.should.eql( 'venueId' );
+    } );
   }
 
 };
