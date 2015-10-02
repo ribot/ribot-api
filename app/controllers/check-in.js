@@ -1,11 +1,15 @@
 // External dependencies
-var _ = require( 'lodash' );
+var _ = require( 'lodash' ),
+    Promise = require( 'bluebird' );
 
 // Dependencies
 var logger = require( '../lib/logger' ),
     router = require( '../lib/router' ),
     handleResponse = require( '../lib/response-error-handler' ),
     middleware = require( '../lib/routing-middleware' );
+    ResponseError = require( '../lib/response-error' ),
+    middleware = require( '../lib/routing-middleware' ),
+    Venue = require( '../models/venue' );
 
 
 /**
@@ -35,6 +39,11 @@ var createCheckInResponsePayload = function createCheckInResponsePayload( result
 
   var payload = results.checkIn.toJSON();
   payload.ribot = _.pick( results.ribot.toJSON(), 'id' );
+
+  if ( results.venue ) {
+    payload.venue = results.venue.toJSON();
+  }
+
   return payload;
 
 };
@@ -49,7 +58,45 @@ var requestPostCheckIn = function requestPostCheckIn( request, response, next ) 
 
   handleResponse( response,
 
-    request.user.ribot.createCheckIn( request.body )
+    new Promise( function( resolve, reject ) {
+
+      // If the request wants to check-in with a venue ID, check that venue exists first
+      // Store it if it does, reject if not
+      if ( request.body.venueId ) {
+
+        return new Venue( { id: request.body.venueId } ).fetch()
+
+          .then( function( venue ) {
+
+            if (venue ) {
+
+              results.venue = venue;
+              return resolve();
+
+            } else {
+
+              return reject( new ResponseError( 'invalidData', {
+                errors: [
+                  {
+                    property: 'venueId',
+                    messages: [ 'Venue does not exist with that venue id' ]
+                  }
+                ]
+              } ) );
+
+            }
+
+          } );
+
+      } else {
+        resolve();
+      }
+
+    } )
+
+    .then( function() {
+      return request.user.ribot.createCheckIn( request.body )
+    } )
 
     .tap( function( checkIn ) {
       results.checkIn = checkIn;

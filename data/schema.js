@@ -1,4 +1,4 @@
-var version = 3;
+var version = 4;
 
 var schema = {
 
@@ -59,6 +59,7 @@ var schema = {
     columns: {
       id:                      { type: 'uuid' },
       ribot_id:                { type: 'uuid', nullable: false, references: { table: 'ribot', column: 'id' } },
+      venue_id:                { type: 'uuid', references: { table: 'venue', column: 'id' } },
       label:                   { type: 'text' },
       latitude:                { type: 'float' },
       longitude:               { type: 'float' },

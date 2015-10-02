@@ -709,38 +709,51 @@ Creates a check-in resource.
             {
               "$schema": "http://json-schema.org/draft-04/schema#",
               "title": "/check-ins POST request",
-              "type": "object",
-              "required": [
-                "label"
-              ],
-              "properties": {
-                "label": {
-                  "description": "Location label, aim to keep naming consistent for data integrity.",
-                  "type": "string",
-                  "minLength": 1
+              "oneOf": [
+                {
+                  "type": "object",
+                  "required": [
+                    "label"
+                  ],
+                  "properties": {
+                    "label": {
+                      "description": "Location label, aim to keep naming consistent for data integrity.",
+                      "type": "string",
+                      "minLength": 1
+                    },
+                    "latitude": {
+                      "description": "Latitude, if the check-in didn't happen at an existing venue.",
+                      "type": "number",
+                      "minimum": -90,
+                      "maximum": 90
+                    },
+                    "longitude": {
+                      "description": "Longitude, if the check-in didn't happen at an existing venue.",
+                      "type": "number",
+                      "minimum": -180,
+                      "maximum": 180
+                    }
+                  },
+                  "dependencies": {
+                    "latitude": [ "longitude" ],
+                    "longitude": [ "latitude" ]
+                  },
+                  "additionalProperties": false
                 },
-                "latitude": {
-                  "description": "Latitude, if the check-in didn't happen at an existing venue.",
-                  "type": "number",
-                  "minimum": -90,
-                  "maximum": 90
-                },
-                "longitude": {
-                  "description": "Longitude, if the check-in didn't happen at an existing venue.",
-                  "type": "number",
-                  "minimum": -180,
-                  "maximum": 180
-                },
-                "venueId": {
-                  "description": "Optional venue ID.",
-                  "type": "string"
+                {
+                  "type": "object",
+                  "required": [
+                    "venueId"
+                  ],
+                  "properties": {
+                    "venueId": {
+                      "description": "Venue ID.",
+                      "type": "string"
+                    }
+                  },
+                  "additionalProperties": false
                 }
-              },
-              "dependencies": {
-                "latitude": [ "longitude" ],
-                "longitude": [ "latitude" ]
-              },
-              "additionalProperties": false
+              ]
             }
 
 + Response 201 (application/json)
