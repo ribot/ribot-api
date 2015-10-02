@@ -66,23 +66,27 @@ var requestPostCheckIn = function requestPostCheckIn( request, response, next ) 
 
         return new Venue( { id: request.body.venueId } ).fetch()
 
-        .then( function( venue ) {
+          .then( function( venue ) {
 
-          if (venue ) {
-            results.venue = venue;
-            resolve();
-          } else {
-            reject( new ResponseError( 'invalidData', {
-              errors: [
-                {
-                  property: 'venueId',
-                  messages: [ 'Venue does not exist with that venue id' ]
-                }
-              ]
-            } ) );
-          }
+            if (venue ) {
 
-        } );
+              results.venue = venue;
+              return resolve();
+
+            } else {
+
+              return reject( new ResponseError( 'invalidData', {
+                errors: [
+                  {
+                    property: 'venueId',
+                    messages: [ 'Venue does not exist with that venue id' ]
+                  }
+                ]
+              } ) );
+
+            }
+
+          } );
 
       } else {
         resolve();
