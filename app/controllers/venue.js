@@ -5,7 +5,7 @@ var _ = require( 'lodash' ),
 // Dependencies
 var logger = require( '../lib/logger' ),
     router = require( '../lib/router' ),
-    handleResponseError = require( '../lib/response-error-handler' ),
+    handleResponse = require( '../lib/response-error-handler' ),
     middleware = require( '../lib/routing-middleware' ),
     Venue = require( '../models/venue' );
 
@@ -41,7 +41,7 @@ var createVenuePayload = function createVenuePayload( venue ) {
  */
 var requestGetVenuesCollection = function requestGetVenuesCollection( request, response, next ) {
 
-  handleResponseError( response,
+  handleResponse( response,
 
     Venue.collection().fetch()
 
@@ -64,7 +64,7 @@ var requestGetVenuesCollection = function requestGetVenuesCollection( request, r
  */
 var requestGetSingleVenue = function requestGetSingleVenue( request, response, next ) {
 
-  handleResponseError( response,
+  handleResponse( response,
 
     Venue.findById( request.params.venueId )
 

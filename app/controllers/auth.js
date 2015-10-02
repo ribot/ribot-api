@@ -14,7 +14,7 @@ var logger = require( '../lib/logger' ),
     router = require( '../lib/router' ),
     utils = require( '../lib/utils' ),
     ResponseError = require( '../lib/response-error' ),
-    handleResponseError = require( '../lib/response-error-handler' ),
+    handleResponse = require( '../lib/response-error-handler' ),
     middleware = require( '../lib/routing-middleware' ),
     GoogleAuthorizer = require( '../lib/google-authorizer' ),
     Ribot = require( '../models/ribot' ),
@@ -122,7 +122,7 @@ var requestPostSignIn = function requestPostSignIn( request, response, next ) {
   var result = {},
       googleAuthorizer = new GoogleAuthorizer( { googleRedirectUri: request.body.googleRedirectUri } );
 
-  handleResponseError( response,
+  handleResponse( response,
 
     db.bookshelf.transaction( function( transaction ) {
       return Promise.try( function() {

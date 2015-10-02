@@ -5,7 +5,7 @@ var _ = require( 'lodash' ),
 // Dependencies
 var logger = require( '../lib/logger' ),
     router = require( '../lib/router' ),
-    handleResponseError = require( '../lib/response-error-handler' ),
+    handleResponse = require( '../lib/response-error-handler' ),
     middleware = require( '../lib/routing-middleware' ),
     Ribot = require( '../models/ribot' );
 
@@ -81,7 +81,7 @@ var createRibotPayload = function createRibotPayload( ribot ) {
  */
 var requestGetRibotCollection = function requestGetRibotCollection( request, response, next ) {
 
-  handleResponseError( response,
+  handleResponse( response,
 
     checkAuthenticatedIfRequired( request, response )
 
@@ -114,7 +114,7 @@ var requestGetRibotCollection = function requestGetRibotCollection( request, res
  */
 var requestGetAuthenticatedRibot = function requestGetAuthenticatedRibot( request, response, next ) {
 
-  handleResponseError( response,
+  handleResponse( response,
 
     checkAuthenticatedIfRequired( request, response )
 
@@ -141,7 +141,7 @@ var requestGetAuthenticatedRibot = function requestGetAuthenticatedRibot( reques
  */
 var requestGetSingleRibot = function requestGetSingleRibot( request, response, next ) {
 
-  handleResponseError( response,
+  handleResponse( response,
 
     checkAuthenticatedIfRequired( request, response )
 
