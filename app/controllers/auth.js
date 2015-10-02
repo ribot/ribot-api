@@ -10,12 +10,11 @@ var url = require( 'url' ),
 
 // Dependencies
 var logger = require( '../lib/logger' ),
-    environment = require( '../lib/environment' ),
     db = require( '../../data' ),
     router = require( '../lib/router' ),
     utils = require( '../lib/utils' ),
     ResponseError = require( '../lib/response-error' ),
-    ValidationError = require( '../lib/validation-error' ),
+    handleResponse = require( '../lib/response-error-handler' ),
     middleware = require( '../lib/routing-middleware' ),
     GoogleAuthorizer = require( '../lib/google-authorizer' ),
     Ribot = require( '../models/ribot' ),
@@ -123,8 +122,10 @@ var requestPostSignIn = function requestPostSignIn( request, response, next ) {
   var result = {},
       googleAuthorizer = new GoogleAuthorizer( { googleRedirectUri: request.body.googleRedirectUri } );
 
-  db.bookshelf.transaction( function( transaction ) {
-    return Promise.try( function() {
+  handleResponse( response,
+
+    db.bookshelf.transaction( function( transaction ) {
+      return Promise.try( function() {
         return googleAuthorizer.getTokens( request.body.googleAuthorizationCode )
           .tap( function cacheTokens( tokens ) { result.tokens = tokens; } )
           .catch( function( error ) {
@@ -157,43 +158,16 @@ var requestPostSignIn = function requestPostSignIn( request, response, next ) {
         return result.ribot.createAccessToken( { transacting: transaction } )
           .tap( function cacheToken( accessToken ) { result.accessToken = accessToken; } );
       } );
+    } )
 
-  } )
+    .then( function() {
 
-  .then( function() {
+      var responseBody = createSignInResource( result );
+      response.status( 200 ).send( responseBody );
 
-    var responseBody = createSignInResource( result );
-    response.status( 200 ).send( responseBody );
+    } )
 
-  } )
-
-  .catch( ValidationError, function( validationError ) {
-
-    throw new ResponseError( 'invalidData', {
-      errors: validationError.errors
-    } );
-
-  } )
-
-  .catch( ResponseError, function ( responseError ) {
-
-    response.status( responseError.statusCode );
-    response.send( responseError );
-
-    logger.error( responseError );
-
-  } )
-
-  .catch( function ( error ) {
-
-    var responseError = new ResponseError( 'unknown' );
-
-    response.status( responseError.statusCode );
-    response.send( responseError );
-
-    logger.error( error.stack );
-
-  } );
+  );
 
 };
 

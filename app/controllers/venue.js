@@ -5,8 +5,7 @@ var _ = require( 'lodash' ),
 // Dependencies
 var logger = require( '../lib/logger' ),
     router = require( '../lib/router' ),
-    ResponseError = require( '../lib/response-error' ),
-    ValidationError = require( '../lib/validation-error' ),
+    handleResponse = require( '../lib/response-error-handler' ),
     middleware = require( '../lib/routing-middleware' ),
     Venue = require( '../models/venue' );
 
@@ -42,7 +41,9 @@ var createVenuePayload = function createVenuePayload( venue ) {
  */
 var requestGetVenuesCollection = function requestGetVenuesCollection( request, response, next ) {
 
-  return Venue.collection().fetch()
+  handleResponse( response,
+
+    Venue.collection().fetch()
 
     .then( function( venues ) {
       var payload = venues.map( function( venue ) {
@@ -52,33 +53,7 @@ var requestGetVenuesCollection = function requestGetVenuesCollection( request, r
       response.status( 200 ).send( payload );
     } )
 
-    .catch( ValidationError, function( validationError ) {
-
-      throw new ResponseError( 'invalidData', {
-        errors: validationError.errors
-      } );
-
-    } )
-
-    .catch( ResponseError, function ( responseError ) {
-
-      response.status( responseError.statusCode );
-      response.send( responseError );
-
-      logger.error( responseError );
-
-    } )
-
-    .catch( function ( error ) {
-
-      var responseError = new ResponseError( 'unknown' );
-
-      response.status( responseError.statusCode );
-      response.send( responseError );
-
-      logger.error( error.stack );
-
-    } );
+  );
 
 };
 
@@ -89,39 +64,15 @@ var requestGetVenuesCollection = function requestGetVenuesCollection( request, r
  */
 var requestGetSingleVenue = function requestGetSingleVenue( request, response, next ) {
 
-  return Venue.findById( request.params.venueId )
+  handleResponse( response,
+
+    Venue.findById( request.params.venueId )
 
     .then( function( venue ) {
       response.status( 200 ).send( createVenuePayload( venue ) );
     } )
 
-    .catch( ValidationError, function( validationError ) {
-
-      throw new ResponseError( 'invalidData', {
-        errors: validationError.errors
-      } );
-
-    } )
-
-    .catch( ResponseError, function ( responseError ) {
-
-      response.status( responseError.statusCode );
-      response.send( responseError );
-
-      logger.error( responseError );
-
-    } )
-
-    .catch( function ( error ) {
-
-      var responseError = new ResponseError( 'unknown' );
-
-      response.status( responseError.statusCode );
-      response.send( responseError );
-
-      logger.error( error.stack );
-
-    } );
+  );
 
 };
 

@@ -4,8 +4,7 @@ var _ = require( 'lodash' );
 // Dependencies
 var logger = require( '../lib/logger' ),
     router = require( '../lib/router' ),
-    ResponseError = require( '../lib/response-error' ),
-    ValidationError = require( '../lib/validation-error' ),
+    handleResponse = require( '../lib/response-error-handler' ),
     middleware = require( '../lib/routing-middleware' );
 
 
@@ -48,47 +47,26 @@ var createCheckInResponsePayload = function createCheckInResponsePayload( result
 var requestPostCheckIn = function requestPostCheckIn( request, response, next ) {
   var results = {};
 
-  request.user.ribot.createCheckIn( request.body )
+  handleResponse( response,
+
+    request.user.ribot.createCheckIn( request.body )
+
     .tap( function( checkIn ) {
       results.checkIn = checkIn;
     } )
+
     .then( function( checkIn ) {
       return checkIn.related( 'ribot' ).fetch()
         .tap( function( ribot ) {
           results.ribot = ribot;
         } );
     } )
+
     .then( function() {
       response.status( 201 ).send( createCheckInResponsePayload( results ) );
     } )
 
-    .catch( ValidationError, function( validationError ) {
-
-      throw new ResponseError( 'invalidData', {
-        errors: validationError.errors
-      } );
-
-    } )
-
-    .catch( ResponseError, function ( responseError ) {
-
-      response.status( responseError.statusCode );
-      response.send( responseError );
-
-      logger.error( responseError );
-
-    } )
-
-    .catch( function ( error ) {
-
-      var responseError = new ResponseError( 'unknown' );
-
-      response.status( responseError.statusCode );
-      response.send( responseError );
-
-      logger.error( error.stack );
-
-    } );
+  );
 
 };
 

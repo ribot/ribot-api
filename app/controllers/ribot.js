@@ -5,8 +5,7 @@ var _ = require( 'lodash' ),
 // Dependencies
 var logger = require( '../lib/logger' ),
     router = require( '../lib/router' ),
-    ResponseError = require( '../lib/response-error' ),
-    ValidationError = require( '../lib/validation-error' ),
+    handleResponse = require( '../lib/response-error-handler' ),
     middleware = require( '../lib/routing-middleware' ),
     Ribot = require( '../models/ribot' );
 
@@ -82,7 +81,10 @@ var createRibotPayload = function createRibotPayload( ribot ) {
  */
 var requestGetRibotCollection = function requestGetRibotCollection( request, response, next ) {
 
-  checkAuthenticatedIfRequired( request, response )
+  handleResponse( response,
+
+    checkAuthenticatedIfRequired( request, response )
+
     .then( function() {
 
       var options = {};
@@ -101,33 +103,7 @@ var requestGetRibotCollection = function requestGetRibotCollection( request, res
 
     } )
 
-    .catch( ValidationError, function( validationError ) {
-
-      throw new ResponseError( 'invalidData', {
-        errors: validationError.errors
-      } );
-
-    } )
-
-    .catch( ResponseError, function ( responseError ) {
-
-      response.status( responseError.statusCode );
-      response.send( responseError );
-
-      logger.error( responseError );
-
-    } )
-
-    .catch( function ( error ) {
-
-      var responseError = new ResponseError( 'unknown' );
-
-      response.status( responseError.statusCode );
-      response.send( responseError );
-
-      logger.error( error.stack );
-
-    } );
+  );
 
 };
 
@@ -138,7 +114,10 @@ var requestGetRibotCollection = function requestGetRibotCollection( request, res
  */
 var requestGetAuthenticatedRibot = function requestGetAuthenticatedRibot( request, response, next ) {
 
-  checkAuthenticatedIfRequired( request, response )
+  handleResponse( response,
+
+    checkAuthenticatedIfRequired( request, response )
+
     .then( function() {
       if ( requestingSensitiveData( request ) ) {
         return request.user.ribot.related( 'checkIns' ).fetch();
@@ -151,33 +130,7 @@ var requestGetAuthenticatedRibot = function requestGetAuthenticatedRibot( reques
       response.status( 200 ).send( createRibotPayload( request.user.ribot ) );
     } )
 
-    .catch( ValidationError, function( validationError ) {
-
-      throw new ResponseError( 'invalidData', {
-        errors: validationError.errors
-      } );
-
-    } )
-
-    .catch( ResponseError, function ( responseError ) {
-
-      response.status( responseError.statusCode );
-      response.send( responseError );
-
-      logger.error( responseError );
-
-    } )
-
-    .catch( function ( error ) {
-
-      var responseError = new ResponseError( 'unknown' );
-
-      response.status( responseError.statusCode );
-      response.send( responseError );
-
-      logger.error( error.stack );
-
-    } );
+  );
 
 };
 
@@ -188,7 +141,10 @@ var requestGetAuthenticatedRibot = function requestGetAuthenticatedRibot( reques
  */
 var requestGetSingleRibot = function requestGetSingleRibot( request, response, next ) {
 
-  checkAuthenticatedIfRequired( request, response )
+  handleResponse( response,
+
+    checkAuthenticatedIfRequired( request, response )
+
     .then( function() {
 
       var options = {};
@@ -204,33 +160,7 @@ var requestGetSingleRibot = function requestGetSingleRibot( request, response, n
 
     } )
 
-    .catch( ValidationError, function( validationError ) {
-
-      throw new ResponseError( 'invalidData', {
-        errors: validationError.errors
-      } );
-
-    } )
-
-    .catch( ResponseError, function ( responseError ) {
-
-      response.status( responseError.statusCode );
-      response.send( responseError );
-
-      logger.error( responseError );
-
-    } )
-
-    .catch( function ( error ) {
-
-      var responseError = new ResponseError( 'unknown' );
-
-      response.status( responseError.statusCode );
-      response.send( responseError );
-
-      logger.error( error.stack );
-
-    } );
+  );
 
 };
 
