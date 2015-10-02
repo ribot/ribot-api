@@ -9,5 +9,6 @@
  */
 module.exports = {
   2: require( './2-add-check-in-table' ),
-  3: require( './3-add-venue-table' )
+  3: require( './3-add-venue-table' ),
+  4: require( './4-add-checkin-venueid-foreign-key' )
 };

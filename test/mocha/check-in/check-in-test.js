@@ -11,7 +11,7 @@ var seed = require( '../../../data/seed' ),
 
 
 // Helper functions
-var testWithValidAndInvalidAccessTokensAndBody = function testWithValidAndInvalidAccessTokensAndBody( requestBody ) {
+var testWithValidAndInvalidAccessTokensAndBody = function testWithValidAndInvalidAccessTokensAndBody( requestBody, requiresVenue ) {
   describe( 'Handle invalid access token', function( done ) {
     before( function( done ) {
       // Set up db tables and seed
@@ -59,6 +59,12 @@ var testWithValidAndInvalidAccessTokensAndBody = function testWithValidAndInvali
     shared.shouldRespondWithCorrectStatusCode();
     shared.shouldHaveSingleCheckInForUserInDatabase();
     shared.shouldReturnValidResponseSchema();
+
+    if ( requiresVenue ) {
+      shared.shouldReturnVenueObject();
+    } else {
+      shared.shouldNotReturnVenueObject();
+    }
   } );
 };
 
@@ -145,6 +151,38 @@ describe( 'Check-in', function( done ) {
 
     describe( 'Handle with additional properties', function( done ) {
       testInvalidDataErrorWithBody( fixtures.performCheckInBodyInvalidExtraProperty );
+    } );
+
+    describe( 'Handle with valid venue id', function( done ) {
+      testWithValidAndInvalidAccessTokensAndBody( fixtures.performCheckInBodyWithVenueId, true );
+    } );
+
+    describe( 'Handle with invalid venue id', function( done ) {
+      before( function( done ) {
+        // Set up db tables and seed
+        helpers.db.setupForTests()
+          .then( function() {
+            // Set up scope for assertions
+            this.expectedStatusCode = 400;
+            this.expectedError = new ResponseError( 'invalidData' );
+
+            // Make request
+            helpers.request.bind( this )( {
+              method: this.method,
+              route: this.route,
+              headers: {
+                'Authorization': 'Bearer ' + utils.decodeToken( seed.access_token[0].token )
+              },
+              body: fixtures.performCheckInBodyWithInvalidVenueId
+            }, done );
+          }.bind( this ) );
+      } );
+
+      shared.shouldRespondWithCorrectStatusCode();
+      shared.shouldRespondWithCorrectError();
+      shared.shouldNotHaveCheckInForUserInDatabase();
+      shared.shouldReturnValidErrorSchema();
+      shared.shouldHaveVenueIdError();
     } );
 
   } );
