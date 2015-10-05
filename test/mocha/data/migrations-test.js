@@ -48,8 +48,8 @@ describe( 'Database Migrations', function( done ) {
       .then( function() {
         return db.getSchemaVersion()
       } )
-      .then( function( schamaVersion ) {
-        schamaVersion.value.should.be.eql( latestSchema.version.toString() );
+      .then( function( schemaVersion ) {
+        schemaVersion.value.should.be.eql( latestSchema.version.toString() );
         done();
       } );
 
