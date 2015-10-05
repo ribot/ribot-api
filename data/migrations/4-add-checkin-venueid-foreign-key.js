@@ -6,7 +6,7 @@ var db = require( '../index' );
 
 // Migrate function
 var migrate = function migrate( trx ) {
-  return db.knex.schema.table( 'check_in', function( table ) {
+  return trx.schema.table( 'check_in', function( table ) {
     table.uuid( 'venue_id' ).references( 'venue.id' );
   } );
 };
