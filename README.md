@@ -112,7 +112,7 @@ And then run:
 librarian-chef install
 ```
 
-This will download all the cookbooks needed for MongoDB and place them in the `cookbooks` folder. All these changes can be commited to git. Sometimes people choose not to commit the `cookbooks` directory, however we choose to commit this to avoid each developer having to install librarian just to start developing the project.
+This will download all the cookbooks needed for MongoDB and place them in the `cookbooks` folder.
 
 You now need to tell Vagrant to install this recipe when provisoning. Add a new line to the `Vagrantfile` with the name of the new cookbook:
 

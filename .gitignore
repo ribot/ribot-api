@@ -43,7 +43,7 @@ sftp-config.json
 tmp/
 
 # Tests
-xunit.xml
+test/reports
 
 # Development environment
 .env

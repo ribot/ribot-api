@@ -1,3 +1,11 @@
+// Set up code coverage
+require( 'blanket' )( {
+    pattern: function ( filename ) {
+        return !/node_modules/.test( filename ) && !/test/.test( filename );
+    }
+} );
+
+
 // External dependencies
 
 
