@@ -23,10 +23,11 @@ var CheckIn = BaseModel.extend( {
   ] ),
 
   virtuals: _.extend( {}, BaseModel.prototype.virtuals, {
-    isCheckedOut: {
-      get: function getIsCheckedOut() {
+    isCheckedOut: function getIsCheckedOut() {
         return (this.get( 'checked_out_date' ) != null);
-      }
+    },
+    checkedInDate: function getCheckedInDate() {
+        return utils.formatDateTime( this.get( 'createdDate' ) );
     }
   } ),
 
