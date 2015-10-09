@@ -287,9 +287,10 @@ Exchanges credentials for an access token. If the Google account is valid but th
               },
               "checkIns": [
                 {
-                  id: '98ba31e55818861b4870553a008ce16d',
-                  label: 'Home',
-                  isCheckedOut: false
+                  "id": "98ba31e55818861b4870553a008ce16d",
+                  "label": "Home",
+                  "checkedInDate": "2015-10-05T14:48:00.000Z",
+                  "isCheckedOut": false
                 }
               ]
             }
@@ -362,6 +363,7 @@ Exchanges credentials for an access token. If the Google account is valid but th
                     "type": "object",
                     "required": [
                       "id",
+                      "checkedInDate",
                       "isCheckedOut"
                     ],
                     "properties": {
@@ -380,6 +382,10 @@ Exchanges credentials for an access token. If the Google account is valid but th
                       "longitude": {
                         "description": "Longitude of the check-in. Only to be used if not attached to a specific venue.",
                         "type": "number"
+                      },
+                      "checkedInDate": {
+                        "description": "Date of check-in",
+                        "type": "string"
                       },
                       "isCheckedOut": {
                         "description": "Explicit flag whether the user has become out of range. Only applicable if the venue has beacons.",
@@ -574,6 +580,7 @@ Check-in operations.
 
             {
               "id": "123",
+              "checkedInDate": "2015-10-05T14:48:00.000Z",
               "isCheckedOut": false,
               "checkedOutDate": null,
               "venue": {
@@ -610,6 +617,7 @@ Check-in operations.
               "type": "object",
               "required": [
                 "id",
+                "checkedInDate",
                 "isCheckedOut",
                 "ribot"
               ],
@@ -629,6 +637,10 @@ Check-in operations.
                 "longitude": {
                   "description": "Longitude of the check-in. Only to be used if not attached to a specific venue.",
                   "type": "number"
+                },
+                "checkedInDate": {
+                  "description": "Date of check-in",
+                  "type": "string"
                 },
                 "isCheckedOut": {
                   "description": "Explicit flag whether the user has become out of range. Only applicable if the venue has beacons.",
