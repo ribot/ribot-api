@@ -10,13 +10,13 @@ var shared = {
 
   shouldHaveCheckinsInResponseBody: function() {
     it( 'should have check-ins in response', function() {
-      this.response.body.should.have.property( 'checkIns' ).which.is.an.Array().and.has.length( 1 );
+      this.response.body.should.have.property( 'checkIns' ).which.is.an.Array().and.has.length( 2 );
     } );
   },
 
   shouldHaveCheckinsInFirstObject: function() {
     it( 'should have check-ins in response', function() {
-      this.response.body[0].should.have.property( 'checkIns' ).which.is.an.Array().and.has.length( 1 );
+      this.response.body[0].should.have.property( 'checkIns' ).which.is.an.Array().and.has.length( 2 );
     } );
   },
 

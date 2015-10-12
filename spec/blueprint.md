@@ -360,73 +360,134 @@ Exchanges credentials for an access token. If the Google account is valid but th
                   "type": "array",
                   "items": {
                     "title": "Check-in model",
-                    "type": "object",
-                    "required": [
-                      "id",
-                      "checkedInDate",
-                      "isCheckedOut"
-                    ],
-                    "properties": {
-                      "id": {
-                        "description": "Check-in ID.",
-                        "type": "string"
+                    "oneOf": [
+                      {
+                        "type": "object",
+                        "required": [
+                          "id",
+                          "checkedInDate",
+                          "isCheckedOut",
+                          "label"
+                        ],
+                        "properties": {
+                          "id": {
+                            "description": "Check-in ID.",
+                            "type": "string"
+                          },
+                          "label": {
+                            "description": "Location name. Only to be used if not attached to a specific venue.",
+                            "type": "string"
+                          },
+                          "latitude": {
+                            "description": "Latitude of the check-in. Only to be used if not attached to a specific venue.",
+                            "type": "number"
+                          },
+                          "longitude": {
+                            "description": "Longitude of the check-in. Only to be used if not attached to a specific venue.",
+                            "type": "number"
+                          },
+                          "isCheckedOut": {
+                            "description": "Explicit flag whether the user has become out of range. Only applicable if the venue has beacons.",
+                            "type": "boolean"
+                          },
+                          "checkedInDate": {
+                            "description": "Date of check-in.",
+                            "type": "string"
+                          },
+                          "checkedOutDate": {
+                            "description": "Date of check-out, if the venue has beacons.",
+                            "type": "string"
+                          }
+                        },
+                        "additionalProperties": false
                       },
-                      "label": {
-                        "description": "Location name. Only to be used if not attached to a specific venue.",
-                        "type": "string"
-                      },
-                      "latitude": {
-                        "description": "Latitude of the check-in. Only to be used if not attached to a specific venue.",
-                        "type": "number"
-                      },
-                      "longitude": {
-                        "description": "Longitude of the check-in. Only to be used if not attached to a specific venue.",
-                        "type": "number"
-                      },
-                      "checkedInDate": {
-                        "description": "Date of check-in",
-                        "type": "string"
-                      },
-                      "isCheckedOut": {
-                        "description": "Explicit flag whether the user has become out of range. Only applicable if the venue has beacons.",
-                        "type": "boolean"
-                      },
-                      "checkedOutDate": {
-                        "description": "Date of check-out, if the venue has beacons.",
-                        "type": "string"
-                      },
-                      "venue": {
-                        "description": "Optional venue relationship. Minimal object.",
-                        "type": "object"
-                      },
-                      "encounters": {
-                        "description": "Optional beacon encounter collection.",
-                        "type": "array",
-                        "items": {
-                          "description": "Beacon encounter.",
-                          "type": "object",
-                          "required": [
-                            "id",
-                            "beaconUuid"
-                          ],
-                          "properties": {
-                            "id": {
-                              "description": "Encounter ID.",
-                              "type": "string"
+                      {
+                        "type": "object",
+                        "required": [
+                          "id",
+                          "checkedInDate",
+                          "isCheckedOut",
+                          "venue"
+                        ],
+                        "properties": {
+                          "id": {
+                            "description": "Check-in ID.",
+                            "type": "string"
+                          },
+                          "isCheckedOut": {
+                            "description": "Explicit flag whether the user has become out of range. Only applicable if the venue has beacons.",
+                            "type": "boolean"
+                          },
+                          "checkedInDate": {
+                            "description": "Date of check-in.",
+                            "type": "string"
+                          },
+                          "checkedOutDate": {
+                            "description": "Date of check-out, if the venue has beacons.",
+                            "type": "string"
+                          },
+                          "venue": {
+                            "description": "Venue model.",
+                            "type": "object",
+                            "required": [
+                              "id",
+                              "label"
+                            ],
+                            "properties": {
+                              "id": {
+                                "description": "Venue ID.",
+                                "type": "string"
+                              },
+                              "label": {
+                                "description": "Location label, aim to keep naming consistent for data integrity.",
+                                "type": "string",
+                                "minLength": 1
+                              },
+                              "latitude": {
+                                "description": "Latitude, if the check-in didn't happen at an existing venue.",
+                                "type": "number",
+                                "minimum": -90,
+                                "maximum": 90
+                              },
+                              "longitude": {
+                                "description": "Longitude, if the check-in didn't happen at an existing venue.",
+                                "type": "number",
+                                "minimum": -180,
+                                "maximum": 180
+                              }
                             },
-                            "beaconUuid": {
-                              "description": "Beacon UUID.",
-                              "type": "string"
-                            },
-                            "zone": {
-                              "description": "The name of the zone the beacon represents within the venue.",
-                              "type": "string"
+                            "additionalProperties": false
+                          },
+                          "encounters": {
+                            "description": "Optional beacon encounter collection.",
+                            "type": "array",
+                            "items": {
+                              "description": "Beacon encounter.",
+                              "type": "object",
+                              "required": [
+                                "id",
+                                "beaconUuid"
+                              ],
+                              "properties": {
+                                "id": {
+                                  "description": "Encounter ID.",
+                                  "type": "string"
+                                },
+                                "beaconUuid": {
+                                  "description": "Beacon UUID.",
+                                  "type": "string"
+                                },
+                                "zone": {
+                                  "description": "The name of the zone the beacon represents within the venue.",
+                                  "type": "string"
+                                }
+                              }
                             }
                           }
-                        }
+                        },
+                        "additionalProperties": false
                       }
-                    },
-                    "additionalProperties": false
+                    ]
                   }
                 }
               }
@@ -465,8 +526,12 @@ Returns the ribot object for the authenticated user.
 
 ## Collection of ribots [/ribots]
 
-## Retrieve ribot collection [GET /ribots]
+## Retrieve ribot collection [GET /ribots?embed={embed}]
 Returns a collection of all ribots.
+
++ Parameters
+
+    + embed (optional, string, `checkins`) ... Optionally embed latest check-in's collection *(Note: Must also provide an access token to receive the checkin information)*.
 
 + Response 200 (application/json)
 
@@ -484,7 +549,15 @@ Returns a collection of all ribots.
                   "avatar": "http://stuff.co.uk/images/lionel-richtea.jpg",
                   "dateOfBirth": "1946-06-20",
                   "bio": "Say some stuff..."
-                }
+                },
+                "checkIns": [
+                  {
+                    "id": "98ba31e55818861b4870553a008ce16d",
+                    "label": "Home",
+                    "checkedInDate": "2015-10-05T14:48:00.000Z",
+                    "isCheckedOut": false
+                  }
+                ]
               },
               {
                 "profile": {
@@ -497,7 +570,17 @@ Returns a collection of all ribots.
                   "avatar": "http://stuff.co.uk/images/lionel-richtea.jpg",
                   "dateOfBirth": "1946-06-20",
                   "bio": "Say some stuff..."
-                }
+                },
+                "checkIns": [
+                  {
+                    "id": "98ba31e55818861b4870553a008ce16d",
+                    "checkedInDate": "2015-10-05T14:48:00.000Z",
+                    "venue": {
+                      "id": "78ga31e55818861b4870553a008ce16d"
+                    },
+                    "isCheckedOut": false
+                  }
+                ]
               }
             ]
 
@@ -564,6 +647,140 @@ Returns a collection of all ribots.
                         "type": "string"
                       }
                     }
+                  },
+                  "checkIns": {
+                    "type": "array",
+                    "items": {
+                      "title": "Check-in model",
+                      "oneOf": [
+                        {
+                          "type": "object",
+                          "required": [
+                            "id",
+                            "checkedInDate",
+                            "isCheckedOut",
+                            "label"
+                          ],
+                          "properties": {
+                            "id": {
+                              "description": "Check-in ID.",
+                              "type": "string"
+                            },
+                            "label": {
+                              "description": "Location name. Only to be used if not attached to a specific venue.",
+                              "type": "string"
+                            },
+                            "latitude": {
+                              "description": "Latitude of the check-in. Only to be used if not attached to a specific venue.",
+                              "type": "number"
+                            },
+                            "longitude": {
+                              "description": "Longitude of the check-in. Only to be used if not attached to a specific venue.",
+                              "type": "number"
+                            },
+                            "isCheckedOut": {
+                              "description": "Explicit flag whether the user has become out of range. Only applicable if the venue has beacons.",
+                              "type": "boolean"
+                            },
+                            "checkedInDate": {
+                              "description": "Date of check-in.",
+                              "type": "string"
+                            },
+                            "checkedOutDate": {
+                              "description": "Date of check-out, if the venue has beacons.",
+                              "type": "string"
+                            }
+                          },
+                          "additionalProperties": false
+                        },
+                        {
+                          "type": "object",
+                          "required": [
+                            "id",
+                            "checkedInDate",
+                            "isCheckedOut",
+                            "venue"
+                          ],
+                          "properties": {
+                            "id": {
+                              "description": "Check-in ID.",
+                              "type": "string"
+                            },
+                            "isCheckedOut": {
+                              "description": "Explicit flag whether the user has become out of range. Only applicable if the venue has beacons.",
+                              "type": "boolean"
+                            },
+                            "checkedInDate": {
+                              "description": "Date of check-in.",
+                              "type": "string"
+                            },
+                            "checkedOutDate": {
+                              "description": "Date of check-out, if the venue has beacons.",
+                              "type": "string"
+                            },
+                            "venue": {
+                              "description": "Venue model.",
+                              "type": "object",
+                              "required": [
+                                "id",
+                                "label"
+                              ],
+                              "properties": {
+                                "id": {
+                                  "description": "Venue ID.",
+                                  "type": "string"
+                                },
+                                "label": {
+                                  "description": "Location label, aim to keep naming consistent for data integrity.",
+                                  "type": "string",
+                                  "minLength": 1
+                                },
+                                "latitude": {
+                                  "description": "Latitude, if the check-in didn't happen at an existing venue.",
+                                  "type": "number",
+                                  "minimum": -90,
+                                  "maximum": 90
+                                },
+                                "longitude": {
+                                  "description": "Longitude, if the check-in didn't happen at an existing venue.",
+                                  "type": "number",
+                                  "minimum": -180,
+                                  "maximum": 180
+                                }
+                              },
+                              "additionalProperties": false
+                            },
+                            "encounters": {
+                              "description": "Optional beacon encounter collection.",
+                              "type": "array",
+                              "items": {
+                                "description": "Beacon encounter.",
+                                "type": "object",
+                                "required": [
+                                  "id",
+                                  "beaconUuid"
+                                ],
+                                "properties": {
+                                  "id": {
+                                    "description": "Encounter ID.",
+                                    "type": "string"
+                                  },
+                                  "beaconUuid": {
+                                    "description": "Beacon UUID.",
+                                    "type": "string"
+                                  },
+                                  "zone": {
+                                    "description": "The name of the zone the beacon represents within the venue.",
+                                    "type": "string"
+                                  }
+                                }
+                              }
+                            }
+                          },
+                          "additionalProperties": false
+                        }
+                      ]
+                    }
                   }
                 }
               }
@@ -580,7 +797,6 @@ Check-in operations.
 
             {
               "id": "123",
-              "checkedInDate": "2015-10-05T14:48:00.000Z",
               "isCheckedOut": false,
               "checkedOutDate": null,
               "venue": {
@@ -614,88 +830,162 @@ Check-in operations.
             {
               "$schema": "http://json-schema.org/draft-04/schema#",
               "title": "Check-in model",
-              "type": "object",
-              "required": [
-                "id",
-                "checkedInDate",
-                "isCheckedOut",
-                "ribot"
-              ],
-              "properties": {
-                "id": {
-                  "description": "Check-in ID.",
-                  "type": "string"
-                },
-                "label": {
-                  "description": "Location name. Only to be used if not attached to a specific venue.",
-                  "type": "string"
-                },
-                "latitude": {
-                  "description": "Latitude of the check-in. Only to be used if not attached to a specific venue.",
-                  "type": "number"
-                },
-                "longitude": {
-                  "description": "Longitude of the check-in. Only to be used if not attached to a specific venue.",
-                  "type": "number"
-                },
-                "checkedInDate": {
-                  "description": "Date of check-in",
-                  "type": "string"
-                },
-                "isCheckedOut": {
-                  "description": "Explicit flag whether the user has become out of range. Only applicable if the venue has beacons.",
-                  "type": "boolean"
-                },
-                "checkedOutDate": {
-                  "description": "Date of check-out, if the venue has beacons.",
-                  "type": "string"
-                },
-                "venue": {
-                  "description": "Optional venue relationship. Minimal object.",
-                  "type": "object"
-                },
-                "ribot": {
-                  "description": "Related ribot. Minimal object.",
+              "oneOf": [
+                {
                   "type": "object",
                   "required": [
-                    "id"
+                    "id",
+                    "checkedInDate",
+                    "isCheckedOut",
+                    "label",
+                    "ribot"
                   ],
                   "properties": {
                     "id": {
-                      "title": "The ID of the ribot making the check-in",
+                      "description": "Check-in ID.",
                       "type": "string"
+                    },
+                    "label": {
+                      "description": "Location name. Only to be used if not attached to a specific venue.",
+                      "type": "string"
+                    },
+                    "latitude": {
+                      "description": "Latitude of the check-in. Only to be used if not attached to a specific venue.",
+                      "type": "number"
+                    },
+                    "longitude": {
+                      "description": "Longitude of the check-in. Only to be used if not attached to a specific venue.",
+                      "type": "number"
+                    },
+                    "isCheckedOut": {
+                      "description": "Explicit flag whether the user has become out of range. Only applicable if the venue has beacons.",
+                      "type": "boolean"
+                    },
+                    "checkedInDate": {
+                      "description": "Date of check-in.",
+                      "type": "string"
+                    },
+                    "checkedOutDate": {
+                      "description": "Date of check-out, if the venue has beacons.",
+                      "type": "string"
+                    },
+                    "ribot": {
+                      "description": "Minima ribot model",
+                      "type": "object",
+                      "required": [
+                        "id"
+                      ],
+                      "properties": {
+                        "id": {
+                          "description": "The ribot's id.",
+                          "type": "string"
+                        }
+                      }
                     }
                   },
                   "additionalProperties": false
                 },
-                "encounters": {
-                  "description": "Optional beacon encounter collection.",
-                  "type": "array",
-                  "items": {
-                    "description": "Beacon encounter.",
-                    "type": "object",
-                    "required": [
-                      "id",
-                      "beaconUuid"
-                    ],
-                    "properties": {
-                      "id": {
-                        "description": "Encounter ID.",
-                        "type": "string"
+                {
+                  "type": "object",
+                  "required": [
+                    "id",
+                    "checkedInDate",
+                    "isCheckedOut",
+                    "venue",
+                    "ribot"
+                  ],
+                  "properties": {
+                    "id": {
+                      "description": "Check-in ID.",
+                      "type": "string"
+                    },
+                    "isCheckedOut": {
+                      "description": "Explicit flag whether the user has become out of range. Only applicable if the venue has beacons.",
+                      "type": "boolean"
+                    },
+                    "checkedInDate": {
+                      "description": "Date of check-in.",
+                      "type": "string"
+                    },
+                    "checkedOutDate": {
+                      "description": "Date of check-out, if the venue has beacons.",
+                      "type": "string"
+                    },
+                    "ribot": {
+                      "description": "Minima ribot model",
+                      "type": "object",
+                      "required": [
+                        "id"
+                      ],
+                      "properties": {
+                        "id": {
+                          "description": "The ribot's id.",
+                          "type": "string"
+                        }
+                      }
+                    },
+                    "venue": {
+                      "description": "Venue model.",
+                      "type": "object",
+                      "required": [
+                        "id",
+                        "label"
+                      ],
+                      "properties": {
+                        "id": {
+                          "description": "Venue ID.",
+                          "type": "string"
+                        },
+                        "label": {
+                          "description": "Location label, aim to keep naming consistent for data integrity.",
+                          "type": "string",
+                          "minLength": 1
+                        },
+                        "latitude": {
+                          "description": "Latitude, if the check-in didn't happen at an existing venue.",
+                          "type": "number",
+                          "minimum": -90,
+                          "maximum": 90
+                        },
+                        "longitude": {
+                          "description": "Longitude, if the check-in didn't happen at an existing venue.",
+                          "type": "number",
+                          "minimum": -180,
+                          "maximum": 180
+                        }
                       },
-                      "beaconUuid": {
-                        "description": "Beacon UUID.",
-                        "type": "string"
-                      },
-                      "zone": {
-                        "description": "The name of the zone the beacon represents within the venue.",
-                        "type": "string"
+                      "additionalProperties": false
+                    },
+                    "encounters": {
+                      "description": "Optional beacon encounter collection.",
+                      "type": "array",
+                      "items": {
+                        "description": "Beacon encounter.",
+                        "type": "object",
+                        "required": [
+                          "id",
+                          "beaconUuid"
+                        ],
+                        "properties": {
+                          "id": {
+                            "description": "Encounter ID.",
+                            "type": "string"
+                          },
+                          "beaconUuid": {
+                            "description": "Beacon UUID.",
+                            "type": "string"
+                          },
+                          "zone": {
+                            "description": "The name of the zone the beacon represents within the venue.",
+                            "type": "string"
+                          }
+                        }
                       }
                     }
-                  }
+                  },
+                  "additionalProperties": false
                 }
-              },
-              "additionalProperties": false
+              ]
             }
 
 ### Perform check-in [POST /check-ins]

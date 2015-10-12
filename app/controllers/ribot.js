@@ -67,6 +67,21 @@ var createRibotPayload = function createRibotPayload( ribot ) {
   payload.profile = ribotProfileJson;
 
   if ( checkInsJson.length > 0 ) {
+    // Sort by the check in date, reverse it so it's in descending order, then take only the latest
+    // 5 checkins, then remove the venue property if no venue relation existed
+    checkInsJson = _.chain( checkInsJson )
+      .sortBy( function( checkInJson ) {
+        return new Date( checkInJson.checkedInDate ).getTime();
+      } )
+      .reverse()
+      .take( 5 )
+      .each( function( checkInJson ) {
+        if ( !checkInJson.venue.id ) {
+          delete checkInJson.venue;
+        }
+        return checkInJson;
+      } );
+
     payload.checkIns = checkInsJson;
   }
 
@@ -90,7 +105,7 @@ var requestGetRibotCollection = function requestGetRibotCollection( request, res
       var options = {};
 
       if ( requestingSensitiveData( request ) ) {
-        options.withRelated = [ 'checkIns' ];
+        options.withRelated = [ 'checkIns', 'checkIns.venue' ];
       }
 
       return Ribot.collection().fetch( options )
@@ -120,7 +135,9 @@ var requestGetAuthenticatedRibot = function requestGetAuthenticatedRibot( reques
 
     .then( function() {
       if ( requestingSensitiveData( request ) ) {
-        return request.user.ribot.related( 'checkIns' ).fetch();
+        return request.user.ribot.fetch( {
+          withRelated: [ 'checkIns', 'checkIns.venue' ]
+        } );
       } else {
         return Promise.resolve();
       }
@@ -150,7 +167,7 @@ var requestGetSingleRibot = function requestGetSingleRibot( request, response, n
       var options = {};
 
       if ( requestingSensitiveData( request ) ) {
-        options.withRelated = [ 'checkIns' ];
+        options.withRelated = [ 'checkIns', 'checkIns.venue' ];
       }
 
       return Ribot.findById( request.params.ribotId, options )
