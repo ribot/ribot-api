@@ -1,5 +1,6 @@
 // External dependencies
-var hat = require( 'hat' );
+var hat = require( 'hat' ),
+    Promise = require( 'bluebird' );
 
 // Dependencies
 var seed = require( '../../../data/seed' ),
@@ -16,6 +17,26 @@ describe( 'ribot collection', function( done ) {
     // Set up db tables and seed
     helpers.db.setupForTests()
       .then( function() {
+        return new Promise( function( resolve, reject ) {
+          helpers.request.bind( this )( {
+            method: 'post',
+            route: '/check-ins',
+            headers: {
+              'Authorization': 'Bearer ' + utils.decodeToken( seed.access_token[0].token )
+            },
+            body: {
+              label: 'Home'
+            }
+          }, function( err ) {
+            if ( err ) {
+              return reject( err );
+            } else {
+              return resolve();
+            }
+          } );
+        } );
+      } )
+      .then( function() {
         helpers.request.bind( this )( {
           method: 'post',
           route: '/check-ins',
@@ -23,7 +44,7 @@ describe( 'ribot collection', function( done ) {
             'Authorization': 'Bearer ' + utils.decodeToken( seed.access_token[0].token )
           },
           body: {
-            label: 'Home'
+            venueId: seed.venue[0].id
           }
         }, done );
       } );
