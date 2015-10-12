@@ -75,11 +75,10 @@ var createRibotPayload = function createRibotPayload( ribot ) {
       } )
       .reverse()
       .take( 5 )
-      .each( function( checkInJson ) {
-        if ( !checkInJson.venue.id ) {
-          delete checkInJson.venue;
-        }
-        return checkInJson;
+      .map( function( checkInJson ) {
+        return _.omit( checkInJson, function( value, key ) {
+          return ( key == 'venue' && !value.id );
+        } );
       } );
 
     payload.checkIns = checkInsJson;
