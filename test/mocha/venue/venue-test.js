@@ -27,7 +27,7 @@ describe( 'Venue collections', function( done ) {
       // Needed for blueprint validation
       this.route = '/venues';
       this.method = 'get';
-    });
+    } );
 
     describe( 'Handle invalid access token', function() {
 
@@ -81,7 +81,7 @@ describe( 'Venue collections', function( done ) {
         this.blueprintRoute = '/venues/{venueId}';
         this.route = this.blueprintRoute.replace( /\{venueId\}/g, seed.venue[0].id );
         this.method = 'get';
-      });
+      } );
 
       before( function( done ) {
         // Set up scope for assertions

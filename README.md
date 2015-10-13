@@ -27,7 +27,7 @@ To start the node project on the VM you now need to SSH into it, change into the
 ```sh
 vagrant ssh
 cd app
-npm install --no-bin-links
+npm install
 npm start
 ```
 

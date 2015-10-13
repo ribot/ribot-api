@@ -55,6 +55,22 @@ var requestingSensitiveData = function requestingSensitiveData( request ) {
   return request.query.embed == 'checkins';
 };
 
+
+/**
+ * Returns the relations needed when getting related check-ins
+ */
+var checkInRelations = function checkInRelations() {
+  return [
+    'checkIns',
+    'checkIns.venue',
+    'checkIns.beaconEncounters',
+    'checkIns.beaconEncounters.beacon',
+    'checkIns.beaconEncounters.beacon.zone',
+    'checkIns.beaconEncounters.beacon.zone.venue'
+  ];
+};
+
+
 /**
  * Create ribot payload from ribot
  */
@@ -68,7 +84,8 @@ var createRibotPayload = function createRibotPayload( ribot ) {
 
   if ( checkInsJson.length > 0 ) {
     // Sort by the check in date, reverse it so it's in descending order, then take only the latest
-    // 5 checkins, then remove the venue property if no venue relation existed
+    // 5 checkins, then remove the venue property if no venue relation existed. We then check if there
+    // are an beacon encounter, remove the property if not or sort the array if so
     checkInsJson = _.chain( checkInsJson )
       .sortBy( function( checkInJson ) {
         return new Date( checkInJson.checkedInDate ).getTime();
@@ -79,6 +96,22 @@ var createRibotPayload = function createRibotPayload( ribot ) {
         return _.omit( checkInJson, function( value, key ) {
           return ( key == 'venue' && !value.id );
         } );
+      } )
+      .map( function( checkInJson ) {
+        return _.omit( checkInJson, function( value, key ) {
+          return ( key == 'beaconEncounters' && value.length == 0 );
+        } );
+      } )
+      .map( function( checkInJson ) {
+        if ( checkInJson.beaconEncounters ) {
+          checkInJson.beaconEncounters = _.chain( checkInJson.beaconEncounters )
+            .sortBy( function( beaconEncounterJson ) {
+              return new Date( beaconEncounterJson.encounterDate ).getTime();
+            } )
+            .reverse();
+        }
+
+        return checkInJson;
       } );
 
     payload.checkIns = checkInsJson;
@@ -104,7 +137,7 @@ var requestGetRibotCollection = function requestGetRibotCollection( request, res
       var options = {};
 
       if ( requestingSensitiveData( request ) ) {
-        options.withRelated = [ 'checkIns', 'checkIns.venue' ];
+        options.withRelated = checkInRelations();
       }
 
       return Ribot.collection().fetch( options )
@@ -135,7 +168,7 @@ var requestGetAuthenticatedRibot = function requestGetAuthenticatedRibot( reques
     .then( function() {
       if ( requestingSensitiveData( request ) ) {
         return request.user.ribot.fetch( {
-          withRelated: [ 'checkIns', 'checkIns.venue' ]
+          withRelated: checkInRelations()
         } );
       } else {
         return Promise.resolve();
@@ -166,7 +199,7 @@ var requestGetSingleRibot = function requestGetSingleRibot( request, response, n
       var options = {};
 
       if ( requestingSensitiveData( request ) ) {
-        options.withRelated = [ 'checkIns', 'checkIns.venue' ];
+        options.withRelated = checkInRelations();
       }
 
       return Ribot.findById( request.params.ribotId, options )
