@@ -29,6 +29,7 @@ var init = function init() {
   app.use( bodyParser.json() );
   app.use( passport.initialize() );
   app.use( router );
+  app.use( middleware.routeNotFound );
 
   // Setup models
   require( './app/models' );

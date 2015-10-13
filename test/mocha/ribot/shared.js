@@ -15,7 +15,7 @@ var shared = {
   },
 
   shouldHaveCheckinsInFirstObject: function() {
-    it( 'should have check-ins in response', function() {
+    it( 'should have check-ins in first object', function() {
       this.response.body[0].should.have.property( 'checkIns' ).which.is.an.Array().and.has.length( 2 );
     } );
   },
@@ -27,8 +27,20 @@ var shared = {
   },
 
   shouldNotHaveCheckinsInFirstObject: function() {
-    it( 'should not have check-ins in response', function() {
+    it( 'should not have check-ins in first object', function() {
       this.response.body[0].should.not.have.property( 'checkIns' );
+    } );
+  },
+
+  shouldHaveBeaconEncounterOnSecondCheckinsInResponseBody: function() {
+    it( 'should have beacon encounter in second check-ins in response', function() {
+      this.response.body.checkIns[ 1 ].should.have.property( 'beaconEncounters' ).which.is.an.Array().and.has.length( 1 );
+    } );
+  },
+
+  shouldHaveBeaconEncounterOnSecondCheckinsInFirstObject: function() {
+    it( 'should have beacon encounter in second check-ins in first object', function() {
+      this.response.body[0].checkIns[ 1 ].should.have.property( 'beaconEncounters' ).which.is.an.Array().and.has.length( 1 );
     } );
   }
 

@@ -1,4 +1,4 @@
-var version = 4;
+var version = 5;
 
 var schema = {
 
@@ -76,6 +76,38 @@ var schema = {
       label:                   { type: 'text', nullable: false },
       latitude:                { type: 'float' },
       longitude:               { type: 'float' },
+      created_date:            { type: 'dateTime', nullable: false },
+      updated_date:            { type: 'dateTime', nullable: false }
+    }
+  },
+
+  zone: {
+    primary: 'id',
+    columns: {
+      id:                      { type: 'uuid', nullable: false },
+      label:                   { type: 'text', nullable: false },
+      venue_id:                { type: 'uuid', nullable: false, references: { table: 'venue', column: 'id' } },
+      created_date:            { type: 'dateTime', nullable: false },
+      updated_date:            { type: 'dateTime', nullable: false }
+    }
+  },
+
+  beacon: {
+    primary: 'id',
+    columns: {
+      id:                      { type: 'uuid', nullable: false },
+      zone_id:                 { type: 'uuid', nullable: false, references: { table: 'zone', column: 'id' } },
+      created_date:            { type: 'dateTime', nullable: false },
+      updated_date:            { type: 'dateTime', nullable: false }
+    }
+  },
+
+  beacon_encounter: {
+    primary: 'id',
+    columns: {
+      id:                      { type: 'uuid', nullable: false },
+      beacon_id:               { type: 'uuid', nullable: false, references: { table: 'beacon', column: 'id' } },
+      check_in_id:             { type: 'uuid', nullable: false, references: { table: 'check_in', column: 'id' } },
       created_date:            { type: 'dateTime', nullable: false },
       updated_date:            { type: 'dateTime', nullable: false }
     }
