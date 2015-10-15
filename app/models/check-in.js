@@ -55,9 +55,11 @@ var CheckIn = BaseModel.extend( {
     }
   },
 
-  createBeaconEncounter: function createBeaconEncounter( beacon ) {
+  createBeaconEncounter: function createBeaconEncounter( beacon, transaction ) {
     return this.related( 'beaconEncounters' ).create( {
       beaconId: beacon.get( 'id' )
+    }, {
+      transacting: transaction
     } );
   }
 

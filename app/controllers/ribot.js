@@ -11,6 +11,19 @@ var logger = require( '../lib/logger' ),
 
 
 /**
+ * The relations needed when getting related check-ins
+ */
+var checkInRelations = [
+  'checkIns',
+  'checkIns.venue',
+  'checkIns.beaconEncounters',
+  'checkIns.beaconEncounters.beacon',
+  'checkIns.beaconEncounters.beacon.zone',
+  'checkIns.beaconEncounters.beacon.zone.venue'
+];
+
+
+/**
  * Initialise
  */
 var init = function init() {
@@ -55,20 +68,6 @@ var requestingSensitiveData = function requestingSensitiveData( request ) {
   return request.query.embed == 'checkins';
 };
 
-
-/**
- * Returns the relations needed when getting related check-ins
- */
-var checkInRelations = function checkInRelations() {
-  return [
-    'checkIns',
-    'checkIns.venue',
-    'checkIns.beaconEncounters',
-    'checkIns.beaconEncounters.beacon',
-    'checkIns.beaconEncounters.beacon.zone',
-    'checkIns.beaconEncounters.beacon.zone.venue'
-  ];
-};
 
 
 /**
@@ -137,7 +136,7 @@ var requestGetRibotCollection = function requestGetRibotCollection( request, res
       var options = {};
 
       if ( requestingSensitiveData( request ) ) {
-        options.withRelated = checkInRelations();
+        options.withRelated = checkInRelations;
       }
 
       return Ribot.collection().fetch( options )
@@ -168,7 +167,7 @@ var requestGetAuthenticatedRibot = function requestGetAuthenticatedRibot( reques
     .then( function() {
       if ( requestingSensitiveData( request ) ) {
         return request.user.ribot.fetch( {
-          withRelated: checkInRelations()
+          withRelated: checkInRelations
         } );
       } else {
         return Promise.resolve();
@@ -199,7 +198,7 @@ var requestGetSingleRibot = function requestGetSingleRibot( request, response, n
       var options = {};
 
       if ( requestingSensitiveData( request ) ) {
-        options.withRelated = checkInRelations();
+        options.withRelated = checkInRelations;
       }
 
       return Ribot.findById( request.params.ribotId, options )

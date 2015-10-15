@@ -151,7 +151,7 @@ var Ribot = BaseModel.extend( {
 
   },
 
-  fetchOrCreateCheckInWithVenueId: function fetchOrCreateCheckInWithVenueId( venueId ) {
+  fetchOrCreateCheckInWithVenueId: function fetchOrCreateCheckInWithVenueId( venueId, transaction ) {
     var query = {
       orderBy: [ 'created_date', 'desc' ],
       limit: 1
@@ -171,7 +171,7 @@ var Ribot = BaseModel.extend( {
         }
 
         // If not, we need to create a new check-in with the correct venue id
-        return this.related( 'checkIns' ).create( { venue_id: venueId } );
+        return this.related( 'checkIns' ).create( { venue_id: venueId }, { transacting: transaction } );
 
       }.bind( this ) );
   },

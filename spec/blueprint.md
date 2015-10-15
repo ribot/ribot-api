@@ -306,7 +306,7 @@ Exchanges credentials for an access token. If the Google account is valid but th
                             "longitude": -0.1471577
                           }
                         }
-                      },
+                      }
                     }
                   ]
                 }

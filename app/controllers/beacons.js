@@ -9,6 +9,7 @@ var logger = require( '../lib/logger' ),
     middleware = require( '../lib/routing-middleware' );
     ResponseError = require( '../lib/response-error' ),
     middleware = require( '../lib/routing-middleware' ),
+    db = require( '../../data' ),
     Beacon = require( '../models/beacon' );
 
 
@@ -108,19 +109,21 @@ var requestPostBeaconEncounter = function requestPostBeaconEncounter( request, r
       venueId,
       beaconFetchOptions = { withRelated: [ 'zone', 'zone.venue' ] };
 
-  var responseData = Beacon.findById( beaconId, beaconFetchOptions )
-    .then( function( beacon ) {
-      results.beacon = beacon;
-      venueId = beacon.related( 'zone' ).related( 'venue' ).get( 'id' );
-    } )
-    .then( function( beacon ) {
-      return request.user.ribot.fetchOrCreateCheckInWithVenueId( venueId );
-    } )
-    .then( function( checkIn ) {
-      return checkIn.createBeaconEncounter( results.beacon )
-        .then( function( beaconEncounter ) {
-          return beaconEncounter.fetch( { withRelated: [ 'beacon', 'beacon.zone', 'beacon.zone.venue', 'checkIn' ] } );
-        } );
+  var responseData = db.bookshelf.transaction( function( transaction ) {
+    return Beacon.findById( beaconId, beaconFetchOptions )
+      .then( function( beacon ) {
+        results.beacon = beacon;
+        venueId = beacon.related( 'zone' ).related( 'venue' ).get( 'id' );
+      } )
+      .then( function( beacon ) {
+        return request.user.ribot.fetchOrCreateCheckInWithVenueId( venueId, transaction );
+      } )
+      .then( function( checkIn ) {
+        return checkIn.createBeaconEncounter( results.beacon, transaction );
+      } );
+  } )
+    .then( function( beaconEncounter ) {
+      return beaconEncounter.fetch( { withRelated: [ 'beacon', 'beacon.zone', 'beacon.zone.venue', 'checkIn' ] } );
     } )
     .then( function( beaconEncounter ) {
       response.status( 201 ).send( createBeaconEncounterPayload( beaconEncounter ) );
