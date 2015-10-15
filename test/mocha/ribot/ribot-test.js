@@ -10,45 +10,11 @@ var seed = require( '../../../data/seed' ),
     ResponseError = require( '../../../app/lib/response-error' );
 
 
-// Start the tests
-describe( 'ribot collection', function( done ) {
-
-  before( function( done ) {
-    // Set up db tables and seed
-    helpers.db.setupForTests()
-      .then( function() {
-        return new Promise( function( resolve, reject ) {
-          helpers.request.bind( this )( {
-            method: 'post',
-            route: '/check-ins',
-            headers: {
-              'Authorization': 'Bearer ' + utils.decodeToken( seed.access_token[0].token )
-            },
-            body: {
-              label: 'Home'
-            }
-          }, function( err ) {
-            if ( err ) {
-              return reject( err );
-            } else {
-              return resolve();
-            }
-          } );
-        } );
-      } )
-      .then( function() {
-        helpers.request.bind( this )( {
-          method: 'post',
-          route: '/check-ins',
-          headers: {
-            'Authorization': 'Bearer ' + utils.decodeToken( seed.access_token[0].token )
-          },
-          body: {
-            venueId: seed.venue[0].id
-          }
-        }, done );
-      } );
-  } );
+/**
+ * This funcation will run a full test suite through all the ribot routes. Before calling it you
+ * should set up the database in the format you want to test
+ */
+var fullRibotRoutesTestSuite = function fullRibotRoutesTestSuite( expectSomeCheckIns, expectBeaconCheckIns ) {
 
   describe( 'Get authenticated ribot: /ribots/me', function( done ) {
 
@@ -121,7 +87,16 @@ describe( 'ribot collection', function( done ) {
 
         shared.shouldRespondWithCorrectStatusCode();
         shared.shouldReturnValidResponseSchema();
-        shared.shouldHaveCheckinsInResponseBody();
+
+        if ( expectSomeCheckIns ) {
+          shared.shouldHaveCheckinsInResponseBody();
+
+          if ( expectBeaconCheckIns ) {
+            shared.shouldHaveBeaconEncounterOnSecondCheckinsInResponseBody();
+          }
+        } else {
+          shared.shouldNotHaveCheckinsInResponseBody();
+        }
 
       } );
 
@@ -202,7 +177,16 @@ describe( 'ribot collection', function( done ) {
 
         shared.shouldRespondWithCorrectStatusCode();
         shared.shouldReturnValidResponseSchema();
-        shared.shouldHaveCheckinsInFirstObject();
+
+        if ( expectSomeCheckIns ) {
+          shared.shouldHaveCheckinsInFirstObject();
+
+          if ( expectBeaconCheckIns ) {
+            shared.shouldHaveBeaconEncounterOnSecondCheckinsInFirstObject();
+          }
+        } else {
+          shared.shouldNotHaveCheckinsInFirstObject();
+        }
 
       } );
 
@@ -314,11 +298,123 @@ describe( 'ribot collection', function( done ) {
 
         shared.shouldRespondWithCorrectStatusCode();
         shared.shouldReturnValidResponseSchema();
-        shared.shouldHaveCheckinsInResponseBody();
+
+        if ( expectSomeCheckIns ) {
+          shared.shouldHaveCheckinsInResponseBody();
+
+          if ( expectBeaconCheckIns ) {
+            shared.shouldHaveBeaconEncounterOnSecondCheckinsInResponseBody();
+          }
+        } else {
+          shared.shouldNotHaveCheckinsInResponseBody();
+        }
 
       } );
 
     } );
+
+  } );
+
+};
+
+
+// Start the tests
+describe( 'ribot collection', function( done ) {
+
+  describe( 'ribots with no checkins', function() {
+
+    before( function( done ) {
+      // Set up db tables and seed
+      helpers.db.setupForTests()
+        .then( function() {
+          done();
+        } );
+    } );
+
+    fullRibotRoutesTestSuite( false );
+
+  } );
+
+  describe( 'ribots with non-beacon checkins', function() {
+
+    before( function( done ) {
+      // Set up db tables and seed
+      helpers.db.setupForTests()
+        .then( function() {
+          return new Promise( function( resolve, reject ) {
+            helpers.request.bind( this )( {
+              method: 'post',
+              route: '/check-ins',
+              headers: {
+                'Authorization': 'Bearer ' + utils.decodeToken( seed.access_token[0].token )
+              },
+              body: {
+                label: 'Home'
+              }
+            }, function( err ) {
+              if ( err ) {
+                return reject( err );
+              } else {
+                return resolve();
+              }
+            } );
+          } );
+        } )
+        .then( function() {
+          helpers.request.bind( this )( {
+            method: 'post',
+            route: '/check-ins',
+            headers: {
+              'Authorization': 'Bearer ' + utils.decodeToken( seed.access_token[0].token )
+            },
+            body: {
+              venueId: seed.venue[0].id
+            }
+          }, done );
+        } );
+    } );
+
+    fullRibotRoutesTestSuite( true );
+
+  } );
+
+  describe( 'ribots with beacon and non-beacon checkins', function() {
+
+    before( function( done ) {
+      // Set up db tables and seed
+      helpers.db.setupForTests()
+        .then( function() {
+          return new Promise( function( resolve, reject ) {
+            helpers.request.bind( this )( {
+              method: 'post',
+              route: '/beacons/' + seed.beacon[ 0 ].id + '/encounters',
+              headers: {
+                'Authorization': 'Bearer ' + utils.decodeToken( seed.access_token[0].token )
+              }
+            }, function( err ) {
+              if ( err ) {
+                return reject( err );
+              } else {
+                return resolve();
+              }
+            } );
+          } );
+        } )
+        .then( function() {
+          helpers.request.bind( this )( {
+            method: 'post',
+            route: '/check-ins',
+            headers: {
+              'Authorization': 'Bearer ' + utils.decodeToken( seed.access_token[0].token )
+            },
+            body: {
+              venueId: seed.venue[0].id
+            }
+          }, done );
+        } );
+    } );
+
+    fullRibotRoutesTestSuite( true, true );
 
   } );
 

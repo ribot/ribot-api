@@ -151,6 +151,31 @@ var Ribot = BaseModel.extend( {
 
   },
 
+  fetchOrCreateCheckInWithVenueId: function fetchOrCreateCheckInWithVenueId( venueId, transaction ) {
+    var query = {
+      orderBy: [ 'created_date', 'desc' ],
+      limit: 1
+    };
+
+    return this.related( 'checkIns' ).query( query ).fetch()
+      .then( function( results ) {
+
+        var checkIn;
+
+        // If we have a single result and that result has the correct venue id and isn't yet marked as "checked-out", return it
+        if ( results.size() == 1 ) {
+          checkIn = results.at( 0 );
+          if ( checkIn.get( 'venueId' ) == venueId && !checkIn.get( 'isCheckedOut' ) ) {
+            return checkIn;
+          }
+        }
+
+        // If not, we need to create a new check-in with the correct venue id
+        return this.related( 'checkIns' ).create( { venue_id: venueId }, { transacting: transaction } );
+
+      }.bind( this ) );
+  },
+
   createAccessToken: function createAccessToken( options ) {
     return this.related( 'accessTokens' ).fetch()
       .then( function( previousAccessTokens ) {

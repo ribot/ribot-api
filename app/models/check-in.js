@@ -24,7 +24,7 @@ var CheckIn = BaseModel.extend( {
 
   virtuals: _.extend( {}, BaseModel.prototype.virtuals, {
     isCheckedOut: function getIsCheckedOut() {
-        return (this.get( 'checked_out_date' ) != null);
+        return (this.get( 'checkedOutDate' ) != null);
     },
     checkedInDate: function getCheckedInDate() {
         return utils.formatDateTime( this.get( 'createdDate' ) );
@@ -39,6 +39,10 @@ var CheckIn = BaseModel.extend( {
     return this.belongsTo( 'Venue' );
   },
 
+  beaconEncounters: function beaconEncounters() {
+    return this.hasMany( 'BeaconEncounter' );
+  },
+
   validations: {
     id: {
       uuid: true
@@ -49,6 +53,14 @@ var CheckIn = BaseModel.extend( {
     venueId: {
       uuid: true
     }
+  },
+
+  createBeaconEncounter: function createBeaconEncounter( beacon, transaction ) {
+    return this.related( 'beaconEncounters' ).create( {
+      beaconId: beacon.get( 'id' )
+    }, {
+      transacting: transaction
+    } );
   }
 
 } );

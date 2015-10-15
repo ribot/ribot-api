@@ -4,13 +4,13 @@
   "description": "",
   "main": "app.js",
   "scripts": {
-    "start": "./node_modules/nodemon/bin/nodemon.js -L app.js",
-    "test": "env NODE_ENV=test PORT=8988 BASE_URL=http://localhost:8988 LOG_LEVEL=info DB_DEBUG=false DB_URL=postgresql://vagrant@localhost/ribot-api-test multi='xunit=xunit.xml spec=-' node_modules/mocha/bin/mocha"
+    "start": "./node_modules/supervisor/lib/cli-wrapper.js --watch app app.js",
+    "test": "env NODE_ENV=test PORT=8988 BASE_URL=http://localhost:8988 LOG_LEVEL=error DB_DEBUG=false DB_URL=postgresql://vagrant@localhost/ribot-api-test multi='xunit=xunit.xml spec=-' node_modules/mocha/bin/mocha"
   },
   "author": "",
   "license": "ISC",
   "engines": {
-    "node": "0.10.26"
+    "node": "0.12.7"
   },
   "dependencies": {
     "aglio": "^2.1.1",
@@ -44,6 +44,7 @@
     "nock": "^2.12.0",
     "nodemon": "^1.7.0",
     "should": "^7.1.0",
-    "should-promised": "^0.3.1"
+    "should-promised": "^0.3.1",
+    "supervisor": "^0.9.1"
   }
 }

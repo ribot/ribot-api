@@ -120,9 +120,22 @@ var validateBody = function validateBody( request, response, next ) {
 };
 
 
+/**
+ * Respond with a 404 ResponseError
+ */
+var routeNotFound = function routeNotFound( request, response, next ) {
+
+  var responseError = new ResponseError( 'notFound' );
+  response.status( responseError.statusCode ).send( responseError );
+  logger.error( error.stack );
+
+};
+
+
 // Exports
 module.exports = {
   removeTrailingSlash: removeTrailingSlash,
   isAuthorized: isAuthorized,
-  validateBody: validateBody
+  validateBody: validateBody,
+  routeNotFound: routeNotFound
 };

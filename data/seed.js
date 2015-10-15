@@ -40,8 +40,20 @@ var seedData = {
   ],
 
   venue: [
-    { id: uuids[ 0 ], label: 'Home', latitude: -10, longitude: 70, created_date: date, updated_date: date }
+    { id: uuids[ 0 ], label: 'Home', latitude: -10, longitude: 70, created_date: date, updated_date: date },
+    { id: uuids[ 1 ], label: 'Studio', created_date: date, updated_date: date }
   ],
+
+  zone: [
+    { id: uuids[ 0 ], label: 'Desks', venue_id: uuids[ 1 ], created_date: date, updated_date: date },
+    { id: uuids[ 1 ], label: 'Vault', venue_id: uuids[ 1 ], created_date: date, updated_date: date }
+  ],
+
+  beacon: [
+    { id: uuids[ 5 ], zone_id: uuids[ 0 ], created_date: date, updated_date: date },
+    { id: uuids[ 6 ], zone_id: uuids[ 0 ], created_date: date, updated_date: date },
+    { id: uuids[ 7 ], zone_id: uuids[ 1 ], created_date: date, updated_date: date }
+  ]
 
 };
 

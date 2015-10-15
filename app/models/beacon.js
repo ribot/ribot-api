@@ -4,19 +4,20 @@ var _ = require( 'lodash' );
 
 // Dependencies
 var db = require( '../../data' ),
+    environment = require( '../lib/environment' ),
     utils = require( '../lib/utils' ),
-    BaseModel = require( './base' ),
-    ResponseError = require( '../lib/response-error' );
+    BaseModel = require( './base' );
 
 
 /**
- * Venue model
+ * Beacon model
  */
-var Venue = BaseModel.extend( {
+var Beacon = BaseModel.extend( {
 
-  tableName: 'venue',
+  tableName: 'beacon',
 
   hidden: _.union( BaseModel.prototype.hidden, [
+    'zoneId',
     '_sys'
   ] ),
 
@@ -24,16 +25,19 @@ var Venue = BaseModel.extend( {
 
   } ),
 
-  checkIns: function checkIns() {
-    return this.hasMany( 'CheckIn' );
+  zone: function zone() {
+    return this.belongsTo( 'Zone' );
   },
 
-  zones: function zones() {
-    return this.hasMany( 'Zone' );
+  encounters: function encounters() {
+    return this.hasMany( 'BeaconEncounter' );
   },
 
   validations: {
     id: {
+      uuid: true
+    },
+    zoneId: {
       uuid: true
     }
   }
@@ -42,20 +46,20 @@ var Venue = BaseModel.extend( {
 
 
 /**
- * Find a venue by id
+ * Find a beacon by id
  */
-Venue.findById = function findById( id, options ) {
+Beacon.findById = function findById( id, options ) {
 
   if ( id ) {
 
-    return new Venue( {
+    return new Beacon( {
       id: id
     } )
       .fetch( options )
-      .then( function( venue ) {
+      .then( function( beacon ) {
 
-        if ( venue ) {
-          return venue;
+        if ( beacon ) {
+          return beacon;
         } else {
           throw new ResponseError( 'notFound' );
         }
@@ -70,4 +74,4 @@ Venue.findById = function findById( id, options ) {
 
 
 // Exports
-module.exports = db.bookshelf.model( 'Venue', Venue );
+module.exports = db.bookshelf.model( 'Beacon', Beacon );
