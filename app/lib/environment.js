@@ -17,8 +17,8 @@ var environment = {
   logLevel: process.env.LOG_LEVEL,
   jwtSecret: process.env.JWT_SECRET,
   db: {
-    connection: process.env.DB_URL,
-    debug: ( process.env.DB_DEBUG === 'false' ) ? false : true
+    connection: process.env.DATABASE_URL,
+    debug: ( process.env.DATABASE_DEBUG === 'true' ) ? true : false
   },
   google: {
     provider: process.env.GOOGLE_PROVIDER || 'googleapis',
