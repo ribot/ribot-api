@@ -44,3 +44,6 @@ tmp/
 
 # Tests
 xunit.xml
+
+# Development environment
+.env

@@ -127,7 +127,7 @@ var routeNotFound = function routeNotFound( request, response, next ) {
 
   var responseError = new ResponseError( 'notFound' );
   response.status( responseError.statusCode ).send( responseError );
-  logger.error( error.stack );
+  logger.error( responseError.stack );
 
 };
 
