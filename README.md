@@ -22,7 +22,19 @@ vagrant up
 
 This will download the required virtual machine, install all the project dependancies and start the virtual machine. The virtual machine will then be used to run the project code, in an enviroment that is the same on every developers machine.
 
-While this is happening, set up the development environment variables by duplicating the `.env.example` file to one called `.env`. Inside that file replace any example values (denoted by `<replace>`) with real values. You will need to get a Google client ID and secret from the [Google Developer Console](https://console.developers.google.com).
+While this is happening, set up the development environment variables by duplicating the `.env.example` file to one called `.env`. Inside that file replace any example values (denoted by `<replace>`) with real values. Take a look at the table below if you are unsure what any of the enviornment variables do.
+
+| Variable Name          | Example                                                                    | Description                                                                                                                                                                               |
+|------------------------|----------------------------------------------------------------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| `PORT`                 | `4568`                                                                     | The port number the express server should listen for incoming connections on                                                                                                              |
+| `BASE_URL`             | `http://localhost:4568`                                                    | The user visible URL. In a development environment it will likely have the port number as shown in the example. In production this will likely be a nicer URL such as http://api.ribot.io |
+| `LOG_LEVEL`            | `debug`                                                                    | What level of logs should be outputted. From most to least verbose these are: `debug`, `info`, `warn` and `error`                                                                         |
+| `JWT_SECRET`           | `ribot`                                                                    | The secret to encrypt the JSON Web Tokens with. In development this value doesn't matter, however in production it should be a long random string                                         |
+| `DATABASE_URL`         | `postgresql://vagrant@localhost/ribot-api`                                 | The connection string to the postgres database                                                                                                                                            |
+| `DATABASE_DEBUG`       | `true`                                                                     | Boolean. If this is set to `true` the query and results of every database operation is logged. This happens irrespective of the `LOG_LEVEL` and can be extremely noisy                    |
+| `GOOGLE_API_BASE_URL`  | `https://www.googleapis.com`                                               | The base URL for the Google APIs. The example will almost always be the correct value                                                                                                     |
+| `GOOGLE_CLIENT_ID`     | `AAAAAAAAAAAA-AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA.apps.googleusercontent.com` | The server's client ID from the [Google Developer Console](https://console.developers.google.com)                                                                                         |
+| `GOOGLE_CLIENT_SECRET` | `AAAAAAAAAAAAAAAAA-AAAAAA`                                                 | The server's client secret from the [Google Developer Console](https://console.developers.google.com)                                                                                     |
 
 To start the node project on the VM you now need to SSH into it, change into the `app` directory, install node dependancies and start the node server:
 
@@ -31,6 +43,12 @@ vagrant ssh
 cd app
 npm install
 npm start
+```
+
+You may also want to seed the database with some example data. To do this you can run the setup script. **Note: This will drop all the tables and recreate them without confirmation. You WILL loose all the data.**
+
+```
+node data/scripts/setup.js --seed
 ```
 
 ## Running the tests
