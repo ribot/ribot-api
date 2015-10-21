@@ -660,7 +660,7 @@ Returns a collection of all ribots.
                     "id": "98ba31e55818861b4870553a008ce16d",
                     "checkedInDate": "2015-10-05T14:48:00.000Z",
                     "venue": {
-                      "id": "78ga31e55818861b4870553a008ce16d"
+                      "id": "78ga31e55818861b4870553a008ce16d",
                       "label": "ribot studio",
                       "latitude": 50.8313189,
                       "longitude": -0.1471577
