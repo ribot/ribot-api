@@ -22,6 +22,8 @@ vagrant up
 
 This will download the required virtual machine, install all the project dependancies and start the virtual machine. The virtual machine will then be used to run the project code, in an enviroment that is the same on every developers machine.
 
+While this is happening, set up the development environment variables by duplicating the `.env.example` file to one called `.env`. Inside that file replace any example values (denoted by `<replace>`) with real values. You will need to get a Google client ID and secret from the [Google Developer Console](https://console.developers.google.com).
+
 To start the node project on the VM you now need to SSH into it, change into the `app` directory, install node dependancies and start the node server:
 
 ```sh
@@ -100,19 +102,36 @@ vagrant provision
 ```
 
 ## Deploying the app
-Changes to master will automatically cause the app to be deployed to [Dokku](https://ribot-api.ribot.io). You should not need to deploy manually. If you do however you can set up your machine by adding a new git remote and then push to it:
+Changes to master will automatically cause the app to be deployed to [Dokku](https://api.ribot.io). You should not need to deploy manually. If you do however you can set up your machine by adding a new git remote and then push to it:
 
 ```sh
-git remote add deploy dokku@ribot.io:ribot-api
+git remote add deploy dokku@ribot.io:api
 git push deploy master
 ```
 
 ## Testing Google OAuth
 
-1. Go to the [Google OAuth playground with the correct basic settings](https://developers.google.com/oauthplayground/#step2&apisSelect=https%3A//www.googleapis.com/auth/userinfo.email%2Chttps%3A//www.googleapis.com/auth/userinfo.profile%2Chttps%3A//www.googleapis.com/auth/userinfo.email%2Chttps%3A//www.googleapis.com/auth/userinfo.profile&auth_code=4/giB9Uhx-o1yD6wpFhuf52uqQhFqkIBKTj2T4Um78HmY&url=https%3A//&content_type=application/json&http_method=GET&useDefaultOauthCred=checked&oauthEndpointSelect=Google&oauthAuthEndpointValue=https%3A//accounts.google.com/o/oauth2/auth&oauthTokenEndpointValue=https%3A//www.googleapis.com/oauth2/v3/token&includeCredentials=unchecked&accessTokenType=query&autoRefreshToken=unchecked&accessType=offline&forceAprovalPrompt=unchecked&response_type=code)
+1. Go to the [Google OAuth playground with the correct basic settings](https://developers.google.com/oauthplayground/#step1&apisSelect=https%3A//www.googleapis.com/auth/userinfo.email%2Chttps%3A//www.googleapis.com/auth/userinfo.profile%2Chttps%3A//www.googleapis.com/auth/userinfo.email%2Chttps%3A//www.googleapis.com/auth/userinfo.profile&url=https%3A//&content_type=application/json&http_method=GET&useDefaultOauthCred=checked&oauthEndpointSelect=Google&oauthAuthEndpointValue=https%3A//accounts.google.com/o/oauth2/auth&oauthTokenEndpointValue=https%3A//www.googleapis.com/oauth2/v3/token&includeCredentials=unchecked&accessTokenType=query&autoRefreshToken=unchecked&accessType=offline&forceAprovalPrompt=unchecked&response_type=code)
 2. Click the cog in the top right and enter the *Client ID* and *Client Secret* from the `.env` file you are using
-3. In the list of scopes find *Google OAuth  API v2* and select the *user.email* and *user.profile* scopes
-4. Press *Authorize APIs* and follow the steps with your ribot account
-5. Copy the *Authorization code*
-6. Use Paw/Postman/cURL to make a request to `POST /auth/sign-in` with the `googleAuthorizationCode` you copied along with a `googleRedirectUri` of `https://developers.google.com/oauthplayground`
-7. You should now be logged in
+3. Press *Authorize APIs* and follow the steps with your ribot account
+4. Copy the *Authorization code*
+5. Use Paw/Postman/cURL to make a request to `POST /auth/sign-in` with the `googleAuthorizationCode` you copied along with a `googleRedirectUri` of `https://developers.google.com/oauthplayground`
+6. You should now be logged in
+
+## Licence
+
+```
+Copyright 2015 Ribot Ltd.
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+```
