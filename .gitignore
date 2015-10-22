@@ -47,3 +47,4 @@ xunit.xml
 
 # Development environment
 .env
+cookbooks

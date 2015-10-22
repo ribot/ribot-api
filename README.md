@@ -14,7 +14,14 @@ brew cask install virtualbox
 brew cask install vagrant
 ```
 
-Once both of these tools are installed, you can start the development environment by running this command from the root of the project:
+Once both of these tools are installed, you need to make sure vagrant has the [Chef](http://chef.io) cookbooks needed to start the VM. Install [Librarian-chef](https://github.com/applicationsonline/librarian-chef) and then install the cookbooks:
+
+```sh
+gem install librarian-chef
+librarian-chef install
+```
+
+Once the download is complete, you can start the development environment by running this command from the root of the project:
 
 ```sh
 vagrant up
