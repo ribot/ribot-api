@@ -66,5 +66,33 @@ var CheckIn = BaseModel.extend( {
 } );
 
 
+/**
+ * Find a check in by id
+ */
+CheckIn.findById = function findById( id, options ) {
+
+  if ( id ) {
+
+    return new CheckIn( {
+      id: id
+    } )
+      .fetch( options )
+      .then( function( checkIn ) {
+
+        if ( checkIn ) {
+          return checkIn;
+        } else {
+          throw new ResponseError( 'notFound' );
+        }
+
+      } );
+
+  } else {
+    throw new ResponseError( 'notFound' );
+  }
+
+};
+
+
 // Exports
 module.exports = db.bookshelf.model( 'CheckIn', CheckIn );

@@ -1321,6 +1321,44 @@ Retrieve a single check-in.
 
     [Check-in][]
 
+## Modify check-in [/check-ins/{checkInId}]
+
+### Modify check-in [PUT /check-ins/{checkInId}]
+Modifies the given check-in. Currently the only modifiable property is `isCheckedOut` to `true`.
+
++ Parameters
+
+    + checkInId (required, string, `123`) ... Check-in ID.
+
++ Request (application/json)
+
+    + Headers
+
+            Authorization: Bearer <token>
+
+    + Body
+
+            {
+              "isCheckedOut": true
+            }
+
+    + Schema
+
+            {
+              "$schema": "http://json-schema.org/draft-04/schema#",
+              "properties": {
+                "isCheckedOut": {
+                  "description": "If the check-in should be marked as checked out. Currently can only be `true`.",
+                  "type": "boolean"
+                }
+              },
+              "additionalProperties": false
+            }
+
++ Response 200 (application/json)
+
+    [Check-in][]
+
 ### Retrieve check-in collection [GET /check-ins?ribotId={ribotId}&venueId={venueId}&dateFrom={dateFrom}&dateTo={dateTo}]
 Retrieves a collection of check-ins in date order.
 

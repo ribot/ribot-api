@@ -57,6 +57,13 @@ module.exports = {
   },
   performCheckInBodyWithInvalidVenueId: {
     "venueId": hat()
+  },
+
+  performCheckOutBody: {
+    "isCheckedOut": true
+  },
+  performCheckOutBodyInvalid: {
+    "label": "A new name"
   }
 
 };
