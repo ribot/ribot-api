@@ -97,8 +97,8 @@ var schema = {
     columns: {
       id:                      { type: 'uuid', nullable: false },
       uuid:                    { type: 'uuid', nullable: false },
-      major:                   { type: 'text', nullable: false },
-      minor:                   { type: 'text', nullable: false },
+      major:                   { type: 'integer', nullable: false },
+      minor:                   { type: 'integer', nullable: false },
       zone_id:                 { type: 'uuid', nullable: false, references: { table: 'zone', column: 'id' } },
       created_date:            { type: 'dateTime', nullable: false },
       updated_date:            { type: 'dateTime', nullable: false }

@@ -298,8 +298,8 @@ Exchanges credentials for an access token. If the Google account is valid but th
                       "beacon": {
                         "id": "123",
                         "uuid": "456",
-                        "major": "1000",
-                        "minor": "1000",
+                        "major": 1000,
+                        "minor": 1000,
                         "zone": {
                           "id": "123",
                           "venue": {
@@ -517,11 +517,11 @@ Exchanges credentials for an access token. If the Google account is valid but th
                                     },
                                     "major": {
                                       "title": "Beacon major value",
-                                      "type": "string"
+                                      "type": "integer"
                                     },
                                     "minor": {
                                       "title": "Beacon minor value",
-                                      "type": "string"
+                                      "type": "integer"
                                     },
                                     "zone": {
                                       "title": "Zone the beacon belongs to",
@@ -690,8 +690,8 @@ Returns a collection of all ribots.
                         "beacon": {
                           "id": "123",
                           "uuid": "456",
-                          "major": "1000",
-                          "minor": "1000",
+                          "major": 1000,
+                          "minor": 1000,
                           "zone": {
                             "id": "123",
                             "venue": {
@@ -914,11 +914,11 @@ Returns a collection of all ribots.
                                       },
                                       "major": {
                                         "title": "Beacon major value",
-                                        "type": "string"
+                                        "type": "integer"
                                       },
                                       "minor": {
                                         "title": "Beacon minor value",
-                                        "type": "string"
+                                        "type": "integer"
                                       },
                                       "zone": {
                                         "title": "Zone the beacon belongs to",
@@ -1023,8 +1023,8 @@ To perform a beacon check-in, see the *Beacons* section.
                   "beacon": {
                     "id": "123",
                     "uuid": "456",
-                    "major": "1000",
-                    "minor": "1000",
+                    "major": 1000,
+                    "minor": 1000,
                     "zone": {
                       "id": "123",
                       "venue": {
@@ -1208,11 +1208,11 @@ To perform a beacon check-in, see the *Beacons* section.
                               },
                               "major": {
                                 "title": "Beacon major value",
-                                "type": "string"
+                                "type": "integer"
                               },
                               "minor": {
                                 "title": "Beacon minor value",
-                                "type": "string"
+                                "type": "integer"
                               },
                               "zone": {
                                 "title": "Zone the beacon belongs to",
@@ -1452,8 +1452,8 @@ Retrieves a collection of check-ins in date order.
                     "beacon": {
                       "id": "123",
                       "uuid": "456",
-                      "major": "1000",
-                      "minor": "1000",
+                      "major": 1000,
+                      "minor": 1000,
                       "zone": {
                         "id": "123",
                         "venue": {
@@ -1640,11 +1640,11 @@ Retrieves a collection of check-ins in date order.
                                 },
                                 "major": {
                                   "title": "Beacon major value",
-                                  "type": "string"
+                                  "type": "integer"
                                 },
                                 "minor": {
                                   "title": "Beacon minor value",
-                                  "type": "string"
+                                  "type": "integer"
                                 },
                                 "zone": {
                                   "title": "Zone the beacon belongs to",
@@ -1738,8 +1738,8 @@ A beacon encounter check-in is done via the `POST /beacons/{beaconUuid}/encounte
               {
                 "id": "123",
                 "uuid": "456",
-                "major": "1000",
-                "minor": "1000",
+                "major": 1000,
+                "minor": 1000,
                 "zone": {
                   "id": "123",
                   "label": "Main",
@@ -1752,8 +1752,8 @@ A beacon encounter check-in is done via the `POST /beacons/{beaconUuid}/encounte
               {
                 "id": "123",
                 "uuid": "456",
-                "major": "1000",
-                "minor": "1000",
+                "major": 1000,
+                "minor": 1000,
                 "zone": {
                   "id": "123",
                   "label": "Desks",
@@ -1768,8 +1768,8 @@ A beacon encounter check-in is done via the `POST /beacons/{beaconUuid}/encounte
               {
                 "id": "123",
                 "uuid": "456",
-                "major": "1000",
-                "minor": "1000",
+                "major": 1000,
+                "minor": 1000,
                 "zone": {
                   "id": "123",
                   "label": "Vault",
@@ -1808,11 +1808,11 @@ A beacon encounter check-in is done via the `POST /beacons/{beaconUuid}/encounte
                   },
                   "major": {
                     "title": "Beacon major value",
-                    "type": "string"
+                    "type": "integer"
                   },
                   "minor": {
                     "title": "Beacon minor value",
-                    "type": "string"
+                    "type": "integer"
                   },
                   "zone": {
                     "title": "Zone the beacon belongs to",
@@ -1894,8 +1894,8 @@ A beacon encounter check-in is done via the `POST /beacons/{beaconUuid}/encounte
             {
               "id": "123",
               "uuid": "456",
-              "major": "1000",
-              "minor": "1000",
+              "major": 1000,
+              "minor": 1000,
               "zone": {
                 "id": "123",
                 "label": "Desks",
@@ -1931,11 +1931,11 @@ A beacon encounter check-in is done via the `POST /beacons/{beaconUuid}/encounte
                 },
                 "major": {
                   "title": "Beacon major value",
-                  "type": "string"
+                  "type": "integer"
                 },
                 "minor": {
                   "title": "Beacon minor value",
-                  "type": "string"
+                  "type": "integer"
                 },
                 "zone": {
                   "title": "Zone the beacon belongs to",
@@ -2019,8 +2019,8 @@ A beacon encounter check-in is done via the `POST /beacons/{beaconUuid}/encounte
               "beacon": {
                 "id": "123",
                 "uuid": "456",
-                "major": "1000",
-                "minor": "1000",
+                "major": 1000,
+                "minor": 1000,
                 "zone": {
                   "id": "123",
                   "label": "Desks",
@@ -2085,11 +2085,11 @@ A beacon encounter check-in is done via the `POST /beacons/{beaconUuid}/encounte
                     },
                     "major": {
                       "title": "Beacon major value",
-                      "type": "string"
+                      "type": "integer"
                     },
                     "minor": {
                       "title": "Beacon minor value",
-                      "type": "string"
+                      "type": "integer"
                     },
                     "zone": {
                       "title": "Zone the beacon belongs to",

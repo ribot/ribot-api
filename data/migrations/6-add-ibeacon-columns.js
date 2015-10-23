@@ -14,8 +14,8 @@ var db = require( '../index' ),
 var alterTable = function alterTable( trx ) {
   return trx.schema.table( 'beacon', function( table ) {
     table.uuid( 'uuid' );
-    table.text( 'major' );
-    table.text( 'minor' );
+    table.integer( 'major' );
+    table.integer( 'minor' );
   } );
 };
 
@@ -27,7 +27,7 @@ var alterData = function alterData( trx ) {
   return Beacon.fetchAll( { transacting: trx } )
     .then( function( beacons ) {
       beacons.each( function( beacon ) {
-        return beacon.save( { uuid: beacon.id, major: '1000', minor: '1000' }, { patch: true, transacting: trx } );
+        return beacon.save( { uuid: beacon.id, major: 1, minor: 1 }, { patch: true, transacting: trx } );
       } );
     } );
 };
