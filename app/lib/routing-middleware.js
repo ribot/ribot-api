@@ -13,6 +13,17 @@ var logger = require( './logger' ),
 
 
 /**
+ * Log incoming request to a route
+ */
+var logRequest = function logRequest ( request, response, next ) {
+
+  logger.debug( 'Request: ' + request.method + ' ' + request.url );
+  next();
+
+};
+
+
+/**
  * Redirect URLs with trailing slash
  * eg. /me/ to /me
  */
@@ -127,13 +138,13 @@ var routeNotFound = function routeNotFound( request, response, next ) {
 
   var responseError = new ResponseError( 'notFound' );
   response.status( responseError.statusCode ).send( responseError );
-  logger.error( responseError.stack );
 
 };
 
 
 // Exports
 module.exports = {
+  logRequest: logRequest,
   removeTrailingSlash: removeTrailingSlash,
   isAuthorized: isAuthorized,
   validateBody: validateBody,
