@@ -45,6 +45,9 @@ var init = function init() {
   return db.setupDatabase( schema, migrations ).then( function() {
     var server = app.listen( environment.port, function () {
       logger.debug( 'ribot API listening at %s', environment.baseUrl );
+
+      // Start the workers
+      require( './app/workers' );
     } );
   } )
     .catch( function( error ) {
