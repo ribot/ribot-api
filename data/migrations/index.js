@@ -11,5 +11,6 @@ module.exports = {
   2: require( './2-add-check-in-table' ),
   3: require( './3-add-venue-table' ),
   4: require( './4-add-checkin-venueid-foreign-key' ),
-  5: require( './5-add-beacon-checkin-tables' )
+  5: require( './5-add-beacon-checkin-tables' ),
+  6: require( './6-add-ibeacon-columns' )
 };

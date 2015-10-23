@@ -51,9 +51,9 @@ var seedData = {
   ],
 
   beacon: [
-    { id: uuids[ 5 ], zone_id: uuids[ 0 ], created_date: date, updated_date: date },
-    { id: uuids[ 6 ], zone_id: uuids[ 0 ], created_date: date, updated_date: date },
-    { id: uuids[ 7 ], zone_id: uuids[ 1 ], created_date: date, updated_date: date }
+    { id: uuids[ 5 ], uuid: uuids[ 0 ], major: 1, minor: 1, zone_id: uuids[ 0 ], created_date: date, updated_date: date },
+    { id: uuids[ 6 ], uuid: uuids[ 0 ], major: 1, minor: 2, zone_id: uuids[ 0 ], created_date: date, updated_date: date },
+    { id: uuids[ 7 ], uuid: uuids[ 0 ], major: 2, minor: 1, zone_id: uuids[ 1 ], created_date: date, updated_date: date }
   ],
 
   check_in: [

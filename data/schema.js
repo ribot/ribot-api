@@ -1,4 +1,4 @@
-var version = 5;
+var version = 6;
 
 var schema = {
 
@@ -96,6 +96,9 @@ var schema = {
     primary: 'id',
     columns: {
       id:                      { type: 'uuid', nullable: false },
+      uuid:                    { type: 'uuid', nullable: false },
+      major:                   { type: 'integer', nullable: false },
+      minor:                   { type: 'integer', nullable: false },
       zone_id:                 { type: 'uuid', nullable: false, references: { table: 'zone', column: 'id' } },
       created_date:            { type: 'dateTime', nullable: false },
       updated_date:            { type: 'dateTime', nullable: false }
