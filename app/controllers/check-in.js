@@ -1,6 +1,7 @@
 // External dependencies
 var _ = require( 'lodash' ),
-    Promise = require( 'bluebird' );
+    Promise = require( 'bluebird' ),
+    moment = require( 'moment' );
 
 // Dependencies
 var logger = require( '../lib/logger' ),
@@ -9,6 +10,7 @@ var logger = require( '../lib/logger' ),
     middleware = require( '../lib/routing-middleware' );
     ResponseError = require( '../lib/response-error' ),
     middleware = require( '../lib/routing-middleware' ),
+    CheckIn = require( '../models/check-in' ),
     Venue = require( '../models/venue' );
 
 
@@ -25,6 +27,11 @@ var init = function init() {
   router.get( '/check-ins/:id',
     middleware.isAuthorized,
     requestGetCheckIn );
+
+  router.put( '/check-ins/:checkInId',
+    middleware.isAuthorized,
+    middleware.validateBody,
+    requestPutCheckIn );
 
   router.get( '/check-ins',
     middleware.isAuthorized,
@@ -128,6 +135,42 @@ var requestGetCheckIn = function requestGetCheckIn( request, response, next ) {
 
   response.status( responseError.statusCode );
   response.send( responseError );
+
+};
+
+
+/**
+ * Request PUT /check-in/:checkInId
+ * Responds with the given check-in object that has been modified with the given parameters
+ */
+var requestPutCheckIn = function requestPutCheckIn( request, response, next ) {
+
+  var results = {
+    ribot: request.user.ribot
+  };
+
+  var responseData = CheckIn.findById( request.params.checkInId, { withRelated: [ 'ribot' ] } )
+    .then( function( checkIn ) {
+      // If the checkin requested does not match the user that the access token belongs to deny access with a 404 error
+      if ( checkIn.related( 'ribot' ).id !== request.user.ribot.id ) {
+        throw new ResponseError( 'notFound' );
+      }
+
+      // Ensure that the data the caller is trying to change is only attempting to mark the check-in as checked out. Everything else is unsupported
+      if ( request.body.isCheckedOut !== true ) {
+        throw new ResponseError( 'invalidData' );
+      }
+
+      return checkIn.save( { checkedOutDate: moment() }, { patch: true } );
+    } )
+    .then( function( checkIn ) {
+      results.checkIn = checkIn;
+    } )
+    .then( function() {
+      response.status( 200 ).send( createCheckInResponsePayload( results ) );
+    } );
+
+  handleResponse( response, responseData);
 
 };
 

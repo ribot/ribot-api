@@ -51,6 +51,27 @@ var shared = {
       this.response.body.errors.length.should.eql( 1 );
       this.response.body.errors[0].property.should.eql( 'venueId' );
     } );
+  },
+
+  shouldReturnCheckedOutCheckIn: function shouldReturnCheckedOutCheckIn() {
+    it( 'should return a check-in object that is marked as checked out', function() {
+      this.response.body.isCheckedOut.should.eql( true );
+    } );
+  },
+
+  shouldHaveCheckedOutDateInTheDatabase: function shouldHaveCheckedOutDateInTheDatabase() {
+    it( 'should have a checked out date in the database', function( done ) {
+      helpers.db.fetch( 'check_in', { ribot_id: seed.ribot[ 1 ].id } )
+        .then( function( results ) {
+          results.length.should.eql( 1 );
+          results[ 0 ].should.have.property( 'checked_out_date' );
+          results[ 0 ].checked_out_date.should.not.be.null();
+          done();
+        } )
+        .catch( function( error ) {
+          done( error );
+        } );
+    } );
   }
 
 };

@@ -32,7 +32,8 @@ var seedData = {
   ],
 
   access_token: [
-    { id: uuids[ 0 ], ribot_id: uuids[ 0 ], token: utils.encodeToken( uuids[ 0 ] ), last_used_date: date, created_date: date, updated_date: date }
+    { id: uuids[ 0 ], ribot_id: uuids[ 0 ], token: utils.encodeToken( uuids[ 0 ] ), last_used_date: date, created_date: date, updated_date: date },
+    { id: uuids[ 1 ], ribot_id: uuids[ 1 ], token: utils.encodeToken( uuids[ 1 ] ), last_used_date: date, created_date: date, updated_date: date }
   ],
 
   provider_credential: [
@@ -53,6 +54,10 @@ var seedData = {
     { id: uuids[ 5 ], zone_id: uuids[ 0 ], created_date: date, updated_date: date },
     { id: uuids[ 6 ], zone_id: uuids[ 0 ], created_date: date, updated_date: date },
     { id: uuids[ 7 ], zone_id: uuids[ 1 ], created_date: date, updated_date: date }
+  ],
+
+  check_in: [
+    { id: uuids[ 1 ], ribot_id: uuids[ 1 ], label: 'ribot studio', created_date: date, updated_date: date }
   ]
 
 };
