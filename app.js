@@ -24,6 +24,7 @@ var app = express();
 var init = function init() {
 
   // Setup middleware
+  app.use( middleware.logRequest );
   app.use( middleware.removeTrailingSlash );
   app.use( bodyParser.urlencoded( { extended: true } ) );
   app.use( bodyParser.json() );
@@ -38,7 +39,7 @@ var init = function init() {
   require( './app/controllers' );
 
   // Log the environment
-  logger.info( environment );
+  logger.debug( JSON.stringify( environment ) );
 
   // Ensure the database is set up correctly and then start the server
   return db.setupDatabase( schema, migrations ).then( function() {

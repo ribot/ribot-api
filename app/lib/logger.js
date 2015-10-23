@@ -17,7 +17,6 @@ var init = function init() {
   // Create and array contraining the console logging transport
   var transports = [ new winston.transports.Console( {
     colorize: true,
-    json: true,
     level: environment.logLevel
   } ) ];
 

@@ -14,7 +14,14 @@ brew cask install virtualbox
 brew cask install vagrant
 ```
 
-Once both of these tools are installed, you can start the development environment by running this command from the root of the project:
+Once both of these tools are installed, you need to make sure vagrant has the [Chef](http://chef.io) cookbooks needed to start the VM. Install [Librarian-chef](https://github.com/applicationsonline/librarian-chef) and then install the cookbooks:
+
+```sh
+gem install librarian-chef
+librarian-chef install
+```
+
+Once the download is complete, you can start the development environment by running this command from the root of the project:
 
 ```sh
 vagrant up
@@ -105,7 +112,7 @@ And then run:
 librarian-chef install
 ```
 
-This will download all the cookbooks needed for MongoDB and place them in the `cookbooks` folder. All these changes can be commited to git. Sometimes people choose not to commit the `cookbooks` directory, however we choose to commit this to avoid each developer having to install librarian just to start developing the project.
+This will download all the cookbooks needed for MongoDB and place them in the `cookbooks` folder.
 
 You now need to tell Vagrant to install this recipe when provisoning. Add a new line to the `Vagrantfile` with the name of the new cookbook:
 

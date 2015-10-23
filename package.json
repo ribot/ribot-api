@@ -5,7 +5,7 @@
   "main": "app.js",
   "scripts": {
     "start": "./node_modules/supervisor/lib/cli-wrapper.js --watch app app.js",
-    "test": "env NODE_ENV=test PORT=8988 BASE_URL=http://localhost:8988 LOG_LEVEL=error DATABASE_DEBUG=false DATABASE_URL=postgresql://vagrant@localhost/ribot-api-test multi='xunit=xunit.xml spec=-' node_modules/mocha/bin/mocha"
+    "test": "env NODE_ENV=test PORT=8988 BASE_URL=http://localhost:8988 LOG_LEVEL=error DATABASE_DEBUG=false DATABASE_URL=postgresql://vagrant@localhost/ribot-api-test multi='xunit=test/reports/xunit.xml html-cov=test/reports/coverage.html mocha-cobertura-reporter=test/reports/coverage.xml spec=-' node_modules/mocha/bin/mocha"
   },
   "author": "",
   "license": "ISC",
@@ -38,7 +38,9 @@
     "winston": "^1.0.1"
   },
   "devDependencies": {
+    "blanket": "^1.1.7",
     "mocha": "^2.3.3",
+    "mocha-cobertura-reporter": "Vanuan/mocha-cobertura-reporter#01944d816ce5af3f6391dab072a1d299cd43e72e",
     "mocha-junit-reporter": "^1.6.1",
     "mocha-multi": "^0.7.2",
     "nock": "^2.12.0",
