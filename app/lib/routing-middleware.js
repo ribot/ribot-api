@@ -17,7 +17,8 @@ var logger = require( './logger' ),
  */
 var logRequest = function logRequest ( request, response, next ) {
 
-  logger.debug( 'Request: ' + request.method + ' ' + request.url );
+  var ip = request.headers['x-forwarded-for'] || request.connection.remoteAddress;
+  logger.debug( 'Request: ' + request.method + ' ' + request.url + ' from ' + ip );
   next();
 
 };
