@@ -297,6 +297,9 @@ Exchanges credentials for an access token. If the Google account is valid but th
                       "encounterDate": "2015-10-05T14:48:00.000Z",
                       "beacon": {
                         "id": "123",
+                        "uuid": "456",
+                        "major": "1000",
+                        "minor": "1000",
                         "zone": {
                           "id": "123",
                           "venue": {
@@ -498,11 +501,26 @@ Exchanges credentials for an access token. If the Google account is valid but th
                                   "type": "object",
                                   "required": [
                                     "id",
+                                    "uuid",
+                                    "major",
+                                    "minor",
                                     "zone"
                                   ],
                                   "properties": {
                                     "id": {
+                                      "title": "Beacon's API ID. Unique within the API",
+                                      "type": "string"
+                                    },
+                                    "uuid": {
                                       "title": "Beacon UUID",
+                                      "type": "string"
+                                    },
+                                    "major": {
+                                      "title": "Beacon major value",
+                                      "type": "string"
+                                    },
+                                    "minor": {
+                                      "title": "Beacon minor value",
                                       "type": "string"
                                     },
                                     "zone": {
@@ -671,6 +689,9 @@ Returns a collection of all ribots.
                         "encounterDate": "2015-10-05T14:48:00.000Z",
                         "beacon": {
                           "id": "123",
+                          "uuid": "456",
+                          "major": "1000",
+                          "minor": "1000",
                           "zone": {
                             "id": "123",
                             "venue": {
@@ -877,11 +898,26 @@ Returns a collection of all ribots.
                                     "type": "object",
                                     "required": [
                                       "id",
+                                      "uuid",
+                                      "major",
+                                      "minor",
                                       "zone"
                                     ],
                                     "properties": {
                                       "id": {
+                                        "title": "Beacon's API ID. Unique within the API",
+                                        "type": "string"
+                                      },
+                                      "uuid": {
                                         "title": "Beacon UUID",
+                                        "type": "string"
+                                      },
+                                      "major": {
+                                        "title": "Beacon major value",
+                                        "type": "string"
+                                      },
+                                      "minor": {
+                                        "title": "Beacon minor value",
                                         "type": "string"
                                       },
                                       "zone": {
@@ -986,6 +1022,9 @@ To perform a beacon check-in, see the *Beacons* section.
                   "encounterDate": "2015-10-05T14:48:00.000Z",
                   "beacon": {
                     "id": "123",
+                    "uuid": "456",
+                    "major": "1000",
+                    "minor": "1000",
                     "zone": {
                       "id": "123",
                       "venue": {
@@ -1153,11 +1192,26 @@ To perform a beacon check-in, see the *Beacons* section.
                             "type": "object",
                             "required": [
                               "id",
+                              "uuid",
+                              "major",
+                              "minor",
                               "zone"
                             ],
                             "properties": {
                               "id": {
+                                "title": "Beacon's API ID. Unique within the API",
+                                "type": "string"
+                              },
+                              "uuid": {
                                 "title": "Beacon UUID",
+                                "type": "string"
+                              },
+                              "major": {
+                                "title": "Beacon major value",
+                                "type": "string"
+                              },
+                              "minor": {
+                                "title": "Beacon minor value",
                                 "type": "string"
                               },
                               "zone": {
@@ -1397,6 +1451,9 @@ Retrieves a collection of check-ins in date order.
                     "encounterDate": "2015-10-05T14:48:00.000Z",
                     "beacon": {
                       "id": "123",
+                      "uuid": "456",
+                      "major": "1000",
+                      "minor": "1000",
                       "zone": {
                         "id": "123",
                         "venue": {
@@ -1567,11 +1624,26 @@ Retrieves a collection of check-ins in date order.
                               "type": "object",
                               "required": [
                                 "id",
+                                "uuid",
+                                "major",
+                                "minor",
                                 "zone"
                               ],
                               "properties": {
                                 "id": {
+                                  "title": "Beacon's API ID. Unique within the API",
+                                  "type": "string"
+                                },
+                                "uuid": {
                                   "title": "Beacon UUID",
+                                  "type": "string"
+                                },
+                                "major": {
+                                  "title": "Beacon major value",
+                                  "type": "string"
+                                },
+                                "minor": {
+                                  "title": "Beacon minor value",
                                   "type": "string"
                                 },
                                 "zone": {
@@ -1665,6 +1737,9 @@ A beacon encounter check-in is done via the `POST /beacons/{beaconUuid}/encounte
             [
               {
                 "id": "123",
+                "uuid": "456",
+                "major": "1000",
+                "minor": "1000",
                 "zone": {
                   "id": "123",
                   "label": "Main",
@@ -1676,6 +1751,9 @@ A beacon encounter check-in is done via the `POST /beacons/{beaconUuid}/encounte
               },
               {
                 "id": "123",
+                "uuid": "456",
+                "major": "1000",
+                "minor": "1000",
                 "zone": {
                   "id": "123",
                   "label": "Desks",
@@ -1689,6 +1767,9 @@ A beacon encounter check-in is done via the `POST /beacons/{beaconUuid}/encounte
               },
               {
                 "id": "123",
+                "uuid": "456",
+                "major": "1000",
+                "minor": "1000",
                 "zone": {
                   "id": "123",
                   "label": "Vault",
@@ -1711,11 +1792,26 @@ A beacon encounter check-in is done via the `POST /beacons/{beaconUuid}/encounte
                 "type": "object",
                 "required": [
                   "id",
+                  "uuid",
+                  "major",
+                  "minor",
                   "zone"
                 ],
                 "properties": {
                   "id": {
+                  "title": "Beacon's API ID. Unique within the API",
+                  "type": "string"
+                  },
+                  "uuid": {
                     "title": "Beacon UUID",
+                    "type": "string"
+                  },
+                  "major": {
+                    "title": "Beacon major value",
+                    "type": "string"
+                  },
+                  "minor": {
+                    "title": "Beacon minor value",
                     "type": "string"
                   },
                   "zone": {
@@ -1797,6 +1893,9 @@ A beacon encounter check-in is done via the `POST /beacons/{beaconUuid}/encounte
 
             {
               "id": "123",
+              "uuid": "456",
+              "major": "1000",
+              "minor": "1000",
               "zone": {
                 "id": "123",
                 "label": "Desks",
@@ -1816,11 +1915,26 @@ A beacon encounter check-in is done via the `POST /beacons/{beaconUuid}/encounte
               "type": "object",
               "required": [
                 "id",
+                "uuid",
+                "major",
+                "minor",
                 "zone"
               ],
               "properties": {
                 "id": {
+                  "title": "Beacon's API ID. Unique within the API",
+                  "type": "string"
+                },
+                "uuid": {
                   "title": "Beacon UUID",
+                  "type": "string"
+                },
+                "major": {
+                  "title": "Beacon major value",
+                  "type": "string"
+                },
+                "minor": {
+                  "title": "Beacon minor value",
                   "type": "string"
                 },
                 "zone": {
@@ -1904,6 +2018,9 @@ A beacon encounter check-in is done via the `POST /beacons/{beaconUuid}/encounte
               "encounterDate": "2015-10-05T14:48:00.000Z",
               "beacon": {
                 "id": "123",
+                "uuid": "456",
+                "major": "1000",
+                "minor": "1000",
                 "zone": {
                   "id": "123",
                   "label": "Desks",
@@ -1952,11 +2069,26 @@ A beacon encounter check-in is done via the `POST /beacons/{beaconUuid}/encounte
                   "type": "object",
                   "required": [
                     "id",
+                    "uuid",
+                    "major",
+                    "minor",
                     "zone"
                   ],
                   "properties": {
                     "id": {
+                      "title": "Beacon's API ID. Unique within the API",
+                      "type": "string"
+                    },
+                    "uuid": {
                       "title": "Beacon UUID",
+                      "type": "string"
+                    },
+                    "major": {
+                      "title": "Beacon major value",
+                      "type": "string"
+                    },
+                    "minor": {
+                      "title": "Beacon minor value",
                       "type": "string"
                     },
                     "zone": {
