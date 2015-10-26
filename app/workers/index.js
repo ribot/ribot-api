@@ -11,7 +11,7 @@ var environment = require( '../lib/environment' );
  */
 var init = function init() {
 
-  // Workers are disabled wehn we're testing
+  // Workers are disabled when we're testing
   if ( environment.name === 'test' ) {
     return;
   }

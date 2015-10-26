@@ -1,7 +1,6 @@
 // External dependencies
 var CronJob = require( 'cron' ).CronJob,
-    Promise = require( 'bluebird' ),
-    _ = require( 'lodash' );
+    Promise = require( 'bluebird' );
 
 
 // Dependencies
@@ -19,22 +18,22 @@ var init = function init() {
 
 
 /**
- *
+ * The job to check out all users. Gets all "checked in" checkin's from the DB
+ * and adds a check-out date to them all
  */
 var checkOutJob = function checkOutJob() {
-  return CheckIn.fetchAll()
+  var checkedInQuery = {
+    where: {
+      checked_out_date: null
+    }
+  };
+  return CheckIn.query( checkedInQuery )
+    .fetchAll()
     .then( function( checkIns ) {
       return db.knex.transaction( function( trx ) {
-        var changePromises = checkIns.chain()
-          .map( function( checkIn ) {
-            if ( !checkIn.isCheckedOut ) {
-              return checkIn.checkOut( trx );
-            } else {
-              return null;
-            }
-          } )
-          .compact()
-          .value();
+        var changePromises = checkIns.map( function( checkIn ) {
+          return checkIn.checkOut( trx );
+        } );
 
         return Promise.all( changePromises );
       } )
