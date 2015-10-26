@@ -1,5 +1,6 @@
 // External dependencies
-var _ = require( 'lodash' );
+var _ = require( 'lodash' ),
+    moment = require( 'moment' );
 
 
 // Dependencies
@@ -59,6 +60,15 @@ var CheckIn = BaseModel.extend( {
     return this.related( 'beaconEncounters' ).create( {
       beaconId: beacon.get( 'id' )
     }, {
+      transacting: transaction
+    } );
+  },
+
+  checkOut: function checkOut( transaction ) {
+    return this.save( {
+      checkedOutDate: moment()
+    }, {
+      patch: true,
       transacting: transaction
     } );
   }

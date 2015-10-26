@@ -1,7 +1,6 @@
 // External dependencies
 var _ = require( 'lodash' ),
-    Promise = require( 'bluebird' ),
-    moment = require( 'moment' );
+    Promise = require( 'bluebird' );
 
 // Dependencies
 var logger = require( '../lib/logger' ),
@@ -161,7 +160,7 @@ var requestPutCheckIn = function requestPutCheckIn( request, response, next ) {
         throw new ResponseError( 'invalidData' );
       }
 
-      return checkIn.save( { checkedOutDate: moment() }, { patch: true } );
+      return checkIn.checkOut();
     } )
     .then( function( checkIn ) {
       results.checkIn = checkIn;

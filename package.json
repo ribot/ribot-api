@@ -18,6 +18,7 @@
     "bluebird": "^2.10.1",
     "body-parser": "^1.14.0",
     "bookshelf": "^0.8.2",
+    "cron": "^1.0.9",
     "dependency-graph": "^0.1.0",
     "dotenv": "^1.2.0",
     "express": "^4.13.3",
@@ -47,6 +48,7 @@
     "nodemon": "^1.7.0",
     "should": "^7.1.0",
     "should-promised": "^0.3.1",
-    "supervisor": "^0.9.1"
+    "supervisor": "^0.9.1",
+    "timekeeper": "0.0.5"
   }
 }
