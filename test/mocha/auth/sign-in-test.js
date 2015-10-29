@@ -4,8 +4,7 @@ var http = require( 'http' ),
     should = require( 'should' ),
     _ = require( 'lodash' ),
     fs = require( 'fs' ),
-    BlueprintSchema = require( 'api-blueprint-json-schema' ),
-    hat = require( 'hat' );
+    BlueprintSchema = require( 'api-blueprint-json-schema' );
 
 
 // Dependencies
@@ -13,11 +12,12 @@ var ResponseError = require( '../../../app/lib/response-error' ),
     helpers = require( '../helpers' ),
     fixtures = require( './fixtures' ),
     seed = require( '../../../data/seed' ),
-    shared = require( './shared' );
+    shared = require( './shared' ),
+    utils = require( '../../../app/lib/utils' );
 
 
 // Local variables
-var getValidAuthCode = hat;
+var getValidAuthCode = utils.createUuid;
 
 
 // Start the tests

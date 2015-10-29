@@ -1,6 +1,5 @@
 // External dependencies
-var hat = require( 'hat' ),
-    moment = require( 'moment' );
+var moment = require( 'moment' );
 
 
 // Dependencies
@@ -112,7 +111,7 @@ describe( 'Beacons', function( done ) {
       describe( 'Handle invalid beacon UUID', function() {
 
         before( function( done ) {
-          this.route = this.blueprintRoute.replace( /\{beaconUuid\}/g, hat() );
+          this.route = this.blueprintRoute.replace( /\{beaconUuid\}/g, utils.createUuid() );
 
           // Set up db tables and seed
           helpers.db.setupForTests()
@@ -208,7 +207,7 @@ describe( 'Beacons', function( done ) {
       describe( 'Handle invalid beacon UUID', function() {
 
         before( function( done ) {
-          this.route = this.blueprintRoute.replace( /\{beaconUuid\}/g, hat() );
+          this.route = this.blueprintRoute.replace( /\{beaconUuid\}/g, utils.createUuid() );
 
           // Set up db tables and seed
           helpers.db.setupForTests()

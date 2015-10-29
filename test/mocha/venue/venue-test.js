@@ -1,5 +1,4 @@
 // External dependencies
-var hat = require( 'hat' );
 
 
 // Dependencies
@@ -133,7 +132,7 @@ describe( 'Venue collections', function( done ) {
         before( function( done ) {
           // Needed for blueprint validation
           this.blueprintRoute = '/venues/{venueId}';
-          this.route = this.blueprintRoute.replace( /\{venueId\}/g, hat() );
+          this.route = this.blueprintRoute.replace( /\{venueId\}/g, utils.createUuid() );
           this.method = 'get';
 
           // Set up scope for assertions

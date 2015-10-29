@@ -1,5 +1,4 @@
 // External dependencies
-var hat = require( 'hat' );
 
 
 // Dependencies
@@ -228,7 +227,7 @@ describe( 'Check-in', function( done ) {
     describe( 'Handle unknown check-in ID', function() {
 
       before( function( done ) {
-        this.route = this.blueprintRoute.replace( /\{checkInId\}/g, hat() );
+        this.route = this.blueprintRoute.replace( /\{checkInId\}/g, utils.createUuid() );
 
         // Set up db tables and seed
         helpers.db.setupForTests()

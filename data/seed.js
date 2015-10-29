@@ -1,6 +1,5 @@
 // External Dependencies
-var hat = require( 'hat' ),
-    moment = require( 'moment' ),
+var moment = require( 'moment' ),
     _ = require( 'lodash' ),
     jwt = require( 'jwt-simple' );
 
@@ -21,7 +20,7 @@ var logger = require( '../app/lib/logger' ),
 var date = moment().format(),
     futureDate = moment().add( 1, 'years' ),
     uuids = _.times( 20, function() {
-      return hat();
+      return utils.createUuid();
     } );
 
 var seedData = {

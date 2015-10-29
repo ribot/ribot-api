@@ -1,6 +1,5 @@
 // External dependencies
 var _ = require( 'lodash' ),
-    hat = require( 'hat' ),
     Promise = require( 'bluebird' ),
     validator = require( 'validator' ),
     validate = require( 'validate.js' );
@@ -92,9 +91,7 @@ var BaseModel = db.bookshelf.Model.extend( {
    * Generate 32-char UUID
    */
   generateId: function generateId( model ) {
-    var uuid = hat();
-
-    model.set( 'id', uuid );
+    model.set( 'id', utils.createUuid() );
 
     return model;
   },
@@ -253,9 +250,6 @@ var BaseModel = db.bookshelf.Model.extend( {
           if ( value !== null ) {
             value = utils.formatDateTime( value );
           }
-        }
-        if ( type == 'uuid' ) {
-          value = utils.formatId( value );
         }
       }
 

@@ -1,6 +1,5 @@
 // External dependencies
-var hat = require( 'hat' ),
-    Promise = require( 'bluebird' ),
+var Promise = require( 'bluebird' ),
     _ = require( 'lodash' );
 
 
@@ -79,7 +78,7 @@ var AccessToken = BaseModel.extend( {
 
   setPropertiesBeforeCreate: function setPropertiesBeforeCreate( model, attributes, options ) {
     var date = new Date(),
-        accessToken = hat();
+        accessToken = utils.createUuid();
 
     model.set( 'token', accessToken );
     model.set( 'lastUsedDate', date );
