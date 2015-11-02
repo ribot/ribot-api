@@ -187,15 +187,6 @@ var helpers = {
    */
   isValidDate: function( date ) {
     return moment( date, [ 'ddd, DD MMM YYYY HH:mm:ss ZZ' ] ).isValid();
-  },
-
-  formatIds: function ( collection, keys ) {
-    return _.map( collection, function( item ) {
-      _.each( keys, function( key ) {
-        item[ key ] = item[ key ].replace( /-/g, '' );
-      } );
-      return item;
-    } );
   }
 
 };

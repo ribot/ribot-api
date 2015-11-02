@@ -1,5 +1,5 @@
 // Dependencies
-var hat = require( 'hat' ),
+var utils = require( '../../../app/lib/utils' ),
     seed = require( '../../../data/seed' );
 
 
@@ -56,7 +56,7 @@ module.exports = {
     "venueId": seed.venue[0].id
   },
   performCheckInBodyWithInvalidVenueId: {
-    "venueId": hat()
+    "venueId": utils.createUuid()
   },
 
   performCheckOutBody: {

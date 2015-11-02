@@ -1,6 +1,5 @@
 // External dependencies
-var hat = require( 'hat' ),
-    Promise = require( 'bluebird' );
+var Promise = require( 'bluebird' );
 
 // Dependencies
 var seed = require( '../../../data/seed' ),
@@ -225,7 +224,7 @@ var fullRibotRoutesTestSuite = function fullRibotRoutesTestSuite( expectSomeChec
       before( function( done ) {
         // Needed for blueprint validation
         this.blueprintRoute = '/ribots/{ribotId}';
-        this.route = this.blueprintRoute.replace( /\{ribotId\}/g, hat() );
+        this.route = this.blueprintRoute.replace( /\{ribotId\}/g, utils.createUuid() );
         this.method = 'get';
 
         // Set up scope for assertions

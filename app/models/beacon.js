@@ -39,6 +39,9 @@ var Beacon = BaseModel.extend( {
     },
     zoneId: {
       uuid: true
+    },
+    uuid: {
+      uuid: true
     }
   }
 

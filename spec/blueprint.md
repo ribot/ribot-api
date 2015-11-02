@@ -297,7 +297,7 @@ Exchanges credentials for an access token. If the Google account is valid but th
                       "encounterDate": "2015-10-05T14:48:00.000Z",
                       "beacon": {
                         "id": "123",
-                        "uuid": "456",
+                        "uuid": "55dfb0b2-13ae-4d24-90e1-596181a87162",
                         "major": 1000,
                         "minor": 1000,
                         "zone": {
@@ -513,7 +513,8 @@ Exchanges credentials for an access token. If the Google account is valid but th
                                     },
                                     "uuid": {
                                       "title": "Beacon UUID",
-                                      "type": "string"
+                                      "type": "string",
+                                      "pattern": "[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}"
                                     },
                                     "major": {
                                       "title": "Beacon major value",
@@ -689,7 +690,7 @@ Returns a collection of all ribots.
                         "encounterDate": "2015-10-05T14:48:00.000Z",
                         "beacon": {
                           "id": "123",
-                          "uuid": "456",
+                          "uuid": "55dfb0b2-13ae-4d24-90e1-596181a87162",
                           "major": 1000,
                           "minor": 1000,
                           "zone": {
@@ -910,7 +911,8 @@ Returns a collection of all ribots.
                                       },
                                       "uuid": {
                                         "title": "Beacon UUID",
-                                        "type": "string"
+                                        "type": "string",
+                                        "pattern": "[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}"
                                       },
                                       "major": {
                                         "title": "Beacon major value",
@@ -1022,7 +1024,7 @@ To perform a beacon check-in, see the *Beacons* section.
                   "encounterDate": "2015-10-05T14:48:00.000Z",
                   "beacon": {
                     "id": "123",
-                    "uuid": "456",
+                    "uuid": "55dfb0b2-13ae-4d24-90e1-596181a87162",
                     "major": 1000,
                     "minor": 1000,
                     "zone": {
@@ -1204,7 +1206,8 @@ To perform a beacon check-in, see the *Beacons* section.
                               },
                               "uuid": {
                                 "title": "Beacon UUID",
-                                "type": "string"
+                                "type": "string",
+                                "pattern": "[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}"
                               },
                               "major": {
                                 "title": "Beacon major value",
@@ -1451,7 +1454,7 @@ Retrieves a collection of check-ins in date order.
                     "encounterDate": "2015-10-05T14:48:00.000Z",
                     "beacon": {
                       "id": "123",
-                      "uuid": "456",
+                      "uuid": "55dfb0b2-13ae-4d24-90e1-596181a87162",
                       "major": 1000,
                       "minor": 1000,
                       "zone": {
@@ -1636,7 +1639,8 @@ Retrieves a collection of check-ins in date order.
                                 },
                                 "uuid": {
                                   "title": "Beacon UUID",
-                                  "type": "string"
+                                  "type": "string",
+                                  "pattern": "[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}"
                                 },
                                 "major": {
                                   "title": "Beacon major value",
@@ -1737,7 +1741,7 @@ A beacon encounter check-in is done via the `POST /beacons/{beaconUuid}/encounte
             [
               {
                 "id": "123",
-                "uuid": "456",
+                "uuid": "55dfb0b2-13ae-4d24-90e1-596181a87162",
                 "major": 1000,
                 "minor": 1000,
                 "zone": {
@@ -1751,7 +1755,7 @@ A beacon encounter check-in is done via the `POST /beacons/{beaconUuid}/encounte
               },
               {
                 "id": "123",
-                "uuid": "456",
+                "uuid": "55dfb0b2-13ae-4d24-90e1-596181a87162",
                 "major": 1000,
                 "minor": 1000,
                 "zone": {
@@ -1767,7 +1771,7 @@ A beacon encounter check-in is done via the `POST /beacons/{beaconUuid}/encounte
               },
               {
                 "id": "123",
-                "uuid": "456",
+                "uuid": "55dfb0b2-13ae-4d24-90e1-596181a87162",
                 "major": 1000,
                 "minor": 1000,
                 "zone": {
@@ -1804,7 +1808,8 @@ A beacon encounter check-in is done via the `POST /beacons/{beaconUuid}/encounte
                   },
                   "uuid": {
                     "title": "Beacon UUID",
-                    "type": "string"
+                    "type": "string",
+                    "pattern": "[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}"
                   },
                   "major": {
                     "title": "Beacon major value",
@@ -1893,7 +1898,7 @@ A beacon encounter check-in is done via the `POST /beacons/{beaconUuid}/encounte
 
             {
               "id": "123",
-              "uuid": "456",
+              "uuid": "55dfb0b2-13ae-4d24-90e1-596181a87162",
               "major": 1000,
               "minor": 1000,
               "zone": {
@@ -1927,7 +1932,8 @@ A beacon encounter check-in is done via the `POST /beacons/{beaconUuid}/encounte
                 },
                 "uuid": {
                   "title": "Beacon UUID",
-                  "type": "string"
+                  "type": "string",
+                  "pattern": "[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}"
                 },
                 "major": {
                   "title": "Beacon major value",
@@ -2018,7 +2024,7 @@ A beacon encounter check-in is done via the `POST /beacons/{beaconUuid}/encounte
               "encounterDate": "2015-10-05T14:48:00.000Z",
               "beacon": {
                 "id": "123",
-                "uuid": "456",
+                "uuid": "55dfb0b2-13ae-4d24-90e1-596181a87162",
                 "major": 1000,
                 "minor": 1000,
                 "zone": {
@@ -2081,7 +2087,8 @@ A beacon encounter check-in is done via the `POST /beacons/{beaconUuid}/encounte
                     },
                     "uuid": {
                       "title": "Beacon UUID",
-                      "type": "string"
+                      "type": "string",
+                      "pattern": "[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}"
                     },
                     "major": {
                       "title": "Beacon major value",

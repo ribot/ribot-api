@@ -6,7 +6,8 @@ var _ = require( 'lodash' ),
     validate = require( 'validate.js' ),
     validator = require( 'validator' ),
     moment = require( 'moment' ),
-    jwt = require( 'jwt-simple' );
+    jwt = require( 'jwt-simple' ),
+    uuid = require( 'node-uuid' );
 
 
 // Dependencies
@@ -35,7 +36,7 @@ var init = function init() {
 
   // Custom UUID validator
   validate.validators.uuid = function uuidValidator( value, options, key, attributes ) {
-    if ( value && !/^[a-f0-9]{32}$/.test( value ) && !validator.isUUID( value ) ) {
+    if ( value && !/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/.test( value ) && !validator.isUUID( value ) ) {
       return 'is not a valid UUID';
     }
   };
@@ -68,15 +69,6 @@ var init = function init() {
     }
   };
 
-};
-
-
-/**
- * Format ID
- * Strips dashes from UUID
- */
-var formatId = function formatId( uuid ) {
-  return uuid.replace( /-/g, '' );
 };
 
 
@@ -125,16 +117,24 @@ var decodeToken = function decodeToken( token ) {
 };
 
 
+/**
+ * Generate a UUID
+ */
+var createUuid = function createUuid() {
+  return uuid.v4();
+};
+
+
 // Initialise
 init();
 
 
 // Exports
 module.exports = {
-  formatId: formatId,
   formatDate: formatDate,
   formatDateTime: formatDateTime,
   promisify: promisify,
   encodeToken: encodeToken,
-  decodeToken: decodeToken
+  decodeToken: decodeToken,
+  createUuid: createUuid
 };
