@@ -64,7 +64,6 @@ var createBeaconEncounterPayload = function createBeaconEncounterPayload( beacon
  * Respond with collection of all beacons
  */
 var requestGetBeaconCollection = function requestGetBeaconCollection( request, response, next ) {
-
   var responseData = Beacon.collection().fetch( {
     withRelated: [ 'zone', 'zone.venue' ]
   } )

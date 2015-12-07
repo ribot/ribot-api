@@ -55,7 +55,7 @@ var fullRibotRoutesTestSuite = function fullRibotRoutesTestSuite( expectSomeChec
             method: this.method,
             route: this.route,
             headers: {
-              'Authorization': 'Bearer ' + utils.decodeToken( seed.access_token[0].token )
+              'Authorization': 'Bearer ' + helpers.signJwt( seed.access_token[ 0 ] )
             }
           }, done );
         } );
@@ -79,7 +79,7 @@ var fullRibotRoutesTestSuite = function fullRibotRoutesTestSuite( expectSomeChec
               embed: 'checkins'
             },
             headers: {
-              'Authorization': 'Bearer ' + utils.decodeToken( seed.access_token[0].token )
+              'Authorization': 'Bearer ' + helpers.signJwt( seed.access_token[ 0 ] )
             }
           }, done );
         } );
@@ -169,7 +169,7 @@ var fullRibotRoutesTestSuite = function fullRibotRoutesTestSuite( expectSomeChec
             },
             route: this.route,
             headers: {
-              'Authorization': 'Bearer ' + utils.decodeToken( seed.access_token[0].token )
+              'Authorization': 'Bearer ' + helpers.signJwt( seed.access_token[ 0 ] )
             }
           }, done );
         } );
@@ -290,7 +290,7 @@ var fullRibotRoutesTestSuite = function fullRibotRoutesTestSuite( expectSomeChec
             },
             route: this.route,
             headers: {
-              'Authorization': 'Bearer ' + utils.decodeToken( seed.access_token[0].token )
+              'Authorization': 'Bearer ' + helpers.signJwt( seed.access_token[ 0 ] )
             }
           }, done );
         } );
@@ -345,7 +345,7 @@ describe( 'ribot collection', function( done ) {
               method: 'post',
               route: '/check-ins',
               headers: {
-                'Authorization': 'Bearer ' + utils.decodeToken( seed.access_token[0].token )
+                'Authorization': 'Bearer ' + helpers.signJwt( seed.access_token[ 0 ] )
               },
               body: {
                 label: 'Home'
@@ -364,7 +364,7 @@ describe( 'ribot collection', function( done ) {
             method: 'post',
             route: '/check-ins',
             headers: {
-              'Authorization': 'Bearer ' + utils.decodeToken( seed.access_token[0].token )
+              'Authorization': 'Bearer ' + helpers.signJwt( seed.access_token[ 0 ] )
             },
             body: {
               venueId: seed.venue[0].id
@@ -388,7 +388,7 @@ describe( 'ribot collection', function( done ) {
               method: 'post',
               route: '/beacons/' + seed.beacon[ 0 ].id + '/encounters',
               headers: {
-                'Authorization': 'Bearer ' + utils.decodeToken( seed.access_token[0].token )
+                'Authorization': 'Bearer ' + helpers.signJwt( seed.access_token[ 0 ] )
               }
             }, function( err ) {
               if ( err ) {
@@ -404,7 +404,7 @@ describe( 'ribot collection', function( done ) {
             method: 'post',
             route: '/check-ins',
             headers: {
-              'Authorization': 'Bearer ' + utils.decodeToken( seed.access_token[0].token )
+              'Authorization': 'Bearer ' + helpers.signJwt( seed.access_token[ 0 ] )
             },
             body: {
               venueId: seed.venue[0].id
