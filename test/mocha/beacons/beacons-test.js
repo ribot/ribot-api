@@ -1,6 +1,5 @@
 // External dependencies
-var moment = require( 'moment' ),
-jwt = require( 'jsonwebtoken' );
+var moment = require( 'moment' );
 
 
 // Dependencies

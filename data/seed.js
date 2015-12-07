@@ -1,7 +1,6 @@
 // External Dependencies
 var moment = require( 'moment' ),
-    _ = require( 'lodash' ),
-    jwt = require( 'jwt-simple' );
+    _ = require( 'lodash' );
 
 
 // Dependencies
