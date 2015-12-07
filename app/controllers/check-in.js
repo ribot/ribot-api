@@ -2,6 +2,7 @@
 var _ = require( 'lodash' ),
     Promise = require( 'bluebird' );
 
+
 // Dependencies
 var logger = require( '../lib/logger' ),
     router = require( '../lib/router' ),
@@ -20,20 +21,24 @@ var init = function init() {
 
   router.post( '/check-ins',
     middleware.isAuthorized,
+    middleware.requireScopes( [ 'checkIn', 'user' ] ),
     middleware.validateBody,
     requestPostCheckIn );
 
   router.get( '/check-ins/:id',
     middleware.isAuthorized,
+    middleware.requireScopes( [ 'checkIn' ] ),
     requestGetCheckIn );
 
   router.put( '/check-ins/:checkInId',
     middleware.isAuthorized,
+    middleware.requireScopes( [ 'checkIn', 'user' ] ),
     middleware.validateBody,
     requestPutCheckIn );
 
   router.get( '/check-ins',
     middleware.isAuthorized,
+    middleware.requireScopes( [ 'checkIn' ] ),
     requestGetCheckInCollection );
 
 };
@@ -125,7 +130,7 @@ var requestPostCheckIn = function requestPostCheckIn( request, response, next ) 
 
 
 /**
- * Request GET /check-in/:id
+ * Request GET /check-ins/:id
  * Responds with the given check-in object
  */
 var requestGetCheckIn = function requestGetCheckIn( request, response, next ) {
@@ -139,7 +144,7 @@ var requestGetCheckIn = function requestGetCheckIn( request, response, next ) {
 
 
 /**
- * Request PUT /check-in/:checkInId
+ * Request PUT /check-ins/:checkInId
  * Responds with the given check-in object that has been modified with the given parameters
  */
 var requestPutCheckIn = function requestPutCheckIn( request, response, next ) {
@@ -175,7 +180,7 @@ var requestPutCheckIn = function requestPutCheckIn( request, response, next ) {
 
 
 /**
- * Request GET /check-in
+ * Request GET /check-ins
  * Receive search parameters and responds with the check-in objects that match
  */
 var requestGetCheckInCollection = function requestGetCheckInCollection( request, response, next ) {

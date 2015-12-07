@@ -142,11 +142,30 @@ var routeNotFound = function routeNotFound( request, response, next ) {
 };
 
 
+/**
+ * Require scopes
+ */
+var requireScopes = function requireScopesSetup( requiredScopes ) {
+  var scopes = requiredScopes;
+  return function requireScopes( request, response, next ) {
+    var responseError;
+
+    if ( request.user.consumer.hasScopes( scopes ) ) {
+      next();
+    } else {
+      responseError = new ResponseError( 'forbidden' );
+      response.status( responseError.statusCode ).send( responseError );
+    }
+  };
+}
+
+
 // Exports
 module.exports = {
   logRequest: logRequest,
   removeTrailingSlash: removeTrailingSlash,
   isAuthorized: isAuthorized,
   validateBody: validateBody,
-  routeNotFound: routeNotFound
+  routeNotFound: routeNotFound,
+  requireScopes: requireScopes
 };

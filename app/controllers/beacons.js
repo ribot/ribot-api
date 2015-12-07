@@ -2,6 +2,7 @@
 var _ = require( 'lodash' ),
     Promise = require( 'bluebird' );
 
+
 // Dependencies
 var logger = require( '../lib/logger' ),
     router = require( '../lib/router' ),
@@ -28,6 +29,7 @@ var init = function init() {
 
   router.post( '/beacons/:beaconId/encounters',
     middleware.isAuthorized,
+    middleware.requireScopes( 'user' ),
     requestPostBeaconEncounter );
 
 };
@@ -99,7 +101,7 @@ var requestGetBeacon = function requestGetBeacon( request, response, next ) {
 
 
 /**
- * Request POST /beacons/:beaconId/enconters
+ * Request POST /beacons/:beaconId/encounters
  * Respond with collection of all beacons
  */
 var requestPostBeaconEncounter = function requestPostBeaconEncounter( request, response, next ) {

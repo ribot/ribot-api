@@ -74,7 +74,7 @@ var Consumer = BaseModel.extend( {
   hasScopes: function hasScopes( requiredScopes ) {
     var scopes = this.get( 'scopes' );
 
-    if ( !_.isString( requiredScopes ) ) {
+    if ( _.isString( requiredScopes ) ) {
       requiredScopes = [ requiredScopes ];
     }
 

@@ -33,6 +33,7 @@ var init = function init() {
 
   router.get( '/ribots/me',
     middleware.isAuthorized,
+    middleware.requireScopes( 'user' ),
     requestGetAuthenticatedRibot );
 
   router.get( '/ribots/:ribotId',

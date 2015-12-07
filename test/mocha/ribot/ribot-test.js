@@ -23,6 +23,29 @@ var fullRibotRoutesTestSuite = function fullRibotRoutesTestSuite( expectSomeChec
       this.method = 'get';
     } );
 
+    describe( 'Handle consumer without the required scope permissions', function() {
+
+      before( function( done ) {
+        // Set up scope for assertions
+        this.expectedStatusCode = 403;
+        this.expectedError = new ResponseError( 'forbidden' );
+
+        // Make request
+        helpers.request.bind( this )( {
+          method: this.method,
+          route: this.route,
+          headers: {
+            'Authorization': 'Bearer ' + helpers.signJwt( seed.access_token[ 0 ], seed.consumer[ 1 ] )
+          }
+        }, done );
+      } );
+
+      shared.shouldRespondWithCorrectStatusCode();
+      shared.shouldRespondWithCorrectError();
+      shared.shouldReturnValidErrorSchema();
+
+    } );
+
     describe( 'Handle invalid access token', function() {
 
       before( function( done ) {
