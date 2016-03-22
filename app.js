@@ -1,7 +1,8 @@
 // External dependencies
 var express = require( 'express' ),
     bodyParser = require( 'body-parser' ),
-    passport = require( 'passport' );
+    passport = require( 'passport' ),
+    cors = require( 'cors' );
 
 
 // Dependencies
@@ -26,6 +27,7 @@ var init = function init() {
   // Setup middleware
   app.use( middleware.logRequest );
   app.use( middleware.removeTrailingSlash );
+  app.use( cors() );
   app.use( bodyParser.urlencoded( { extended: true } ) );
   app.use( bodyParser.json() );
   app.use( passport.initialize() );
