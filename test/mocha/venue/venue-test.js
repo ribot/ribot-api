@@ -59,7 +59,7 @@ describe( 'Venue collections', function( done ) {
           method: this.method,
           route: this.route,
           headers: {
-            'Authorization': 'Bearer ' + utils.decodeToken( seed.access_token[0].token )
+            'Authorization': 'Bearer ' + helpers.signJwt( seed.access_token[ 0 ] )
           }
         }, done );
       } );
@@ -117,7 +117,7 @@ describe( 'Venue collections', function( done ) {
             method: this.method,
             route: this.route,
             headers: {
-              'Authorization': 'Bearer ' + utils.decodeToken( seed.access_token[0].token )
+              'Authorization': 'Bearer ' + helpers.signJwt( seed.access_token[ 0 ] )
             }
           }, done );
         } );
@@ -144,7 +144,7 @@ describe( 'Venue collections', function( done ) {
             method: this.method,
             route: this.route,
             headers: {
-                'Authorization': 'Bearer ' + utils.decodeToken( seed.access_token[0].token )
+                'Authorization': 'Bearer ' + helpers.signJwt( seed.access_token[ 0 ] )
               }
           }, done );
         } );

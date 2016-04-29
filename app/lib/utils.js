@@ -6,7 +6,7 @@ var _ = require( 'lodash' ),
     validate = require( 'validate.js' ),
     validator = require( 'validator' ),
     moment = require( 'moment' ),
-    jwt = require( 'jwt-simple' ),
+    jwt = require( 'jsonwebtoken' ),
     uuid = require( 'node-uuid' );
 
 
@@ -103,8 +103,8 @@ var promisify = function promisify( obj ) {
  * Encodes a given payload (objects/arrays will be JSON stringified)
  */
 var encodeToken = function encodeToken( payload ) {
-  var token = jwt.encode( payload, environment.jwtSecret );
-  return token;
+  var signedToken = jwt.sign( payload, environment.jwtSecret );
+  return signedToken;
 };
 
 
@@ -112,8 +112,10 @@ var encodeToken = function encodeToken( payload ) {
  * Decodes a token back into a payload
  */
 var decodeToken = function decodeToken( token ) {
-  var decoded = jwt.decode( token, environment.jwtSecret );
-  return decoded;
+  var decodedToken = jwt.verify( token, environment.jwtSecret, {
+    ignoreExpiration: true
+  } );
+  return decodedToken;
 };
 
 

@@ -3,6 +3,7 @@ require( './access-token' );
 require( './beacon' );
 require( './beacon-encounter' );
 require( './check-in' );
+require( './consumer' );
 require( './ribot' );
 require( './provider-credential' );
 require( './zone' );

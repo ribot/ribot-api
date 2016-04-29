@@ -49,7 +49,7 @@ var testWithValidAndInvalidAccessTokensAndBody = function testWithValidAndInvali
             method: this.method,
             route: this.route,
             headers: {
-              'Authorization': 'Bearer ' + utils.decodeToken( seed.access_token[0].token )
+              'Authorization': 'Bearer ' + helpers.signJwt( seed.access_token[ 0 ] )
             },
             body: requestBody
           }, done );
@@ -82,7 +82,7 @@ var testInvalidDataErrorWithBody = function testInvalidDataErrorWithBody( reques
           method: this.method,
           route: this.route,
           headers: {
-            'Authorization': 'Bearer ' + utils.decodeToken( seed.access_token[0].token )
+            'Authorization': 'Bearer ' + helpers.signJwt( seed.access_token[ 0 ] )
           },
           body: requestBody
         }, done );
@@ -109,11 +109,34 @@ describe( 'Check-in', function( done ) {
 
     } );
 
+    describe( 'Handle consumer without the required scope permissions', function() {
+
+      before( function( done ) {
+        // Set up scope for assertions
+        this.expectedStatusCode = 403;
+        this.expectedError = new ResponseError( 'forbidden' );
+
+        // Make request
+        helpers.request.bind( this )( {
+          method: this.method,
+          route: this.route,
+          headers: {
+            'Authorization': 'Bearer ' + helpers.signJwt( seed.access_token[ 0 ], seed.consumer[ 2 ] )
+          }
+        }, done );
+      } );
+
+      shared.shouldRespondWithCorrectStatusCode();
+      shared.shouldRespondWithCorrectError();
+      shared.shouldReturnValidErrorSchema();
+
+    } );
+
     describe( 'Handle with just label', function( done ) {
       testWithValidAndInvalidAccessTokensAndBody( fixtures.performCheckInBodyWithLabel );
     } );
 
-    describe( 'Hanel with label and coordinates', function( done ) {
+    describe( 'Handle with label and coordinates', function( done ) {
       testWithValidAndInvalidAccessTokensAndBody( fixtures.performCheckInBodyWithAndLocation );
     } );
 
@@ -125,27 +148,27 @@ describe( 'Check-in', function( done ) {
 
       describe( 'Handle only latitude', function( done ) {
         testInvalidDataErrorWithBody( fixtures.performCheckInBodyOnlyLatitude );
-      });
+      } );
 
       describe( 'Handle only longitude', function( done ) {
         testInvalidDataErrorWithBody( fixtures.performCheckInBodyOnlyLongitude );
-      });
+      } );
 
       describe( 'Handle invalid latitude (low)', function( done ) {
         testInvalidDataErrorWithBody( fixtures.performCheckInBodyInvalidLatitudeLow );
-      });
+      } );
 
       describe( 'Handle invalid latitude (high)', function( done ) {
         testInvalidDataErrorWithBody( fixtures.performCheckInBodyInvalidLatitudeHigh );
-      });
+      } );
 
       describe( 'Handle invalid longitude (low)', function( done ) {
         testInvalidDataErrorWithBody( fixtures.performCheckInBodyInvalidLongitudeLow );
-      });
+      } );
 
       describe( 'Handle invalid longitude (high)', function( done ) {
         testInvalidDataErrorWithBody( fixtures.performCheckInBodyInvalidLongitudeHigh );
-      });
+      } );
 
     } );
 
@@ -171,7 +194,7 @@ describe( 'Check-in', function( done ) {
               method: this.method,
               route: this.route,
               headers: {
-                'Authorization': 'Bearer ' + utils.decodeToken( seed.access_token[0].token )
+                'Authorization': 'Bearer ' + helpers.signJwt( seed.access_token[ 0 ] )
               },
               body: fixtures.performCheckInBodyWithInvalidVenueId
             }, done );
@@ -193,6 +216,36 @@ describe( 'Check-in', function( done ) {
 
       this.blueprintRoute = '/check-ins/{checkInId}';
       this.method = 'put';
+
+    } );
+
+    describe( 'Handle consumer without the required scope permissions', function() {
+
+      before( function( done ) {
+        this.route = this.blueprintRoute.replace( /\{checkInId\}/g, seed.check_in[ 0 ].id );
+
+        // Set up db tables and seed
+        helpers.db.setupForTests()
+          .then( function() {
+            // Set up scope for assertions
+            this.expectedStatusCode = 403;
+            this.expectedError = new ResponseError( 'forbidden' );
+
+            // Make request
+            helpers.request.bind( this )( {
+              method: this.method,
+              route: this.route,
+              headers: {
+                'Authorization': 'Bearer ' + helpers.signJwt( seed.access_token[ 0 ], seed.consumer[ 2 ] )
+              }
+            }, done );
+          }.bind( this ) );
+
+      } );
+
+      shared.shouldRespondWithCorrectStatusCode();
+      shared.shouldRespondWithCorrectError();
+      shared.shouldReturnValidErrorSchema();
 
     } );
 
@@ -241,7 +294,7 @@ describe( 'Check-in', function( done ) {
               method: this.method,
               route: this.route,
               headers: {
-                'Authorization': 'Bearer ' + utils.decodeToken( seed.access_token[ 1 ].token )
+                'Authorization': 'Bearer ' + helpers.signJwt( seed.access_token[ 0 ] )
               },
               body: fixtures.performCheckOutBody
             }, done );
@@ -272,7 +325,7 @@ describe( 'Check-in', function( done ) {
               method: this.method,
               route: this.route,
               headers: {
-                'Authorization': 'Bearer ' + utils.decodeToken( seed.access_token[ 0 ].token )
+                'Authorization': 'Bearer ' + helpers.signJwt( seed.access_token[ 0 ] )
               },
               body: fixtures.performCheckOutBody
             }, done );
@@ -303,7 +356,7 @@ describe( 'Check-in', function( done ) {
               method: this.method,
               route: this.route,
               headers: {
-                'Authorization': 'Bearer ' + utils.decodeToken( seed.access_token[ 1 ].token )
+                'Authorization': 'Bearer ' + helpers.signJwt( seed.access_token[ 1 ] )
               },
               body: fixtures.performCheckOutBodyInvalid
             }, done );
@@ -332,7 +385,7 @@ describe( 'Check-in', function( done ) {
               method: this.method,
               route: this.route,
               headers: {
-                'Authorization': 'Bearer ' + utils.decodeToken( seed.access_token[ 1 ].token )
+                'Authorization': 'Bearer ' + helpers.signJwt( seed.access_token[ 1 ] )
               },
               body: fixtures.performCheckOutBody
             }, done );

@@ -1,7 +1,6 @@
 // External Dependencies
 var moment = require( 'moment' ),
-    _ = require( 'lodash' ),
-    jwt = require( 'jwt-simple' );
+    _ = require( 'lodash' );
 
 
 // Dependencies
@@ -23,7 +22,14 @@ var date = moment().format(),
       return utils.createUuid();
     } );
 
+
 var seedData = {
+
+  consumer: [
+    { id: uuids[ 0 ], name: 'Test app', scope_list: 'user checkIn', secret: utils.encodeToken( uuids[ 0 ] ), created_date: date, updated_date: date },
+    { id: uuids[ 1 ], name: 'Test app 2', scope_list: 'checkIn', secret: utils.encodeToken( uuids[ 1 ] ), created_date: date, updated_date: date },
+    { id: uuids[ 2 ], name: 'Test app 3', scope_list: '', secret: utils.encodeToken( uuids[ 2 ] ), created_date: date, updated_date: date }
+  ],
 
   ribot: [
     { id: uuids[ 0 ], first_name: 'Robert', last_name: 'Douglas', email: 'rob@douglas.com', date_of_birth: '1970-01-01', avatar: 'http://exmaple.com/avatar.png', hex_color: '#C0FFEE', is_authenticated: true, created_date: date, updated_date: date },

@@ -2,7 +2,7 @@ Vagrant.configure("2") do |config|
   config.vm.box = "ubuntu/trusty64"
 
   config.vm.network "private_network", type: "dhcp"
-  config.vm.network "forwarded_port", guest: 4568, host: 4568
+  config.vm.network "forwarded_port", guest: 4569, host: 4569
 
   config.vm.synced_folder "./", "/home/vagrant/app", type: "nfs"
 

@@ -41,6 +41,10 @@ var errors = {
     message: 'The user is not authorized. The access token may not exist or has expired.',
     statusCode: 401
   },
+  'forbidden': {
+    message: 'This user or application is not permitted to access this resource.',
+    statusCode: 403
+  },
   'notImplemented': {
     message: 'We haven\'t got round to that one yet.',
     statusCode: 501

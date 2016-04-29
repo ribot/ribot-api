@@ -5,7 +5,8 @@ var url = require( 'url' ),
     passport = require( 'passport' ),
     passportHttpBearer = require( 'passport-http-bearer' ),
     google = require( 'googleapis' ),
-    moment = require( 'moment' );
+    moment = require( 'moment' ),
+    jwt = require( 'jsonwebtoken' );
 
 
 // Dependencies
@@ -17,6 +18,7 @@ var logger = require( '../lib/logger' ),
     handleResponse = require( '../lib/response-error-handler' ),
     middleware = require( '../lib/routing-middleware' ),
     GoogleAuthorizer = require( '../lib/google-authorizer' ),
+    Consumer = require( '../models/consumer' ),
     Ribot = require( '../models/ribot' ),
     AccessToken = require( '../models/access-token' );
 
@@ -25,6 +27,7 @@ var googlePlus = google.plus( 'v1' );
 
 
 utils.promisify( googlePlus.people );
+utils.promisify( jwt );
 
 
 /**
@@ -32,7 +35,7 @@ utils.promisify( googlePlus.people );
  */
 var init = function init() {
 
-  passport.use( new passportHttpBearer.Strategy( {}, findPersonByAccessToken ) );
+  passport.use( new passportHttpBearer.Strategy( {}, authenticate ) );
 
   router.post( '/auth/sign-in',
     middleware.validateBody,
@@ -42,27 +45,76 @@ var init = function init() {
 
 
 /**
- * Passport Bearer handler: Find user by access token
+ * Passport Bearer handler: Find client scopes and user by access token
  */
-var findPersonByAccessToken = function findPersonByAccessToken( accessToken, done ) {
-  return AccessToken.fetchAndSetLastUsedDate( { token: accessToken }, { withRelated: [ 'ribot' ] } )
-    .then( function( accessToken ) {
-      var user = {};
+var authenticate = function authenticate( token, done ) {
+  var result = {};
 
-      if ( accessToken ) {
-
-        user.accessToken = accessToken;
-        user.ribot = accessToken.related( 'ribot' );
-
-        done( null, user );
-
-      } else {
-        done( null, false );
+  return findAndVerifyConsumer( token )
+    .tap( function( consumer ) {
+      result.consumer = consumer;
+    } )
+    .then( function() {
+      var decodedToken = jwt.decode( token );
+      return findPersonByAccessToken( decodedToken.accessToken );
+    } )
+    .then( function( ribot ) {
+      if ( !_.isEmpty( ribot ) ) {
+        result.ribot = ribot;
       }
-
+      done( null, result );
+    } )
+    .catch( ResponseError, function( error ) {
+      done( null, false );
     } )
     .catch( function( error ) {
       done( error );
+    } );
+
+};
+
+
+/**
+ * Find and verify consumer
+ */
+var findAndVerifyConsumer = function findAndVerifyConsumer( token ) {
+  var results = {};
+
+  return Promise.try( function() {
+    return jwt.decode( token );
+  } )
+    .tap( function( decodedToken ) {
+      if ( !decodedToken ) { throw new Error( 'Invalid JWT: ' + token ); }
+    } )
+    .then( function( decodedToken ) {
+      return Consumer.find( { id: decodedToken.key } );
+    } )
+    .tap( function( consumer ) {
+      var decodedSecret = utils.decodeToken( consumer.get( 'secret' ) )
+      return jwt.verifyPromise( token, decodedSecret, {
+        ignoreExpiration: true
+      } );
+    } )
+    .catch( function( error ) {
+      logger.error( error );
+      throw new ResponseError( 'unauthorized' );
+    } )
+};
+
+
+/**
+ * Find user by access token
+ */
+var findPersonByAccessToken = function findPersonByAccessToken( accessToken ) {
+  return AccessToken.fetchAndSetLastUsedDate( { token: accessToken }, { withRelated: [ 'ribot' ] } )
+    .then( function( accessToken ) {
+
+      if ( accessToken ) {
+        return Promise.resolve( accessToken.related( 'ribot' ) );
+      } else {
+        throw new ResponseError( 'unauthorized' );
+      }
+
     } );
 };
 

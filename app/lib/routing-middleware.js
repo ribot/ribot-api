@@ -70,63 +70,63 @@ var isAuthorized = function isAuthorized( request, response, next ) {
 var validateBody = function validateBody( request, response, next ) {
 
   blueprintPromise()
-  .then( function ( blueprint ) {
-    return new Promise( function( resolve, reject ) {
-      var requestBody = request.body;
+    .then( function ( blueprint ) {
+      return new Promise( function( resolve, reject ) {
+        var requestBody = request.body;
 
-      blueprint.validate( requestBody, {
-        type: 'request',
-        route: request.route.path,
-        method: request.method
-      }, function( error, result ) {
-        var validationErrors = {};
+        blueprint.validate( requestBody, {
+          type: 'request',
+          route: request.route.path,
+          method: request.method
+        }, function( error, result ) {
+          var validationErrors = {};
 
-        if ( error ) {
-          return reject( new Error( error ) );
-        }
+          if ( error ) {
+            return reject( new Error( error ) );
+          }
 
-        if ( result.errors.length ) {
+          if ( result.errors.length ) {
 
-          _.each( result.errors, function( propertyError ) {
-            validationErrors[ propertyError.property.replace( /instance\./, '' ) ] = [ propertyError.message ];
-          } );
+            _.each( result.errors, function( propertyError ) {
+              validationErrors[ propertyError.property.replace( /instance\./, '' ) ] = [ propertyError.message ];
+            } );
 
-          return reject( new ValidationError( validationErrors ) );
+            return reject( new ValidationError( validationErrors ) );
 
-        } else {
+          } else {
 
-          return resolve();
+            return resolve();
 
-        }
+          }
 
+        } );
       } );
+    } )
+
+    .then( function () {
+      next();
+    } )
+
+    .catch( ValidationError, function( validationError ) {
+
+      throw new ResponseError( 'invalidData', {
+        errors: validationError.errors
+      } );
+
+    } )
+
+    .catch( ResponseError, function( responseError ) {
+      response.status( responseError.statusCode ).send( responseError );
+    } )
+
+    .catch( function( error ) {
+      var responseError = new ResponseError();
+
+      response.status( responseError.statusCode ).send( responseError );
+
+      logger.error( error.stack );
+
     } );
-  } )
-
-  .then( function () {
-    next();
-  } )
-
-  .catch( ValidationError, function( validationError ) {
-
-    throw new ResponseError( 'invalidData', {
-      errors: validationError.errors
-    } );
-
-  } )
-
-  .catch( ResponseError, function( responseError ) {
-    response.status( responseError.statusCode ).send( responseError );
-  } )
-
-  .catch( function( error ) {
-    var responseError = new ResponseError();
-
-    response.status( responseError.statusCode ).send( responseError );
-
-    logger.error( error.stack );
-
-  } );
 
 };
 
@@ -142,11 +142,30 @@ var routeNotFound = function routeNotFound( request, response, next ) {
 };
 
 
+/**
+ * Require scopes
+ */
+var requireScopes = function requireScopesSetup( requiredScopes ) {
+  var scopes = requiredScopes;
+  return function requireScopes( request, response, next ) {
+    var responseError;
+
+    if ( request.user.consumer.hasScopes( scopes ) ) {
+      next();
+    } else {
+      responseError = new ResponseError( 'forbidden' );
+      response.status( responseError.statusCode ).send( responseError );
+    }
+  };
+}
+
+
 // Exports
 module.exports = {
   logRequest: logRequest,
   removeTrailingSlash: removeTrailingSlash,
   isAuthorized: isAuthorized,
   validateBody: validateBody,
-  routeNotFound: routeNotFound
+  routeNotFound: routeNotFound,
+  requireScopes: requireScopes
 };

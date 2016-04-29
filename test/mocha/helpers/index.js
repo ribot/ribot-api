@@ -6,7 +6,8 @@ var url = require( 'url' ),
     fs = require( 'fs' ),
     BlueprintSchema = require( 'api-blueprint-json-schema' ),
     moment = require( 'moment' ),
-    nock = require( 'nock' );
+    nock = require( 'nock' ),
+    jwt = require( 'jsonwebtoken' );
 
 
 // Dependencies
@@ -153,7 +154,7 @@ var helpers = {
 
   },
 
-  request: function ( options, done ) {
+  request: function( options, done ) {
     var requestOptions = {},
         requestObject,
         requestForm;
@@ -185,8 +186,20 @@ var helpers = {
   /**
    * Is valid date utility
    */
-  isValidDate: function( date ) {
+  isValidDate: function isValidDate( date ) {
     return moment( date, [ 'ddd, DD MMM YYYY HH:mm:ss ZZ' ] ).isValid();
+  },
+
+  /**
+   * Sign a JWT with a given accessToken record and consumer record
+   */
+  signJwt: function testFn( accessToken, consumer ) {
+    consumer = consumer || seed.consumer[ 0 ];
+
+    return jwt.sign( {
+      key: consumer.id,
+      accessToken: utils.decodeToken( accessToken.token )
+    }, utils.decodeToken( consumer.secret ) );
   }
 
 };
