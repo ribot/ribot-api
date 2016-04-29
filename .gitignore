@@ -38,10 +38,6 @@ node_modules
 # sftp configuration file
 sftp-config.json
 
-# OSX
-.DS_Store
-profile
-
 # Vagrant
 .vagrant/
 tmp/
