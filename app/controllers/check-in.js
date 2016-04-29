@@ -42,8 +42,8 @@ var init = function init() {
  * Create check-in response payload
  */
 var createCheckInResponsePayload = function createCheckInResponsePayload( results ) {
-
   var payload = results.checkIn.toJSON();
+
   payload.ribot = _.pick( results.ribot.toJSON(), 'id' );
 
   if ( results.venue ) {
@@ -150,6 +150,7 @@ var requestPutCheckIn = function requestPutCheckIn( request, response, next ) {
 
   var responseData = CheckIn.findById( request.params.checkInId, { withRelated: [ 'ribot' ] } )
     .then( function( checkIn ) {
+
       // If the checkin requested does not match the user that the access token belongs to deny access with a 404 error
       if ( checkIn.related( 'ribot' ).id !== request.user.ribot.id ) {
         throw new ResponseError( 'notFound' );
@@ -179,7 +180,6 @@ var requestPutCheckIn = function requestPutCheckIn( request, response, next ) {
  * Receive search parameters and responds with the check-in objects that match
  */
 var requestGetCheckInCollection = function requestGetCheckInCollection( request, response, next ) {
-
   var responseError = new ResponseError( 'notImplemented' );
 
   response.status( responseError.statusCode );
