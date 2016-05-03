@@ -14,12 +14,12 @@ var logger = require( '../lib/logger' ),
  * The relations needed when getting related check-ins
  */
 var checkInRelations = [
-  'checkIns',
-  'checkIns.venue',
-  'checkIns.beaconEncounters',
-  'checkIns.beaconEncounters.beacon',
-  'checkIns.beaconEncounters.beacon.zone',
-  'checkIns.beaconEncounters.beacon.zone.venue'
+  'latestCheckIn',
+  'latestCheckIn.venue',
+  'latestCheckIn.latestBeaconEncounter',
+  'latestCheckIn.latestBeaconEncounter.beacon',
+  'latestCheckIn.latestBeaconEncounter.beacon.zone',
+  'latestCheckIn.latestBeaconEncounter.beacon.zone.venue'
 ];
 
 
@@ -65,7 +65,7 @@ var checkAuthenticatedIfRequired = function checkAuthenticatedIfRequired( reques
  * Returns true if the request asks for sensitive information.
  */
 var requestingSensitiveData = function requestingSensitiveData( request ) {
-  return request.query.embed == 'checkins';
+  return request.query.embed == 'latestCheckIn';
 };
 
 
@@ -74,50 +74,22 @@ var requestingSensitiveData = function requestingSensitiveData( request ) {
  * Create ribot payload from ribot
  */
 var createRibotPayload = function createRibotPayload( ribot ) {
-
   var payload = {},
-      ribotProfileJson = _.omit( ribot.toJSON(), 'checkIns' ),
-      checkInsJson = ribot.related( 'checkIns' ).toJSON();
+      latestCheckIn = ribot.related( 'latestCheckIn' );
 
-  payload.profile = ribotProfileJson;
+  if ( latestCheckIn.has( 'id' ) ) {
 
-  if ( checkInsJson.length > 0 ) {
-    // Sort by the check in date, reverse it so it's in descending order, then take only the latest
-    // 5 checkins, then remove the venue property if no venue relation existed. We then check if there
-    // are an beacon encounter, remove the property if not or sort the array if so
-    checkInsJson = _.chain( checkInsJson )
-      .sortBy( function( checkInJson ) {
-        return new Date( checkInJson.checkedInDate ).getTime();
+    payload.latestCheckIn = _.chain( latestCheckIn.toJSON() )
+      .omit( function( value, key ) {
+        return ( key == 'venue' && !value.id );
       } )
-      .reverse()
-      .take( 5 )
-      .map( function( checkInJson ) {
-        return _.omit( checkInJson, function( value, key ) {
-          return ( key == 'venue' && !value.id );
-        } );
-      } )
-      .map( function( checkInJson ) {
-        return _.omit( checkInJson, function( value, key ) {
-          return ( key == 'beaconEncounters' && value.length == 0 );
-        } );
-      } )
-      .map( function( checkInJson ) {
-        if ( checkInJson.beaconEncounters ) {
-          checkInJson.beaconEncounters = _.chain( checkInJson.beaconEncounters )
-            .sortBy( function( beaconEncounterJson ) {
-              return new Date( beaconEncounterJson.encounterDate ).getTime();
-            } )
-            .reverse();
-        }
+      .value();
 
-        return checkInJson;
-      } );
-
-    payload.checkIns = checkInsJson;
   }
 
-  return payload;
+  payload.profile = ribot.toJSON();
 
+  return payload;
 };
 
 
@@ -131,23 +103,23 @@ var requestGetRibotCollection = function requestGetRibotCollection( request, res
 
     checkAuthenticatedIfRequired( request, response )
 
-    .then( function() {
+      .then( function() {
 
-      var options = {};
+        var options = {};
 
-      if ( requestingSensitiveData( request ) ) {
-        options.withRelated = checkInRelations;
-      }
+        if ( requestingSensitiveData( request ) ) {
+          options.withRelated = checkInRelations;
+        }
 
-      return Ribot.collection().fetch( options )
-        .then( function( ribots ) {
-          var payload = ribots.map( function( ribot ) {
-            return createRibotPayload( ribot );
+        return Ribot.collection().fetch( options )
+          .then( function( ribots ) {
+            var payload = ribots.map( function( ribot ) {
+              return createRibotPayload( ribot );
+            } );
+            response.status( 200 ).send( payload );
           } );
-          response.status( 200 ).send( payload );
-        } );
 
-    } )
+      } )
 
   );
 
@@ -172,7 +144,7 @@ var requestGetAuthenticatedRibot = function requestGetAuthenticatedRibot( reques
       } else {
         return Promise.resolve();
       }
-    })
+    } )
 
     .then( function() {
       response.status( 200 ).send( createRibotPayload( request.user.ribot ) );
@@ -193,20 +165,18 @@ var requestGetSingleRibot = function requestGetSingleRibot( request, response, n
 
     checkAuthenticatedIfRequired( request, response )
 
-    .then( function() {
+      .then( function() {
+        var options = {};
 
-      var options = {};
+        if ( requestingSensitiveData( request ) ) {
+          options.withRelated = checkInRelations;
+        }
 
-      if ( requestingSensitiveData( request ) ) {
-        options.withRelated = checkInRelations;
-      }
-
-      return Ribot.findById( request.params.ribotId, options )
-        .then( function( ribot ) {
-          response.status( 200 ).send( createRibotPayload( ribot ) );
-        } );
-
-    } )
+        return Ribot.findById( request.params.ribotId, options )
+          .then( function( ribot ) {
+            response.status( 200 ).send( createRibotPayload( ribot ) );
+          } );
+      } )
 
   );
 

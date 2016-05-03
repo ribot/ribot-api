@@ -21,7 +21,9 @@ var Ribot = BaseModel.extend( {
     'firstName',
     'lastName',
     'providerCredentials',
-    'accessTokens'
+    'accessTokens',
+    'checkIns',
+    'latestCheckIn'
   ] ),
 
   defaults: {
@@ -58,6 +60,12 @@ var Ribot = BaseModel.extend( {
   },
   checkIns: function checkIns() {
     return this.hasMany( 'CheckIn' );
+  },
+  latestCheckIn: function latestCheckIn() {
+    return this.hasOne( 'CheckIn' ).query( function( qb ) {
+      qb.orderBy( 'created_date', 'desc' );
+      qb.limit( 1 );
+    } );
   },
 
   validations: {
@@ -159,7 +167,6 @@ var Ribot = BaseModel.extend( {
 
     return this.related( 'checkIns' ).query( query ).fetch()
       .then( function( results ) {
-
         var checkIn;
 
         // If we have a single result and that result has the correct venue id and isn't yet marked as "checked-out", return it

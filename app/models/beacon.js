@@ -21,10 +21,6 @@ var Beacon = BaseModel.extend( {
     '_sys'
   ] ),
 
-  virtuals: _.extend( {}, BaseModel.prototype.virtuals, {
-
-  } ),
-
   zone: function zone() {
     return this.belongsTo( 'Zone' );
   },

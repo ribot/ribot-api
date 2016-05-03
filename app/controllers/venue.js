@@ -30,9 +30,7 @@ var init = function init() {
  * Create the payload to send back given a single venue object
  */
 var createVenuePayload = function createVenuePayload( venue ) {
-
   return venue.toJSON();
-
 };
 
 /**

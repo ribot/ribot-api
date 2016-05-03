@@ -24,12 +24,28 @@ var CheckIn = BaseModel.extend( {
   ] ),
 
   virtuals: _.extend( {}, BaseModel.prototype.virtuals, {
+
     isCheckedOut: function getIsCheckedOut() {
-        return (this.get( 'checkedOutDate' ) != null);
+      var checkedOutDate = this.get( 'checkedOutDate' );
+
+      if ( this.has( 'id' ) ) {
+        return checkedOutDate ? true : false;
+      } else {
+        return null;
+      }
     },
+
     checkedInDate: function getCheckedInDate() {
-        return utils.formatDateTime( this.get( 'createdDate' ) );
+      var createdDate = this.get( 'createdDate' );
+
+      if ( createdDate ) {
+        return utils.formatDateTime( createdDate );
+      } else {
+        return null;
+      }
+
     }
+
   } ),
 
   ribot: function ribot() {
@@ -42,6 +58,13 @@ var CheckIn = BaseModel.extend( {
 
   beaconEncounters: function beaconEncounters() {
     return this.hasMany( 'BeaconEncounter' );
+  },
+
+  latestBeaconEncounter: function latestBeaconEncounter() {
+    return this.hasOne( 'BeaconEncounter' ).query( function( qb ) {
+      qb.orderBy( 'created_date', 'desc' );
+      qb.limit( 1 );
+    } );
   },
 
   validations: {

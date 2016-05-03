@@ -55,7 +55,7 @@ var fullRibotRoutesTestSuite = function fullRibotRoutesTestSuite( expectSomeChec
             method: this.method,
             route: this.route,
             headers: {
-              'Authorization': 'Bearer ' + utils.decodeToken( seed.access_token[0].token )
+              'Authorization': 'Bearer ' + utils.decodeToken( seed.access_token[ 0 ].token )
             }
           }, done );
         } );
@@ -76,10 +76,10 @@ var fullRibotRoutesTestSuite = function fullRibotRoutesTestSuite( expectSomeChec
             method: this.method,
             route: this.route,
             query: {
-              embed: 'checkins'
+              embed: 'latestCheckIn'
             },
             headers: {
-              'Authorization': 'Bearer ' + utils.decodeToken( seed.access_token[0].token )
+              'Authorization': 'Bearer ' + utils.decodeToken( seed.access_token[ 0 ].token )
             }
           }, done );
         } );
@@ -87,11 +87,12 @@ var fullRibotRoutesTestSuite = function fullRibotRoutesTestSuite( expectSomeChec
         shared.shouldRespondWithCorrectStatusCode();
         shared.shouldReturnValidResponseSchema();
 
-        if ( expectSomeCheckIns ) {
-          shared.shouldHaveCheckinsInResponseBody();
-
+        if ( expectSomeCheckIns || expectBeaconCheckIns ) {
+          if ( expectSomeCheckIns ) {
+            shared.shouldHaveCheckInInResponseBody();
+          }
           if ( expectBeaconCheckIns ) {
-            shared.shouldHaveBeaconEncounterOnSecondCheckinsInResponseBody();
+            shared.shouldHaveBeaconEncounterInCheckIn();
           }
         } else {
           shared.shouldNotHaveCheckinsInResponseBody();
@@ -143,7 +144,7 @@ var fullRibotRoutesTestSuite = function fullRibotRoutesTestSuite( expectSomeChec
           helpers.request.bind( this )( {
             method: this.method,
             query: {
-              embed: 'checkins'
+              embed: 'latestCheckIn'
             },
             route: this.route
           }, done );
@@ -165,11 +166,11 @@ var fullRibotRoutesTestSuite = function fullRibotRoutesTestSuite( expectSomeChec
           helpers.request.bind( this )( {
             method: this.method,
             query: {
-              embed: 'checkins'
+              embed: 'latestCheckIn'
             },
             route: this.route,
             headers: {
-              'Authorization': 'Bearer ' + utils.decodeToken( seed.access_token[0].token )
+              'Authorization': 'Bearer ' + utils.decodeToken( seed.access_token[ 0 ].token )
             }
           }, done );
         } );
@@ -177,11 +178,12 @@ var fullRibotRoutesTestSuite = function fullRibotRoutesTestSuite( expectSomeChec
         shared.shouldRespondWithCorrectStatusCode();
         shared.shouldReturnValidResponseSchema();
 
-        if ( expectSomeCheckIns ) {
-          shared.shouldHaveCheckinsInFirstObject();
-
+        if ( expectSomeCheckIns || expectBeaconCheckIns ) {
+          if ( expectSomeCheckIns ) {
+            shared.shouldHaveCheckinsInFirstObject();
+          }
           if ( expectBeaconCheckIns ) {
-            shared.shouldHaveBeaconEncounterOnSecondCheckinsInFirstObject();
+            shared.shouldHaveBeaconEncounterInCheckInInFirstObject();
           }
         } else {
           shared.shouldNotHaveCheckinsInFirstObject();
@@ -200,7 +202,7 @@ var fullRibotRoutesTestSuite = function fullRibotRoutesTestSuite( expectSomeChec
       before( function( done ) {
         // Needed for blueprint validation
         this.blueprintRoute = '/ribots/{ribotId}';
-        this.route = this.blueprintRoute.replace( /\{ribotId\}/g, seed.ribot[0].id );
+        this.route = this.blueprintRoute.replace( /\{ribotId\}/g, seed.ribot[ 0 ].id );
         this.method = 'get';
 
         // Set up scope for assertions
@@ -249,7 +251,7 @@ var fullRibotRoutesTestSuite = function fullRibotRoutesTestSuite( expectSomeChec
       before( function() {
         // Needed for blueprint validation
         this.blueprintRoute = '/ribots/{ribotId}';
-        this.route = this.blueprintRoute.replace( /\{ribotId\}/g, seed.ribot[0].id );
+        this.route = this.blueprintRoute.replace( /\{ribotId\}/g, seed.ribot[ 0 ].id );
         this.method = 'get';
       } );
 
@@ -264,7 +266,7 @@ var fullRibotRoutesTestSuite = function fullRibotRoutesTestSuite( expectSomeChec
           helpers.request.bind( this )( {
             method: this.method,
             query: {
-              embed: 'checkins'
+              embed: 'latestCheckIn'
             },
             route: this.route
           }, done );
@@ -286,11 +288,11 @@ var fullRibotRoutesTestSuite = function fullRibotRoutesTestSuite( expectSomeChec
           helpers.request.bind( this )( {
             method: this.method,
             query: {
-              embed: 'checkins'
+              embed: 'latestCheckIn'
             },
             route: this.route,
             headers: {
-              'Authorization': 'Bearer ' + utils.decodeToken( seed.access_token[0].token )
+              'Authorization': 'Bearer ' + utils.decodeToken( seed.access_token[ 0 ].token )
             }
           }, done );
         } );
@@ -298,11 +300,12 @@ var fullRibotRoutesTestSuite = function fullRibotRoutesTestSuite( expectSomeChec
         shared.shouldRespondWithCorrectStatusCode();
         shared.shouldReturnValidResponseSchema();
 
-        if ( expectSomeCheckIns ) {
-          shared.shouldHaveCheckinsInResponseBody();
-
+        if ( expectSomeCheckIns || expectBeaconCheckIns ) {
+          if ( expectSomeCheckIns ) {
+            shared.shouldHaveCheckInInResponseBody();
+          }
           if ( expectBeaconCheckIns ) {
-            shared.shouldHaveBeaconEncounterOnSecondCheckinsInResponseBody();
+            shared.shouldHaveBeaconEncounterInCheckIn();
           }
         } else {
           shared.shouldNotHaveCheckinsInResponseBody();
@@ -318,7 +321,7 @@ var fullRibotRoutesTestSuite = function fullRibotRoutesTestSuite( expectSomeChec
 
 
 // Start the tests
-describe( 'ribot collection', function( done ) {
+describe( 'ribot resource', function( done ) {
 
   describe( 'ribots with no checkins', function() {
 
@@ -330,44 +333,24 @@ describe( 'ribot collection', function( done ) {
         } );
     } );
 
-    fullRibotRoutesTestSuite( false );
+    fullRibotRoutesTestSuite();
 
   } );
 
-  describe( 'ribots with non-beacon checkins', function() {
+  describe( 'ribots with non-beacon checkin', function() {
 
     before( function( done ) {
       // Set up db tables and seed
       helpers.db.setupForTests()
         .then( function() {
-          return new Promise( function( resolve, reject ) {
-            helpers.request.bind( this )( {
-              method: 'post',
-              route: '/check-ins',
-              headers: {
-                'Authorization': 'Bearer ' + utils.decodeToken( seed.access_token[0].token )
-              },
-              body: {
-                label: 'Home'
-              }
-            }, function( err ) {
-              if ( err ) {
-                return reject( err );
-              } else {
-                return resolve();
-              }
-            } );
-          } );
-        } )
-        .then( function() {
           helpers.request.bind( this )( {
             method: 'post',
             route: '/check-ins',
             headers: {
-              'Authorization': 'Bearer ' + utils.decodeToken( seed.access_token[0].token )
+              'Authorization': 'Bearer ' + utils.decodeToken( seed.access_token[ 0 ].token )
             },
             body: {
-              venueId: seed.venue[0].id
+              venueId: seed.venue[ 0 ].id
             }
           }, done );
         } );
@@ -377,43 +360,23 @@ describe( 'ribot collection', function( done ) {
 
   } );
 
-  describe( 'ribots with beacon and non-beacon checkins', function() {
+  describe( 'ribots with beacon checkin', function() {
 
     before( function( done ) {
       // Set up db tables and seed
       helpers.db.setupForTests()
         .then( function() {
-          return new Promise( function( resolve, reject ) {
-            helpers.request.bind( this )( {
-              method: 'post',
-              route: '/beacons/' + seed.beacon[ 0 ].id + '/encounters',
-              headers: {
-                'Authorization': 'Bearer ' + utils.decodeToken( seed.access_token[0].token )
-              }
-            }, function( err ) {
-              if ( err ) {
-                return reject( err );
-              } else {
-                return resolve();
-              }
-            } );
-          } );
-        } )
-        .then( function() {
           helpers.request.bind( this )( {
             method: 'post',
-            route: '/check-ins',
+            route: '/beacons/' + seed.beacon[ 0 ].id + '/encounters',
             headers: {
-              'Authorization': 'Bearer ' + utils.decodeToken( seed.access_token[0].token )
-            },
-            body: {
-              venueId: seed.venue[0].id
+              'Authorization': 'Bearer ' + utils.decodeToken( seed.access_token[ 0 ].token )
             }
           }, done );
         } );
     } );
 
-    fullRibotRoutesTestSuite( true, true );
+    fullRibotRoutesTestSuite( false, true );
 
   } );
 

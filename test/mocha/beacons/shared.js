@@ -9,7 +9,7 @@ var _ = require( 'lodash' ),
 var shared = {
 
   shouldHaveSingleBeaconEncounter: function shouldHaveSingleBeaconEncounter() {
-    it( 'should have a single becaon encounter in the database', function( done ) {
+    it( 'should have a single beacon encounter in the database', function( done ) {
       helpers.db.fetch( 'beacon_encounter' )
         .then( function( results ) {
           results.length.should.eql( 1 );
@@ -22,7 +22,7 @@ var shared = {
   },
 
   shouldHaveNoBeaconEncounters: function shouldHaveNoBeaconEncounters() {
-    it( 'should have no becaon encounters in the database', function( done ) {
+    it( 'should have no beacon encounters in the database', function( done ) {
       helpers.db.fetch( 'beacon_encounter' )
         .then( function( results ) {
           results.length.should.eql( 0 );
@@ -36,7 +36,7 @@ var shared = {
 
   shouldHaveSingleCheckInForUserInDatabase: function shouldHaveSingleCheckInForUserInDatabase() {
     it( 'should have a single check-in in the database for the user', function( done ) {
-      helpers.db.fetch( 'check_in', { ribot_id: seed.ribot[0].id } )
+      helpers.db.fetch( 'check_in', { ribot_id: seed.ribot[ 0 ].id } )
         .then( function( results ) {
           results.length.should.eql( 1 );
           done();
@@ -49,7 +49,7 @@ var shared = {
 
   shouldHaveTwoCheckInsForUserInDatabase: function shouldHaveSingleCheckInForUserInDatabase() {
     it( 'should have two check-ins in the database for the user', function( done ) {
-      helpers.db.fetch( 'check_in', { ribot_id: seed.ribot[0].id } )
+      helpers.db.fetch( 'check_in', { ribot_id: seed.ribot[ 0 ].id } )
         .then( function( results ) {
           results.length.should.eql( 2 );
           done();
