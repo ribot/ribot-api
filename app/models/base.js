@@ -21,7 +21,9 @@ var logger = require( '../lib/logger' ),
 var omitNulls = function omitNulls( obj ) {
   return _.transform( obj, function ( result, value, key ) {
     if ( _.isPlainObject( value ) || _.isArray( value ) ) {
-      result[ key ] = omitNulls( value );
+      if ( !_.isEmpty( value ) ) {
+        result[ key ] = omitNulls( value );
+      }
     } else {
       if ( value !== null && value !== undefined ) {
         result[ key ] = value;
@@ -41,12 +43,14 @@ var BaseModel = db.bookshelf.Model.extend( {
   hidden: [ 'createdDate', 'updatedDate' ],
 
   virtuals: {
+
     _sys: function _sys() {
       return {
         createdDate: utils.formatDateTime( this.get( 'createdDate' ) ),
         updatedDate: utils.formatDateTime( this.get( 'updatedDate' ) )
       };
     }
+
   },
 
   /**
@@ -91,6 +95,7 @@ var BaseModel = db.bookshelf.Model.extend( {
    * Generate 32-char UUID
    */
   generateId: function generateId( model ) {
+
     model.set( 'id', utils.createUuid() );
 
     return model;
@@ -239,7 +244,7 @@ var BaseModel = db.bookshelf.Model.extend( {
       omitPivot: true
     } ) );
 
-    _.each( obj, function( value, key ) {
+    obj = _.mapValues( obj, function( value, key ) {
       var snakeCaseKey = _.str.underscored( key ),
           type;
 
@@ -253,8 +258,7 @@ var BaseModel = db.bookshelf.Model.extend( {
         }
       }
 
-      obj[ key ] = value;
-
+      return value;
     }.bind( this ) );
 
     return omitNulls( obj );

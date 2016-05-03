@@ -49,7 +49,7 @@ var testWithValidAndInvalidAccessTokensAndBody = function testWithValidAndInvali
             method: this.method,
             route: this.route,
             headers: {
-              'Authorization': 'Bearer ' + utils.decodeToken( seed.access_token[0].token )
+              'Authorization': 'Bearer ' + utils.decodeToken( seed.access_token[ 0 ].token )
             },
             body: requestBody
           }, done );
@@ -82,7 +82,7 @@ var testInvalidDataErrorWithBody = function testInvalidDataErrorWithBody( reques
           method: this.method,
           route: this.route,
           headers: {
-            'Authorization': 'Bearer ' + utils.decodeToken( seed.access_token[0].token )
+            'Authorization': 'Bearer ' + utils.decodeToken( seed.access_token[ 0 ].token )
           },
           body: requestBody
         }, done );
@@ -171,7 +171,7 @@ describe( 'Check-in', function( done ) {
               method: this.method,
               route: this.route,
               headers: {
-                'Authorization': 'Bearer ' + utils.decodeToken( seed.access_token[0].token )
+                'Authorization': 'Bearer ' + utils.decodeToken( seed.access_token[ 0 ].token )
               },
               body: fixtures.performCheckInBodyWithInvalidVenueId
             }, done );

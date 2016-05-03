@@ -51,7 +51,6 @@ var createCheckInResponsePayload = function createCheckInResponsePayload( result
   }
 
   return payload;
-
 };
 
 
@@ -129,7 +128,6 @@ var requestPostCheckIn = function requestPostCheckIn( request, response, next ) 
  * Responds with the given check-in object
  */
 var requestGetCheckIn = function requestGetCheckIn( request, response, next ) {
-
   var responseError = new ResponseError( 'notImplemented' );
 
   response.status( responseError.statusCode );
@@ -143,7 +141,6 @@ var requestGetCheckIn = function requestGetCheckIn( request, response, next ) {
  * Responds with the given check-in object that has been modified with the given parameters
  */
 var requestPutCheckIn = function requestPutCheckIn( request, response, next ) {
-
   var results = {
     ribot: request.user.ribot
   };

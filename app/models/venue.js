@@ -20,10 +20,6 @@ var Venue = BaseModel.extend( {
     '_sys'
   ] ),
 
-  virtuals: _.extend( {}, BaseModel.prototype.virtuals, {
-
-  } ),
-
   checkIns: function checkIns() {
     return this.hasMany( 'CheckIn' );
   },
