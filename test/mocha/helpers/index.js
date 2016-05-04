@@ -29,7 +29,7 @@ var handleResponse = function handleResponse( error, response, done ) {
   // Cache result for assertions
   this.response = response;
 
-  done();
+  done( null, response );
 
 };
 

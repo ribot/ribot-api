@@ -53,7 +53,7 @@ module.exports = {
     "notInSchema": "MUHAHA"
   },
   performCheckInBodyWithVenueId: {
-    "venueId": seed.venue[0].id
+    "venueId": seed.venue[ 0 ].id
   },
   performCheckInBodyWithInvalidVenueId: {
     "venueId": utils.createUuid()

@@ -8,39 +8,39 @@ var _ = require( 'lodash' ),
 // Exported object
 var shared = {
 
-  shouldHaveCheckinsInResponseBody: function() {
-    it( 'should have check-ins in response', function() {
-      this.response.body.should.have.property( 'checkIns' ).which.is.an.Array().and.has.length( 2 );
+  shouldHaveCheckInInResponseBody: function() {
+    it( 'should have check-ins', function() {
+      this.response.body.should.have.property( 'latestCheckIn' );
     } );
   },
 
   shouldHaveCheckinsInFirstObject: function() {
-    it( 'should have check-ins in first object', function() {
-      this.response.body[0].should.have.property( 'checkIns' ).which.is.an.Array().and.has.length( 2 );
+    it( 'should have check-ins in first item', function() {
+      this.response.body[ 0 ].should.have.property( 'latestCheckIn' );
     } );
   },
 
   shouldNotHaveCheckinsInResponseBody: function() {
-    it( 'should not have check-ins in response', function() {
-      this.response.body.should.not.have.property( 'checkIns' );
+    it( 'should not have check-ins', function() {
+      this.response.body.should.not.have.property( 'latestCheckIn' );
     } );
   },
 
   shouldNotHaveCheckinsInFirstObject: function() {
-    it( 'should not have check-ins in first object', function() {
-      this.response.body[0].should.not.have.property( 'checkIns' );
+    it( 'should not have check-ins in first item', function() {
+      this.response.body[ 0 ].should.not.have.property( 'latestCheckIn' );
     } );
   },
 
-  shouldHaveBeaconEncounterOnSecondCheckinsInResponseBody: function() {
-    it( 'should have beacon encounter in second check-ins in response', function() {
-      this.response.body.checkIns[ 1 ].should.have.property( 'beaconEncounters' ).which.is.an.Array().and.has.length( 1 );
+  shouldHaveBeaconEncounterInCheckIn: function() {
+    it( 'should have beacon encounter in latest check-in', function() {
+      this.response.body.latestCheckIn.should.have.property( 'latestBeaconEncounter' );
     } );
   },
 
-  shouldHaveBeaconEncounterOnSecondCheckinsInFirstObject: function() {
-    it( 'should have beacon encounter in second check-ins in first object', function() {
-      this.response.body[0].checkIns[ 1 ].should.have.property( 'beaconEncounters' ).which.is.an.Array().and.has.length( 1 );
+  shouldHaveBeaconEncounterInCheckInInFirstObject: function() {
+    it( 'should have beacon encounter in latest check-in', function() {
+      this.response.body[ 0 ].latestCheckIn.should.have.property( 'latestBeaconEncounter' );
     } );
   }
 

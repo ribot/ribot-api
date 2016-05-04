@@ -59,7 +59,7 @@ describe( 'Venue collections', function( done ) {
           method: this.method,
           route: this.route,
           headers: {
-            'Authorization': 'Bearer ' + utils.decodeToken( seed.access_token[0].token )
+            'Authorization': 'Bearer ' + utils.decodeToken( seed.access_token[ 0 ].token )
           }
         }, done );
       } );
@@ -78,7 +78,7 @@ describe( 'Venue collections', function( done ) {
       before( function() {
         // Needed for blueprint validation
         this.blueprintRoute = '/venues/{venueId}';
-        this.route = this.blueprintRoute.replace( /\{venueId\}/g, seed.venue[0].id );
+        this.route = this.blueprintRoute.replace( /\{venueId\}/g, seed.venue[ 0 ].id );
         this.method = 'get';
       } );
 
@@ -107,7 +107,7 @@ describe( 'Venue collections', function( done ) {
         before( function( done ) {
           // Needed for blueprint validation
           this.blueprintRoute = '/venues/{venueId}';
-          this.route = this.blueprintRoute.replace( /\{venueId\}/g, seed.venue[0].id );
+          this.route = this.blueprintRoute.replace( /\{venueId\}/g, seed.venue[ 0 ].id );
           this.method = 'get';
 
           this.expectedStatusCode = 200;
@@ -117,7 +117,7 @@ describe( 'Venue collections', function( done ) {
             method: this.method,
             route: this.route,
             headers: {
-              'Authorization': 'Bearer ' + utils.decodeToken( seed.access_token[0].token )
+              'Authorization': 'Bearer ' + utils.decodeToken( seed.access_token[ 0 ].token )
             }
           }, done );
         } );
@@ -144,7 +144,7 @@ describe( 'Venue collections', function( done ) {
             method: this.method,
             route: this.route,
             headers: {
-                'Authorization': 'Bearer ' + utils.decodeToken( seed.access_token[0].token )
+                'Authorization': 'Bearer ' + utils.decodeToken( seed.access_token[ 0 ].token )
               }
           }, done );
         } );

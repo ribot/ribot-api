@@ -74,6 +74,7 @@ var requestGetBeaconCollection = function requestGetBeaconCollection( request, r
       } );
 
       response.status( 200 ).send( payload );
+
     } );
 
   handleResponse( response, responseData );

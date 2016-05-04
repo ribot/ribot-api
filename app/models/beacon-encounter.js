@@ -23,9 +23,18 @@ var BeaconEncounter = BaseModel.extend( {
   ] ),
 
   virtuals: _.extend( {}, BaseModel.prototype.virtuals, {
+
     encounterDate: function encounterDate() {
-      return utils.formatDateTime( this.get( 'createdDate' ) );
+      var createdDate = this.get( 'createdDate' );
+
+      if ( createdDate ) {
+        return utils.formatDateTime( createdDate );
+      } else {
+        return null;
+      }
+
     }
+
   } ),
 
   beacon: function beacon() {
