@@ -219,7 +219,8 @@ Exchanges credentials for an access token. If the Google account is valid but th
                         },
                         "dateOfBirth": {
                           "description": "The ribot's date of birth. No time component.",
-                          "type": "string"
+                          "type": "string",
+                          "format": "date-time"
                         },
                         "bio": {
                           "description": "A short biography of the ribot.",
@@ -365,7 +366,8 @@ Exchanges credentials for an access token. If the Google account is valid but th
                     },
                     "dateOfBirth": {
                       "description": "The ribot's date of birth. No time component.",
-                      "type": "string"
+                      "type": "string",
+                      "format": "date-time"
                     },
                     "bio": {
                       "description": "A short biography of the ribot.",
@@ -407,11 +409,13 @@ Exchanges credentials for an access token. If the Google account is valid but th
                         },
                         "checkedInDate": {
                           "description": "Date of check-in.",
-                          "type": "string"
+                          "type": "string",
+                          "format": "date-time"
                         },
                         "checkedOutDate": {
                           "description": "Date of check-out, if the venue has beacons.",
-                          "type": "string"
+                          "type": "string",
+                          "format": "date-time"
                         }
                       },
                       "additionalProperties": false
@@ -435,11 +439,13 @@ Exchanges credentials for an access token. If the Google account is valid but th
                         },
                         "checkedInDate": {
                           "description": "Date of check-in.",
-                          "type": "string"
+                          "type": "string",
+                          "format": "date-time"
                         },
                         "checkedOutDate": {
                           "description": "Date of check-out, if the venue has beacons.",
-                          "type": "string"
+                          "type": "string",
+                          "format": "date-time"
                         },
                         "venue": {
                           "description": "Venue model.",
@@ -487,7 +493,8 @@ Exchanges credentials for an access token. If the Google account is valid but th
                             },
                             "encounterDate": {
                               "title": "The date of the encounter",
-                              "type": "string"
+                              "type": "string",
+                              "format": "date-time"
                             },
                             "beacon": {
                               "type": "object",
@@ -751,7 +758,8 @@ Returns a collection of all ribots.
                       },
                       "dateOfBirth": {
                         "description": "The ribot's date of birth. No time component.",
-                        "type": "string"
+                        "type": "string",
+                        "format": "date-time"
                       },
                       "bio": {
                         "description": "A short biography of the ribot.",
@@ -793,11 +801,13 @@ Returns a collection of all ribots.
                           },
                           "checkedInDate": {
                             "description": "Date of check-in.",
-                            "type": "string"
+                            "type": "string",
+                            "format": "date-time"
                           },
                           "checkedOutDate": {
                             "description": "Date of check-out, if the venue has beacons.",
-                            "type": "string"
+                            "type": "string",
+                            "format": "date-time"
                           }
                         },
                         "additionalProperties": false
@@ -821,11 +831,13 @@ Returns a collection of all ribots.
                           },
                           "checkedInDate": {
                             "description": "Date of check-in.",
-                            "type": "string"
+                            "type": "string",
+                            "format": "date-time"
                           },
                           "checkedOutDate": {
                             "description": "Date of check-out, if the venue has beacons.",
-                            "type": "string"
+                            "type": "string",
+                            "format": "date-time"
                           },
                           "venue": {
                             "description": "Venue model.",
@@ -873,7 +885,8 @@ Returns a collection of all ribots.
                               },
                               "encounterDate": {
                                 "title": "The date of the encounter",
-                                "type": "string"
+                                "type": "string",
+                                "format": "date-time"
                               },
                               "beacon": {
                                 "type": "object",
@@ -1055,11 +1068,13 @@ To perform a beacon check-in, see the *Beacons* section.
                     },
                     "checkedInDate": {
                       "description": "Date of check-in.",
-                      "type": "string"
+                      "type": "string",
+                      "format": "date-time"
                     },
                     "checkedOutDate": {
                       "description": "Date of check-out, if the venue has beacons.",
-                      "type": "string"
+                      "type": "string",
+                      "format": "date-time"
                     },
                     "ribot": {
                       "description": "Minima ribot model",
@@ -1097,11 +1112,13 @@ To perform a beacon check-in, see the *Beacons* section.
                     },
                     "checkedInDate": {
                       "description": "Date of check-in.",
-                      "type": "string"
+                      "type": "string",
+                      "format": "date-time"
                     },
                     "checkedOutDate": {
                       "description": "Date of check-out, if the venue has beacons.",
-                      "type": "string"
+                      "type": "string",
+                      "format": "date-time"
                     },
                     "ribot": {
                       "description": "Minima ribot model",
@@ -1162,7 +1179,8 @@ To perform a beacon check-in, see the *Beacons* section.
                         },
                         "encounterDate": {
                           "title": "The date of the encounter",
-                          "type": "string"
+                          "type": "string",
+                          "format": "date-time"
                         },
                         "beacon": {
                           "type": "object",
@@ -1483,11 +1501,13 @@ Retrieves a collection of check-ins in date order.
                       },
                       "checkedInDate": {
                         "description": "Date of check-in.",
-                        "type": "string"
+                        "type": "string",
+                        "format": "date-time"
                       },
                       "checkedOutDate": {
                         "description": "Date of check-out, if the venue has beacons.",
-                        "type": "string"
+                        "type": "string",
+                        "format": "date-time"
                       },
                       "ribot": {
                         "description": "Minima ribot model",
@@ -1525,11 +1545,13 @@ Retrieves a collection of check-ins in date order.
                       },
                       "checkedInDate": {
                         "description": "Date of check-in.",
-                        "type": "string"
+                        "type": "string",
+                        "format": "date-time"
                       },
                       "checkedOutDate": {
                         "description": "Date of check-out, if the venue has beacons.",
-                        "type": "string"
+                        "type": "string",
+                        "format": "date-time"
                       },
                       "ribot": {
                         "description": "Minima ribot model",
@@ -1590,7 +1612,8 @@ Retrieves a collection of check-ins in date order.
                           },
                           "encounterDate": {
                             "title": "The date of the encounter",
-                            "type": "string"
+                            "type": "string",
+                            "format": "date-time"
                           },
                           "beacon": {
                             "type": "object",
@@ -2037,7 +2060,8 @@ A beacon encounter check-in is done via the `POST /beacons/{beaconUuid}/encounte
                 },
                 "encounterDate": {
                   "title": "The date of the encounter",
-                  "type": "string"
+                  "type": "string",
+                  "format": "date-time"
                 },
                 "beacon": {
                   "type": "object",
@@ -2145,11 +2169,13 @@ A beacon encounter check-in is done via the `POST /beacons/{beaconUuid}/encounte
                     },
                     "checkedInDate": {
                       "description": "Date of check-in.",
-                      "type": "string"
+                      "type": "string",
+                      "format": "date-time"
                     },
                     "checkedOutDate": {
                       "description": "Date of check-out, if the venue has beacons.",
-                      "type": "string"
+                      "type": "string",
+                      "format": "date-time"
                     },
                     "ribot": {
                       "description": "Minimal ribot model.",
@@ -2361,7 +2387,8 @@ Drinks operations.
                 },
                 "drinkDate": {
                   "description": "Date and time the drink was registered.",
-                  "type": "string"
+                  "type": "string",
+                  "format": "date-time"
                 },
                 "ribot": {
                   "description": "Minimal ribot model.",
@@ -2505,7 +2532,8 @@ Retrieves a collection of drinks in descending date order.
                   },
                   "drinkDate": {
                     "description": "Date and time the drink was registered.",
-                    "type": "string"
+                    "type": "string",
+                    "format": "date-time"
                   },
                   "ribot": {
                     "description": "Minimal ribot model.",
