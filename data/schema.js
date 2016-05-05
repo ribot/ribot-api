@@ -1,4 +1,4 @@
-var version = 6;
+var version = 7;
 
 var schema = {
 
@@ -111,6 +111,18 @@ var schema = {
       id:                      { type: 'uuid', nullable: false },
       beacon_id:               { type: 'uuid', nullable: false, references: { table: 'beacon', column: 'id' } },
       check_in_id:             { type: 'uuid', nullable: false, references: { table: 'check_in', column: 'id' } },
+      created_date:            { type: 'dateTime', nullable: false },
+      updated_date:            { type: 'dateTime', nullable: false }
+    }
+  },
+
+  drink: {
+    primary: 'id',
+    columns: {
+      id:                      { type: 'uuid', nullable: false },
+      ribot_id:                { type: 'uuid', nullable: false, references: { table: 'ribot', column: 'id' } },
+      type:                    { type: 'text', nullable: false },
+      volume:                  { type: 'integer', nullable: false },
       created_date:            { type: 'dateTime', nullable: false },
       updated_date:            { type: 'dateTime', nullable: false }
     }

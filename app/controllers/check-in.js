@@ -130,8 +130,7 @@ var requestPostCheckIn = function requestPostCheckIn( request, response, next ) 
 var requestGetCheckIn = function requestGetCheckIn( request, response, next ) {
   var responseError = new ResponseError( 'notImplemented' );
 
-  response.status( responseError.statusCode );
-  response.send( responseError );
+  response.status( responseError.statusCode ).send( responseError );
 
 };
 
@@ -179,8 +178,7 @@ var requestPutCheckIn = function requestPutCheckIn( request, response, next ) {
 var requestGetCheckInCollection = function requestGetCheckInCollection( request, response, next ) {
   var responseError = new ResponseError( 'notImplemented' );
 
-  response.status( responseError.statusCode );
-  response.send( responseError );
+  response.status( responseError.statusCode ).send( responseError );
 
 };
 
