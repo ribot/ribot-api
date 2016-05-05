@@ -7,7 +7,8 @@ var _ = require( 'lodash' ),
 var db = require( '../../data' ),
     environment = require( '../lib/environment' ),
     utils = require( '../lib/utils' ),
-    BaseModel = require( './base' );
+    BaseModel = require( './base' ),
+    ResponseError = require( '../lib/response-error' );
 
 
 /**
@@ -19,6 +20,7 @@ var Drink = BaseModel.extend( {
 
   hidden: _.union( BaseModel.prototype.hidden, [
     'ribotId',
+    'ribot',
     '_sys'
   ] ),
 

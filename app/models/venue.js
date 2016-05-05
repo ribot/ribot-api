@@ -41,27 +41,19 @@ var Venue = BaseModel.extend( {
  * Find a venue by id
  */
 Venue.findById = function findById( id, options ) {
+  return new Venue( {
+    id: id
+  } )
+    .fetch( options )
+    .then( function( venue ) {
 
-  if ( id ) {
+      if ( venue ) {
+        return venue;
+      } else {
+        throw new ResponseError( 'notFound' );
+      }
 
-    return new Venue( {
-      id: id
-    } )
-      .fetch( options )
-      .then( function( venue ) {
-
-        if ( venue ) {
-          return venue;
-        } else {
-          throw new ResponseError( 'notFound' );
-        }
-
-      } );
-
-  } else {
-    throw new ResponseError( 'notFound' );
-  }
-
+    } );
 };
 
 

@@ -73,7 +73,7 @@ var requestPostCheckIn = function requestPostCheckIn( request, response, next ) 
 
           .then( function( venue ) {
 
-            if (venue ) {
+            if ( venue ) {
 
               results.venue = venue;
               return resolve();
@@ -115,7 +115,11 @@ var requestPostCheckIn = function requestPostCheckIn( request, response, next ) 
     } )
 
     .then( function() {
+
+      // TODO: emit new check-in
+
       response.status( 201 ).send( createCheckInResponsePayload( results ) );
+
     } )
 
   );
@@ -163,7 +167,11 @@ var requestPutCheckIn = function requestPutCheckIn( request, response, next ) {
       results.checkIn = checkIn;
     } )
     .then( function() {
+
+      // TODO: emit check-in status change
+
       response.status( 200 ).send( createCheckInResponsePayload( results ) );
+
     } );
 
   handleResponse( response, responseData);

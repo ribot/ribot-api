@@ -57,6 +57,13 @@ var seedData = {
 
   check_in: [
     { id: uuids[ 1 ], ribot_id: uuids[ 1 ], label: 'ribot studio', created_date: date, updated_date: date }
+  ],
+
+  drink: [
+    { id: uuids[ 0 ], ribot_id: uuids[ 0 ], type: 'water', volume: 250, created_date: moment().subtract( 1, 'days' ).format(), updated_date: date },
+    { id: uuids[ 1 ], ribot_id: uuids[ 0 ], type: 'water', volume: 250, created_date: date, updated_date: date },
+    { id: uuids[ 2 ], ribot_id: uuids[ 1 ], type: 'water', volume: 250, created_date: date, updated_date: date },
+    { id: uuids[ 3 ], ribot_id: uuids[ 1 ], type: 'water', volume: 250, created_date: moment().subtract( 3, 'days' ).format(), updated_date: date }
   ]
 
 };

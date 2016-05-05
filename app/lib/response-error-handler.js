@@ -30,10 +30,10 @@ var handleResponseError = function handleResponseError( response, promise ) {
   } )
 
   .catch( function ( error ) {
+    var responseError = new ResponseError( 'unknown' );
 
     logger.error( error.stack );
 
-    var responseError = new ResponseError( 'unknown' );
     response.status( responseError.statusCode );
     response.send( responseError );
 

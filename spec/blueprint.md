@@ -2152,7 +2152,7 @@ A beacon encounter check-in is done via the `POST /beacons/{beaconUuid}/encounte
                       "type": "string"
                     },
                     "ribot": {
-                      "description": "Minima ribot model",
+                      "description": "Minimal ribot model.",
                       "type": "object",
                       "required": [
                         "id"
@@ -2312,4 +2312,216 @@ Returns a single venue with a given venue ID.
                 "longitude": [ "latitude" ]
               },
               "additionalProperties": false
+            }
+
+# Group Drinks
+Drinks operations.
+
+## Drink [/drinks/{drinkId}]
+
++ Model
+
+    + Body
+
+            {
+              "id": "123",
+              "type": "water",
+              "volume": 150,
+              "drinkDate": "2015-10-05T14:48:00.000Z",
+              "ribot": {
+                "id": "123"
+              }
+            }
+
+    + Schema
+
+            {
+              "$schema": "http://json-schema.org/draft-04/schema#",
+              "title": "Drink model",
+              "type": "object",
+              "required": [
+                "id",
+                "type",
+                "volume",
+                "drinkDate",
+                "ribot"
+              ],
+              "properties": {
+                "id": {
+                  "description": "Drink ID.",
+                  "type": "string"
+                },
+                "type": {
+                  "description": "Label for type of drink.",
+                  "type": "string"
+                },
+                "volume": {
+                  "description": "Volume in millilitres.",
+                  "type": "number"
+                },
+                "drinkDate": {
+                  "description": "Date and time the drink was registered.",
+                  "type": "string"
+                },
+                "ribot": {
+                  "description": "Minimal ribot model.",
+                  "type": "object",
+                  "required": [
+                    "id"
+                  ],
+                  "properties": {
+                    "id": {
+                      "type": "string",
+                      "description": "ribot ID."
+                    }
+                  },
+                  "additionalProperties": false
+                }
+              },
+              "additionalProperties": false
+            }
+
+### Retrieve drink [GET]
+Retrieve a single drink.
+
++ Parameters
+
+    + drinkId (required, string, `123`) ... Drink ID.
+
++ Request
+
+    + Headers
+
+            Authorization: Bearer <token>
+
++ Response 200 (application/json)
+
+    [Drink][]
+
+## Drinks [/drinks]
+
+### Register a drink [POST]
+Creates a drink resource.
+
++ Request (application/json)
+
+    + Headers
+
+            Authorization: Bearer <token>
+
+    + Body
+
+            {
+              "type": "water",
+              "volume": 150
+            }
+
+    + Schema
+
+            {
+              "$schema": "http://json-schema.org/draft-04/schema#",
+              "title": "/drinks POST request",
+              "type": "object",
+              "required": [
+                "type",
+                "volume"
+              ],
+              "properties": {
+                "type": {
+                  "description": "Label for type of drink.",
+                  "type": "string"
+                },
+                "volume": {
+                  "description": "Volume in millilitres.",
+                  "type": "number"
+                }
+              },
+              "additionalProperties": false
+            }
+
++ Response 201 (application/json)
+
+    [Drink][]
+
+### Retrieve drinks collection [GET /drinks?ribotId={ribotId}&dateFrom={dateFrom}&dateTo={dateTo}]
+Retrieves a collection of drinks in descending date order.
+
++ Parameters
+
+    + ribotId (optional, string, `123`) ... Filter drinks by a specific ribot
+    + dateFrom (optional, string, `2015-09-20T19:31:36Z`) ... Filter drinks performed after date
+    + dateTo (optional, string, `2015-09-21T19:31:36Z`) ... Filter drinks performed before provided date
+
++ Request
+
+    + Headers
+
+            Authorization: Bearer <token>
+
++ Response 200 (application/json)
+
+    + Body
+
+            [
+              {
+                "id": "123",
+                "type": "water",
+                "volume": 150,
+                "drinkDate": "2015-10-05T14:48:00.000Z",
+                "ribot": {
+                  "id": "123"
+                }
+              }
+            ]
+
+    + Schema
+
+            {
+              "$schema": "http://json-schema.org/draft-04/schema#",
+              "title": "/drinks GET response",
+              "type": "array",
+              "items": {
+                "type": "object",
+                "description": "Drink item.",
+                "required": [
+                  "id",
+                  "type",
+                  "volume",
+                  "drinkDate",
+                  "ribot"
+                ],
+                "properties": {
+                  "id": {
+                    "description": "Drink ID.",
+                    "type": "string"
+                  },
+                  "type": {
+                    "description": "Label for type of drink.",
+                    "type": "string"
+                  },
+                  "volume": {
+                    "description": "Volume in millilitres.",
+                    "type": "number"
+                  },
+                  "drinkDate": {
+                    "description": "Date and time the drink was registered.",
+                    "type": "string"
+                  },
+                  "ribot": {
+                    "description": "Minimal ribot model.",
+                    "type": "object",
+                    "required": [
+                      "id"
+                    ],
+                    "properties": {
+                      "id": {
+                        "type": "string",
+                        "description": "ribot ID."
+                      }
+                    },
+                    "additionalProperties": false
+                  }
+                },
+                "additionalProperties": false
+              }
             }
