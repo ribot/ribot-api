@@ -2280,7 +2280,7 @@ Returns an array of venues common venues.
               }
             }
 
-## Retreive single venues [GET /venues/{venueId}]
+## Retrieve single venues [GET /venues/{venueId}]
 Returns a single venue with a given venue ID.
 
 + Parameters
@@ -2418,12 +2418,6 @@ Retrieve a single drink.
 
     + drinkId (required, string, `123`) ... Drink ID.
 
-+ Request
-
-    + Headers
-
-            Authorization: Bearer <token>
-
 + Response 200 (application/json)
 
     [Drink][]
@@ -2481,12 +2475,6 @@ Retrieves a collection of drinks in descending date order.
     + ribotId (optional, string, `123`) ... Filter drinks by a specific ribot
     + dateFrom (optional, string, `2015-09-20T19:31:36Z`) ... Filter drinks performed after date
     + dateTo (optional, string, `2015-09-21T19:31:36Z`) ... Filter drinks performed before provided date
-
-+ Request
-
-    + Headers
-
-            Authorization: Bearer <token>
 
 + Response 200 (application/json)
 

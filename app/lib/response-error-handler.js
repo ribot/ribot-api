@@ -22,8 +22,6 @@ var handleResponseError = function handleResponseError( response, promise ) {
 
   .catch( ResponseError, function ( responseError ) {
 
-    logger.error( responseError );
-
     response.status( responseError.statusCode );
     response.send( responseError );
 
