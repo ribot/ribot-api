@@ -207,7 +207,8 @@ Exchanges credentials for an access token. If the Google account is valid but th
                         },
                         "email": {
                           "description": "The ribot's email address.",
-                          "type": "string"
+                          "type": "string",
+                          "format": "email"
                         },
                         "hexColor": {
                           "description": "The ribot's hex colour.",
@@ -354,7 +355,8 @@ Exchanges credentials for an access token. If the Google account is valid but th
                     },
                     "email": {
                       "description": "The ribot's email address.",
-                      "type": "string"
+                      "type": "string",
+                      "format": "email"
                     },
                     "hexColor": {
                       "description": "The ribot's hex colour.",
@@ -746,7 +748,8 @@ Returns a collection of all ribots.
                       },
                       "email": {
                         "description": "The ribot's email address.",
-                        "type": "string"
+                        "type": "string",
+                        "format": "email"
                       },
                       "hexColor": {
                         "description": "The ribot's hex colour.",
