@@ -13,7 +13,7 @@
     "node": "0.12.7"
   },
   "dependencies": {
-    "aglio": "^2.1.1",
+    "aglio": "^2.2.0",
     "api-blueprint-json-schema": "^0.3.0",
     "bluebird": "^2.10.1",
     "body-parser": "^1.14.0",
