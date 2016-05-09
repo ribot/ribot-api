@@ -73,7 +73,7 @@ var requestPostCheckIn = function requestPostCheckIn( request, response, next ) 
 
           .then( function( venue ) {
 
-            if (venue ) {
+            if ( venue ) {
 
               results.venue = venue;
               return resolve();
@@ -115,7 +115,11 @@ var requestPostCheckIn = function requestPostCheckIn( request, response, next ) 
     } )
 
     .then( function() {
-      response.status( 201 ).send( createCheckInResponsePayload( results ) );
+      var payload = createCheckInResponsePayload( results );
+
+      // TODO: emit new check-in
+      response.status( 201 ).send( payload );
+
     } )
 
   );
@@ -130,8 +134,7 @@ var requestPostCheckIn = function requestPostCheckIn( request, response, next ) 
 var requestGetCheckIn = function requestGetCheckIn( request, response, next ) {
   var responseError = new ResponseError( 'notImplemented' );
 
-  response.status( responseError.statusCode );
-  response.send( responseError );
+  response.status( responseError.statusCode ).send( responseError );
 
 };
 
@@ -164,7 +167,11 @@ var requestPutCheckIn = function requestPutCheckIn( request, response, next ) {
       results.checkIn = checkIn;
     } )
     .then( function() {
-      response.status( 200 ).send( createCheckInResponsePayload( results ) );
+      var payload = createCheckInResponsePayload( results );
+
+      // TODO: emit check-in status change
+      response.status( 200 ).send( payload );
+
     } );
 
   handleResponse( response, responseData);
@@ -179,8 +186,7 @@ var requestPutCheckIn = function requestPutCheckIn( request, response, next ) {
 var requestGetCheckInCollection = function requestGetCheckInCollection( request, response, next ) {
   var responseError = new ResponseError( 'notImplemented' );
 
-  response.status( responseError.statusCode );
-  response.send( responseError );
+  response.status( responseError.statusCode ).send( responseError );
 
 };
 

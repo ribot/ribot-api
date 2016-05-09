@@ -127,7 +127,11 @@ var requestPostBeaconEncounter = function requestPostBeaconEncounter( request, r
       return beaconEncounter.fetch( { withRelated: [ 'beacon', 'beacon.zone', 'beacon.zone.venue', 'checkIn' ] } );
     } )
     .then( function( beaconEncounter ) {
+
+      // TODO: emit beacon encounter
+
       response.status( 201 ).send( createBeaconEncounterPayload( beaconEncounter ) );
+
     } );
 
   handleResponse( response, responseData );

@@ -22,18 +22,16 @@ var handleResponseError = function handleResponseError( response, promise ) {
 
   .catch( ResponseError, function ( responseError ) {
 
-    logger.error( responseError );
-
     response.status( responseError.statusCode );
     response.send( responseError );
 
   } )
 
   .catch( function ( error ) {
+    var responseError = new ResponseError( 'unknown' );
 
     logger.error( error.stack );
 
-    var responseError = new ResponseError( 'unknown' );
     response.status( responseError.statusCode );
     response.send( responseError );
 

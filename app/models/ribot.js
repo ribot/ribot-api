@@ -51,21 +51,27 @@ var Ribot = BaseModel.extend( {
 
   } ),
 
-  // Relationships
   providerCredentials: function providerCredentials() {
     return this.hasMany( 'ProviderCredential' );
   },
+
   accessTokens: function accessTokens() {
     return this.hasMany( 'AccessToken' );
   },
+
   checkIns: function checkIns() {
     return this.hasMany( 'CheckIn' );
   },
+
   latestCheckIn: function latestCheckIn() {
     return this.hasOne( 'CheckIn' ).query( function( qb ) {
       qb.orderBy( 'created_date', 'desc' );
       qb.limit( 1 );
     } );
+  },
+
+  drinks: function drinks() {
+    return this.hasMany( 'Drink' );
   },
 
   validations: {
@@ -131,6 +137,7 @@ var Ribot = BaseModel.extend( {
 
   createOrUpdateProviderCredential: function createOrUpdateProviderCredential( query, attributes, options ) {
     return this.getProviderCredential( query, options )
+      .bind( this )
       .then( function( providerCredential ) {
         if ( providerCredential ) {
           providerCredential.set( attributes );
@@ -138,7 +145,7 @@ var Ribot = BaseModel.extend( {
         } else {
           return this.related( 'providerCredentials' ).create( attributes, { transacting: options.transacting } );
         }
-      }.bind( this ) );
+      } );
   },
 
   getProviderCredential: function getProviderCredential( query, options ) {
@@ -166,6 +173,7 @@ var Ribot = BaseModel.extend( {
     };
 
     return this.related( 'checkIns' ).query( query ).fetch()
+      .bind( this )
       .then( function( results ) {
         var checkIn;
 
@@ -179,22 +187,26 @@ var Ribot = BaseModel.extend( {
 
         // If not, we need to create a new check-in with the correct venue id
         return this.related( 'checkIns' ).create( { venue_id: venueId }, { transacting: transaction } );
-
-      }.bind( this ) );
+      } );
   },
 
   createAccessToken: function createAccessToken( options ) {
     return this.related( 'accessTokens' ).fetch()
+      .bind( this )
       .then( function( previousAccessTokens ) {
-        return previousAccessTokens.invokeThen( 'destroy', { transacting: options.transacting } )
-          .then( function() {
-            return this.related( 'accessTokens' ).create( {}, { transacting: options.transacting } );
-          }.bind( this ) );
-      }.bind( this ) );
+        return previousAccessTokens.invokeThen( 'destroy', { transacting: options.transacting } );
+      } )
+      .then( function() {
+        return this.related( 'accessTokens' ).create( {}, { transacting: options.transacting } );
+      } );
   },
 
   createCheckIn: function createCheckIn( attributes, options ) {
     return this.related( 'checkIns' ).create( attributes, options );
+  },
+
+  createDrink: function createDrink( attributes, options ) {
+    return this.related( 'drinks' ).create( attributes, options );
   }
 
 } );
@@ -204,30 +216,22 @@ var Ribot = BaseModel.extend( {
  * Find a ribot by email
  */
 Ribot.findByEmail = function findByEmail( email, options ) {
+  return new Ribot( {
+    email: email
+  } )
+    .fetch( options )
+    .then( function( ribot ) {
 
-  if ( email ) {
+      if ( ribot ) {
+        ribot.set( { isAuthenticated: true } );
+        return ribot.save( null, {
+          transacting: options.transacting
+        } );
+      } else {
+        throw new ResponseError( 'noProfile' );
+      }
 
-    return new Ribot( {
-      email: email
-    } )
-      .fetch( options )
-      .then( function( ribot ) {
-
-        if ( ribot ) {
-          ribot.set( { isAuthenticated: true } );
-          return ribot.save( null, {
-            transacting: options.transacting
-          } );
-        } else {
-          throw new ResponseError( 'noProfile' );
-        }
-
-      } );
-
-  } else {
-    throw new ResponseError( 'noProfile' );
-  }
-
+    } );
 };
 
 
@@ -235,27 +239,19 @@ Ribot.findByEmail = function findByEmail( email, options ) {
  * Find a ribot by id
  */
 Ribot.findById = function findById( id, options ) {
+  return new Ribot( {
+    id: id
+  } )
+    .fetch( options )
+    .then( function( ribot ) {
 
-  if ( id ) {
+      if ( ribot ) {
+        return ribot;
+      } else {
+        throw new ResponseError( 'notFound' );
+      }
 
-    return new Ribot( {
-      id: id
-    } )
-      .fetch( options )
-      .then( function( ribot ) {
-
-        if ( ribot ) {
-          return ribot;
-        } else {
-          throw new ResponseError( 'notFound' );
-        }
-
-      } );
-
-  } else {
-    throw new ResponseError( 'notFound' );
-  }
-
+    } );
 };
 
 

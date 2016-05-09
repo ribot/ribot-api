@@ -61,7 +61,7 @@ var shouldReturnValidResponseSchema = function shouldReturnValidResponseSchema()
       if ( error ) { return done( error ); }
 
       // Blueprint assertions
-      result.errors.should.have.a.lengthOf(0);
+      result.errors.should.have.a.lengthOf( 0 );
 
       done();
 

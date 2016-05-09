@@ -207,7 +207,8 @@ Exchanges credentials for an access token. If the Google account is valid but th
                         },
                         "email": {
                           "description": "The ribot's email address.",
-                          "type": "string"
+                          "type": "string",
+                          "format": "email"
                         },
                         "hexColor": {
                           "description": "The ribot's hex colour.",
@@ -219,7 +220,8 @@ Exchanges credentials for an access token. If the Google account is valid but th
                         },
                         "dateOfBirth": {
                           "description": "The ribot's date of birth. No time component.",
-                          "type": "string"
+                          "type": "string",
+                          "format": "date-time"
                         },
                         "bio": {
                           "description": "A short biography of the ribot.",
@@ -353,7 +355,8 @@ Exchanges credentials for an access token. If the Google account is valid but th
                     },
                     "email": {
                       "description": "The ribot's email address.",
-                      "type": "string"
+                      "type": "string",
+                      "format": "email"
                     },
                     "hexColor": {
                       "description": "The ribot's hex colour.",
@@ -365,7 +368,8 @@ Exchanges credentials for an access token. If the Google account is valid but th
                     },
                     "dateOfBirth": {
                       "description": "The ribot's date of birth. No time component.",
-                      "type": "string"
+                      "type": "string",
+                      "format": "date-time"
                     },
                     "bio": {
                       "description": "A short biography of the ribot.",
@@ -407,11 +411,13 @@ Exchanges credentials for an access token. If the Google account is valid but th
                         },
                         "checkedInDate": {
                           "description": "Date of check-in.",
-                          "type": "string"
+                          "type": "string",
+                          "format": "date-time"
                         },
                         "checkedOutDate": {
                           "description": "Date of check-out, if the venue has beacons.",
-                          "type": "string"
+                          "type": "string",
+                          "format": "date-time"
                         }
                       },
                       "additionalProperties": false
@@ -435,11 +441,13 @@ Exchanges credentials for an access token. If the Google account is valid but th
                         },
                         "checkedInDate": {
                           "description": "Date of check-in.",
-                          "type": "string"
+                          "type": "string",
+                          "format": "date-time"
                         },
                         "checkedOutDate": {
                           "description": "Date of check-out, if the venue has beacons.",
-                          "type": "string"
+                          "type": "string",
+                          "format": "date-time"
                         },
                         "venue": {
                           "description": "Venue model.",
@@ -487,7 +495,8 @@ Exchanges credentials for an access token. If the Google account is valid but th
                             },
                             "encounterDate": {
                               "title": "The date of the encounter",
-                              "type": "string"
+                              "type": "string",
+                              "format": "date-time"
                             },
                             "beacon": {
                               "type": "object",
@@ -739,7 +748,8 @@ Returns a collection of all ribots.
                       },
                       "email": {
                         "description": "The ribot's email address.",
-                        "type": "string"
+                        "type": "string",
+                        "format": "email"
                       },
                       "hexColor": {
                         "description": "The ribot's hex colour.",
@@ -751,7 +761,8 @@ Returns a collection of all ribots.
                       },
                       "dateOfBirth": {
                         "description": "The ribot's date of birth. No time component.",
-                        "type": "string"
+                        "type": "string",
+                        "format": "date-time"
                       },
                       "bio": {
                         "description": "A short biography of the ribot.",
@@ -793,11 +804,13 @@ Returns a collection of all ribots.
                           },
                           "checkedInDate": {
                             "description": "Date of check-in.",
-                            "type": "string"
+                            "type": "string",
+                            "format": "date-time"
                           },
                           "checkedOutDate": {
                             "description": "Date of check-out, if the venue has beacons.",
-                            "type": "string"
+                            "type": "string",
+                            "format": "date-time"
                           }
                         },
                         "additionalProperties": false
@@ -821,11 +834,13 @@ Returns a collection of all ribots.
                           },
                           "checkedInDate": {
                             "description": "Date of check-in.",
-                            "type": "string"
+                            "type": "string",
+                            "format": "date-time"
                           },
                           "checkedOutDate": {
                             "description": "Date of check-out, if the venue has beacons.",
-                            "type": "string"
+                            "type": "string",
+                            "format": "date-time"
                           },
                           "venue": {
                             "description": "Venue model.",
@@ -873,7 +888,8 @@ Returns a collection of all ribots.
                               },
                               "encounterDate": {
                                 "title": "The date of the encounter",
-                                "type": "string"
+                                "type": "string",
+                                "format": "date-time"
                               },
                               "beacon": {
                                 "type": "object",
@@ -1055,11 +1071,13 @@ To perform a beacon check-in, see the *Beacons* section.
                     },
                     "checkedInDate": {
                       "description": "Date of check-in.",
-                      "type": "string"
+                      "type": "string",
+                      "format": "date-time"
                     },
                     "checkedOutDate": {
                       "description": "Date of check-out, if the venue has beacons.",
-                      "type": "string"
+                      "type": "string",
+                      "format": "date-time"
                     },
                     "ribot": {
                       "description": "Minima ribot model",
@@ -1097,11 +1115,13 @@ To perform a beacon check-in, see the *Beacons* section.
                     },
                     "checkedInDate": {
                       "description": "Date of check-in.",
-                      "type": "string"
+                      "type": "string",
+                      "format": "date-time"
                     },
                     "checkedOutDate": {
                       "description": "Date of check-out, if the venue has beacons.",
-                      "type": "string"
+                      "type": "string",
+                      "format": "date-time"
                     },
                     "ribot": {
                       "description": "Minima ribot model",
@@ -1162,7 +1182,8 @@ To perform a beacon check-in, see the *Beacons* section.
                         },
                         "encounterDate": {
                           "title": "The date of the encounter",
-                          "type": "string"
+                          "type": "string",
+                          "format": "date-time"
                         },
                         "beacon": {
                           "type": "object",
@@ -1483,11 +1504,13 @@ Retrieves a collection of check-ins in date order.
                       },
                       "checkedInDate": {
                         "description": "Date of check-in.",
-                        "type": "string"
+                        "type": "string",
+                        "format": "date-time"
                       },
                       "checkedOutDate": {
                         "description": "Date of check-out, if the venue has beacons.",
-                        "type": "string"
+                        "type": "string",
+                        "format": "date-time"
                       },
                       "ribot": {
                         "description": "Minima ribot model",
@@ -1525,11 +1548,13 @@ Retrieves a collection of check-ins in date order.
                       },
                       "checkedInDate": {
                         "description": "Date of check-in.",
-                        "type": "string"
+                        "type": "string",
+                        "format": "date-time"
                       },
                       "checkedOutDate": {
                         "description": "Date of check-out, if the venue has beacons.",
-                        "type": "string"
+                        "type": "string",
+                        "format": "date-time"
                       },
                       "ribot": {
                         "description": "Minima ribot model",
@@ -1590,7 +1615,8 @@ Retrieves a collection of check-ins in date order.
                           },
                           "encounterDate": {
                             "title": "The date of the encounter",
-                            "type": "string"
+                            "type": "string",
+                            "format": "date-time"
                           },
                           "beacon": {
                             "type": "object",
@@ -2037,7 +2063,8 @@ A beacon encounter check-in is done via the `POST /beacons/{beaconUuid}/encounte
                 },
                 "encounterDate": {
                   "title": "The date of the encounter",
-                  "type": "string"
+                  "type": "string",
+                  "format": "date-time"
                 },
                 "beacon": {
                   "type": "object",
@@ -2145,14 +2172,16 @@ A beacon encounter check-in is done via the `POST /beacons/{beaconUuid}/encounte
                     },
                     "checkedInDate": {
                       "description": "Date of check-in.",
-                      "type": "string"
+                      "type": "string",
+                      "format": "date-time"
                     },
                     "checkedOutDate": {
                       "description": "Date of check-out, if the venue has beacons.",
-                      "type": "string"
+                      "type": "string",
+                      "format": "date-time"
                     },
                     "ribot": {
-                      "description": "Minima ribot model",
+                      "description": "Minimal ribot model.",
                       "type": "object",
                       "required": [
                         "id"
@@ -2251,7 +2280,7 @@ Returns an array of venues common venues.
               }
             }
 
-## Retreive single venues [GET /venues/{venueId}]
+## Retrieve single venues [GET /venues/{venueId}]
 Returns a single venue with a given venue ID.
 
 + Parameters
@@ -2312,4 +2341,206 @@ Returns a single venue with a given venue ID.
                 "longitude": [ "latitude" ]
               },
               "additionalProperties": false
+            }
+
+# Group Drinks
+Drinks operations.
+
+## Drink [/drinks/{drinkId}]
+
++ Model
+
+    + Body
+
+            {
+              "id": "123",
+              "type": "water",
+              "volume": 150,
+              "drinkDate": "2015-10-05T14:48:00.000Z",
+              "ribot": {
+                "id": "123"
+              }
+            }
+
+    + Schema
+
+            {
+              "$schema": "http://json-schema.org/draft-04/schema#",
+              "title": "Drink model",
+              "type": "object",
+              "required": [
+                "id",
+                "type",
+                "volume",
+                "drinkDate",
+                "ribot"
+              ],
+              "properties": {
+                "id": {
+                  "description": "Drink ID.",
+                  "type": "string"
+                },
+                "type": {
+                  "description": "Label for type of drink.",
+                  "type": "string"
+                },
+                "volume": {
+                  "description": "Volume in millilitres.",
+                  "type": "number"
+                },
+                "drinkDate": {
+                  "description": "Date and time the drink was registered.",
+                  "type": "string",
+                  "format": "date-time"
+                },
+                "ribot": {
+                  "description": "Minimal ribot model.",
+                  "type": "object",
+                  "required": [
+                    "id"
+                  ],
+                  "properties": {
+                    "id": {
+                      "type": "string",
+                      "description": "ribot ID."
+                    }
+                  },
+                  "additionalProperties": false
+                }
+              },
+              "additionalProperties": false
+            }
+
+### Retrieve drink [GET]
+Retrieve a single drink.
+
++ Parameters
+
+    + drinkId (required, string, `123`) ... Drink ID.
+
++ Response 200 (application/json)
+
+    [Drink][]
+
+## Drinks [/drinks]
+
+### Register a drink [POST]
+Creates a drink resource.
+
++ Request (application/json)
+
+    + Headers
+
+            Authorization: Bearer <token>
+
+    + Body
+
+            {
+              "type": "water",
+              "volume": 150
+            }
+
+    + Schema
+
+            {
+              "$schema": "http://json-schema.org/draft-04/schema#",
+              "title": "/drinks POST request",
+              "type": "object",
+              "required": [
+                "type",
+                "volume"
+              ],
+              "properties": {
+                "type": {
+                  "description": "Label for type of drink.",
+                  "type": "string"
+                },
+                "volume": {
+                  "description": "Volume in millilitres.",
+                  "type": "number"
+                }
+              },
+              "additionalProperties": false
+            }
+
++ Response 201 (application/json)
+
+    [Drink][]
+
+### Retrieve drinks collection [GET /drinks?ribotId={ribotId}&dateFrom={dateFrom}&dateTo={dateTo}]
+Retrieves a collection of drinks in descending date order.
+
++ Parameters
+
+    + ribotId (optional, string, `123`) ... Filter drinks by a specific ribot
+    + dateFrom (optional, string, `2015-09-20T19:31:36Z`) ... Filter drinks performed after date
+    + dateTo (optional, string, `2015-09-21T19:31:36Z`) ... Filter drinks performed before provided date
+
++ Response 200 (application/json)
+
+    + Body
+
+            [
+              {
+                "id": "123",
+                "type": "water",
+                "volume": 150,
+                "drinkDate": "2015-10-05T14:48:00.000Z",
+                "ribot": {
+                  "id": "123"
+                }
+              }
+            ]
+
+    + Schema
+
+            {
+              "$schema": "http://json-schema.org/draft-04/schema#",
+              "title": "/drinks GET response",
+              "type": "array",
+              "items": {
+                "type": "object",
+                "description": "Drink item.",
+                "required": [
+                  "id",
+                  "type",
+                  "volume",
+                  "drinkDate",
+                  "ribot"
+                ],
+                "properties": {
+                  "id": {
+                    "description": "Drink ID.",
+                    "type": "string"
+                  },
+                  "type": {
+                    "description": "Label for type of drink.",
+                    "type": "string"
+                  },
+                  "volume": {
+                    "description": "Volume in millilitres.",
+                    "type": "number"
+                  },
+                  "drinkDate": {
+                    "description": "Date and time the drink was registered.",
+                    "type": "string",
+                    "format": "date-time"
+                  },
+                  "ribot": {
+                    "description": "Minimal ribot model.",
+                    "type": "object",
+                    "required": [
+                      "id"
+                    ],
+                    "properties": {
+                      "id": {
+                        "type": "string",
+                        "description": "ribot ID."
+                      }
+                    },
+                    "additionalProperties": false
+                  }
+                },
+                "additionalProperties": false
+              }
             }

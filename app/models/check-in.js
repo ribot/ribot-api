@@ -103,27 +103,19 @@ var CheckIn = BaseModel.extend( {
  * Find a check in by id
  */
 CheckIn.findById = function findById( id, options ) {
+  return new CheckIn( {
+    id: id
+  } )
+    .fetch( options )
+    .then( function( checkIn ) {
 
-  if ( id ) {
+      if ( checkIn ) {
+        return checkIn;
+      } else {
+        throw new ResponseError( 'notFound' );
+      }
 
-    return new CheckIn( {
-      id: id
-    } )
-      .fetch( options )
-      .then( function( checkIn ) {
-
-        if ( checkIn ) {
-          return checkIn;
-        } else {
-          throw new ResponseError( 'notFound' );
-        }
-
-      } );
-
-  } else {
-    throw new ResponseError( 'notFound' );
-  }
-
+    } );
 };
 
 

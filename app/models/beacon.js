@@ -48,27 +48,19 @@ var Beacon = BaseModel.extend( {
  * Find a beacon by id
  */
 Beacon.findById = function findById( id, options ) {
+  return new Beacon( {
+    id: id
+  } )
+    .fetch( options )
+    .then( function( beacon ) {
 
-  if ( id ) {
+      if ( beacon ) {
+        return beacon;
+      } else {
+        throw new ResponseError( 'notFound' );
+      }
 
-    return new Beacon( {
-      id: id
-    } )
-      .fetch( options )
-      .then( function( beacon ) {
-
-        if ( beacon ) {
-          return beacon;
-        } else {
-          throw new ResponseError( 'notFound' );
-        }
-
-      } );
-
-  } else {
-    throw new ResponseError( 'notFound' );
-  }
-
+    } );
 };
 
 

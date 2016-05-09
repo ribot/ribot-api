@@ -12,8 +12,9 @@ var router = require( '../lib/router' );
 var init = function init() {
 
   require( './auth' );
-  require( './beacons' );
+  require( './beacon' );
   require( './check-in' );
+  require( './drink' );
   require( './docs' );
   require( './ribot' );
   require( './venue' );

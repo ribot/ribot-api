@@ -28,7 +28,9 @@ var ProviderCredential = BaseModel.extend( {
   },
 
   update: function updateAccessToken( attributes, options ) {
+
     this.set( attributes );
+
     return this.save( null, _.extend( { method: 'update' }, options ) );
   }
 

@@ -12,7 +12,9 @@ var seed = require( '../../../data/seed' ),
 
 // Helper functions
 var testWithValidAndInvalidAccessTokensAndBody = function testWithValidAndInvalidAccessTokensAndBody( requestBody, requiresVenue ) {
+
   describe( 'Handle invalid access token', function( done ) {
+
     before( function( done ) {
       // Set up db tables and seed
       helpers.db.setupForTests()
@@ -34,9 +36,11 @@ var testWithValidAndInvalidAccessTokensAndBody = function testWithValidAndInvali
     shared.shouldRespondWithCorrectError();
     shared.shouldNotHaveCheckInForUserInDatabase();
     shared.shouldReturnValidErrorSchema();
+
   } );
 
   describe( 'Handle user with valid access token', function( done ) {
+
     before( function( done ) {
       // Set up db tables and seed
       helpers.db.setupForTests()
@@ -65,10 +69,13 @@ var testWithValidAndInvalidAccessTokensAndBody = function testWithValidAndInvali
     } else {
       shared.shouldNotReturnVenueObject();
     }
+
   } );
+
 };
 
 var testInvalidDataErrorWithBody = function testInvalidDataErrorWithBody( requestBody ) {
+
   before( function( done ) {
     // Set up db tables and seed
     helpers.db.setupForTests()
@@ -93,6 +100,7 @@ var testInvalidDataErrorWithBody = function testInvalidDataErrorWithBody( reques
   shared.shouldRespondWithCorrectError();
   shared.shouldNotHaveCheckInForUserInDatabase();
   shared.shouldReturnValidErrorSchema();
+
 };
 
 
@@ -113,7 +121,7 @@ describe( 'Check-in', function( done ) {
       testWithValidAndInvalidAccessTokensAndBody( fixtures.performCheckInBodyWithLabel );
     } );
 
-    describe( 'Hanel with label and coordinates', function( done ) {
+    describe( 'Handle with label and coordinates', function( done ) {
       testWithValidAndInvalidAccessTokensAndBody( fixtures.performCheckInBodyWithAndLocation );
     } );
 
@@ -125,27 +133,27 @@ describe( 'Check-in', function( done ) {
 
       describe( 'Handle only latitude', function( done ) {
         testInvalidDataErrorWithBody( fixtures.performCheckInBodyOnlyLatitude );
-      });
+      } );
 
       describe( 'Handle only longitude', function( done ) {
         testInvalidDataErrorWithBody( fixtures.performCheckInBodyOnlyLongitude );
-      });
+      } );
 
       describe( 'Handle invalid latitude (low)', function( done ) {
         testInvalidDataErrorWithBody( fixtures.performCheckInBodyInvalidLatitudeLow );
-      });
+      } );
 
       describe( 'Handle invalid latitude (high)', function( done ) {
         testInvalidDataErrorWithBody( fixtures.performCheckInBodyInvalidLatitudeHigh );
-      });
+      } );
 
       describe( 'Handle invalid longitude (low)', function( done ) {
         testInvalidDataErrorWithBody( fixtures.performCheckInBodyInvalidLongitudeLow );
-      });
+      } );
 
       describe( 'Handle invalid longitude (high)', function( done ) {
         testInvalidDataErrorWithBody( fixtures.performCheckInBodyInvalidLongitudeHigh );
-      });
+      } );
 
     } );
 
@@ -158,6 +166,7 @@ describe( 'Check-in', function( done ) {
     } );
 
     describe( 'Handle with invalid venue id', function( done ) {
+
       before( function( done ) {
         // Set up db tables and seed
         helpers.db.setupForTests()
@@ -183,6 +192,7 @@ describe( 'Check-in', function( done ) {
       shared.shouldNotHaveCheckInForUserInDatabase();
       shared.shouldReturnValidErrorSchema();
       shared.shouldHaveVenueIdError();
+
     } );
 
   } );

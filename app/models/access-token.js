@@ -91,7 +91,9 @@ var AccessToken = BaseModel.extend( {
  * Fetch access token and set last-used date
  */
 AccessToken.fetchAndSetLastUsedDate = function updateLastUsedDate( query, options ) {
+
   query.token = utils.encodeToken( query.token );
+
   return AccessToken.where( query )
     .save( { last_used_date: new Date() }, { method: 'update', patch: true } )
     .then( function() {
