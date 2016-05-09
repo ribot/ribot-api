@@ -115,10 +115,10 @@ var requestPostCheckIn = function requestPostCheckIn( request, response, next ) 
     } )
 
     .then( function() {
+      var payload = createCheckInResponsePayload( results );
 
       // TODO: emit new check-in
-
-      response.status( 201 ).send( createCheckInResponsePayload( results ) );
+      response.status( 201 ).send( payload );
 
     } )
 
@@ -167,10 +167,10 @@ var requestPutCheckIn = function requestPutCheckIn( request, response, next ) {
       results.checkIn = checkIn;
     } )
     .then( function() {
+      var payload = createCheckInResponsePayload( results );
 
       // TODO: emit check-in status change
-
-      response.status( 200 ).send( createCheckInResponsePayload( results ) );
+      response.status( 200 ).send( payload );
 
     } );
 

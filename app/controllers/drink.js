@@ -53,14 +53,15 @@ var requestPostDrink = function requestPostDrink( request, response ) {
 
   responseData = request.user.ribot.createDrink( request.body )
     .then( function( drink ) {
+      var payload = createDrinkPayload( drink );
 
       // TODO: emit socket event
-
-      response.status( 201 ).send( createDrinkPayload( drink ) );
+      response.status( 201 ).send( payload );
 
     } );
 
-  return handleResponse( response, responseData );
+  handleResponse( response, responseData );
+
 };
 
 
@@ -73,10 +74,14 @@ var requestGetDrink = function requestGetDrink( request, response ) {
 
   responseData = Drink.findById( request.params.id )
     .then( function( drink ) {
-      response.status( 200 ).send( createDrinkPayload( drink ) );
+      var payload = createDrinkPayload( drink );
+
+      response.status( 200 ).send( payload );
+
     } );
 
-  return handleResponse( response, responseData );
+  handleResponse( response, responseData );
+
 };
 
 
@@ -105,10 +110,13 @@ var requestGetDrinksCollection = function requestGetDrinksCollection( request, r
       var payload = drinks.map( function( drink ) {
         return createDrinkPayload( drink );
       } );
+
       response.status( 200 ).send( payload );
+
     } );
 
-  return handleResponse( response, responseData );
+  handleResponse( response, responseData );
+
 };
 
 
