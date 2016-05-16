@@ -13,5 +13,6 @@ module.exports = {
   4: require( './4-add-checkin-venueid-foreign-key' ),
   5: require( './5-add-beacon-checkin-tables' ),
   6: require( './6-add-ibeacon-columns' ),
-  7: require( './7-add-drink-table' )
+  7: require( './7-add-drink-table' ),
+  8: require( './8-add-nfc-tag-table' )
 };
