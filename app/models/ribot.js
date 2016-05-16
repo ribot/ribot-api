@@ -74,6 +74,10 @@ var Ribot = BaseModel.extend( {
     return this.hasMany( 'Drink' );
   },
 
+  nfcTags: function nfcTags() {
+    return this.hasMany( 'NfcTag' );
+  },
+
   validations: {
     id: {
       uuid: true
@@ -207,6 +211,10 @@ var Ribot = BaseModel.extend( {
 
   createDrink: function createDrink( attributes, options ) {
     return this.related( 'drinks' ).create( attributes, options );
+  },
+
+  createNfcTag: function createNfcTag( attributes, options ) {
+    return this.related( 'nfcTags' ).create( attributes, options );
   }
 
 } );

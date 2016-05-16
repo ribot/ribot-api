@@ -2544,3 +2544,63 @@ Retrieves a collection of drinks in descending date order.
                 "additionalProperties": false
               }
             }
+
+# Group NFC scans
+NFC scan operations. Ideally this wouldn't be needed as the application making the request should be able to make a direct request on a specific resource. Alas, I couldn't figure out how to parse the NFC tag payload for context 🌚.
+
+## NFC scans [/nfc-scans]
+
+### Register an nfc scan [POST]
+Triggers an application event based on the NFC scan. E.g. creates a drink.
+
++ Request (application/json)
+
+    + Headers
+
+            Authorization: Bearer <token>
+
+    + Body
+
+            {
+              "uid": "123",
+              "context": "drink"
+            }
+
+    + Schema
+
+            {
+              "$schema": "http://json-schema.org/draft-04/schema#",
+              "title": "/nfc-scans POST request",
+              "type": "object",
+              "required": [
+                "uid",
+                "context"
+              ],
+              "properties": {
+                "uid": {
+                  "description": "UID of the NFC tag.",
+                  "type": "string"
+                },
+                "context": {
+                  "description": "Context of the event. E.g. 'drink'.",
+                  "type": "text"
+                }
+              },
+              "additionalProperties": false
+            }
+
++ Response 201 (application/json)
+
+    + Body
+
+            {}
+
+    + Schema
+
+            {
+              "$schema": "http://json-schema.org/draft-04/schema#",
+              "title": "/nfc-scans POST response",
+              "type": "object",
+              "required": [],
+              "properties": {}
+            }

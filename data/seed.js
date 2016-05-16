@@ -23,6 +23,7 @@ var date = moment().format(),
       return utils.createUuid();
     } );
 
+
 var seedData = {
 
   ribot: [
@@ -64,6 +65,10 @@ var seedData = {
     { id: uuids[ 1 ], ribot_id: uuids[ 0 ], type: 'water', volume: 250, created_date: date, updated_date: date },
     { id: uuids[ 2 ], ribot_id: uuids[ 1 ], type: 'water', volume: 250, created_date: date, updated_date: date },
     { id: uuids[ 3 ], ribot_id: uuids[ 1 ], type: 'water', volume: 250, created_date: moment().subtract( 3, 'days' ).format(), updated_date: date }
+  ],
+
+  nfc_tag: [
+    { id: uuids[ 0 ], ribot_id: uuids[ 0 ], uid: '04:fd:42:02:54:28:80', created_date: date, updated_date: date }
   ]
 
 };

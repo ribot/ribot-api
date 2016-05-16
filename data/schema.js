@@ -1,4 +1,4 @@
-var version = 7;
+var version = 8;
 
 var schema = {
 
@@ -123,6 +123,17 @@ var schema = {
       ribot_id:                { type: 'uuid', nullable: false, references: { table: 'ribot', column: 'id' } },
       type:                    { type: 'text', nullable: false },
       volume:                  { type: 'integer', nullable: false },
+      created_date:            { type: 'dateTime', nullable: false },
+      updated_date:            { type: 'dateTime', nullable: false }
+    }
+  },
+
+  nfc_tag: {
+    primary: 'id',
+    columns: {
+      id:                      { type: 'uuid', nullable: false },
+      ribot_id:                { type: 'uuid', nullable: false, references: { table: 'ribot', column: 'id' } },
+      uid:                     { type: 'text', nullable: false },
       created_date:            { type: 'dateTime', nullable: false },
       updated_date:            { type: 'dateTime', nullable: false }
     }

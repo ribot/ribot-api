@@ -16,6 +16,7 @@ var init = function init() {
   require( './check-in' );
   require( './drink' );
   require( './docs' );
+  require( './nfc-scan' );
   require( './ribot' );
   require( './venue' );
 
