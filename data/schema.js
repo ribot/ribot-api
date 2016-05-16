@@ -133,7 +133,7 @@ var schema = {
     columns: {
       id:                      { type: 'uuid', nullable: false },
       ribot_id:                { type: 'uuid', nullable: false, references: { table: 'ribot', column: 'id' } },
-      uid:                     { type: 'text', nullable: false },
+      uid:                     { type: 'text', nullable: false, unique: true },
       created_date:            { type: 'dateTime', nullable: false },
       updated_date:            { type: 'dateTime', nullable: false }
     }

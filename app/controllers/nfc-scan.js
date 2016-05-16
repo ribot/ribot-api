@@ -24,14 +24,6 @@ var init = function init() {
 
 
 /**
- * Create the payload to send back
- */
-var createNfcScanPayload = function createScanPayload() {
-  return {};
-};
-
-
-/**
  * Request POST /nfc-scans
  */
 var requestPostNfcScan = function requestPostNfcScan( request, response ) {
@@ -60,9 +52,7 @@ var requestPostNfcScan = function requestPostNfcScan( request, response ) {
       }
     } )
     .then( function() {
-      var responseBody = createNfcScanPayload();
-
-      response.status( 201 ).send( request.body );
+      return response.status( 201 ).send();
     } );
 
   handleResponse( response, responseData );

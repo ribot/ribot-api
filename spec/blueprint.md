@@ -2590,17 +2590,3 @@ Triggers an application event based on the NFC scan. E.g. creates a drink.
             }
 
 + Response 201 (application/json)
-
-    + Body
-
-            {}
-
-    + Schema
-
-            {
-              "$schema": "http://json-schema.org/draft-04/schema#",
-              "title": "/nfc-scans POST response",
-              "type": "object",
-              "required": [],
-              "properties": {}
-            }
