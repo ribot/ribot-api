@@ -58,9 +58,11 @@ describe( 'NFC scans', function( done ) {
         helpers.db.setupForTests()
           .then( function() {
 
+            this.nfcTag = seed.nfc_tag[ 0 ];
+
             this.requestBody = {
               context: 'drink',
-              uid: seed.nfc_tag[ 0 ].uid
+              uid: this.nfcTag.uid
             };
 
             // Set up scope for assertions
@@ -78,6 +80,19 @@ describe( 'NFC scans', function( done ) {
 
       shared.shouldRespondWithCorrectStatusCode();
       shared.shouldReturnValidResponseSchema();
+
+      it( 'should have the drink in the database', function( done ) {
+        helpers.db.fetch( 'drink', { ribot_id: this.nfcTag.ribot_id } )
+          .bind( this )
+          .then( function( results ) {
+            var seedDrinks = _.filter( seed.drink, { ribot_id: this.nfcTag.ribot_id } );
+            results.length.should.eql( seedDrinks.length + 1 );
+            done();
+          } )
+          .catch( function( error ) {
+            done( error );
+          } );
+      } );
 
     } );
 
