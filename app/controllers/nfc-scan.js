@@ -47,7 +47,7 @@ var requestPostNfcScan = function requestPostNfcScan( request, response ) {
         case 'drink':
           return nfcTag.related( 'ribot' ).createDrink( {
             type: 'water',
-            volume: 150
+            volume: 125
           } );
       }
     } )
