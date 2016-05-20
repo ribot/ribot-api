@@ -16,10 +16,6 @@ var Venue = BaseModel.extend( {
 
   tableName: 'venue',
 
-  hidden: _.union( BaseModel.prototype.hidden, [
-    '_sys'
-  ] ),
-
   checkIns: function checkIns() {
     return this.hasMany( 'CheckIn' );
   },

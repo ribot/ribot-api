@@ -48,3 +48,6 @@ test/reports
 # Development environment
 .env
 cookbooks
+
+# App
+data/jobs/*

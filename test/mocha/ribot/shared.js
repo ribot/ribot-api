@@ -8,6 +8,14 @@ var _ = require( 'lodash' ),
 // Exported object
 var shared = {
 
+  shouldNotHaveInactiveRibotsInResponseBody: function() {
+    it( 'should not have inactive ribots in response body', function() {
+      _.every( this.response.body, function( ribot ) {
+        return ribot.profile.isActive;
+      } ).should.be.true;
+    } );
+  },
+
   shouldHaveCheckInInResponseBody: function() {
     it( 'should have check-ins', function() {
       this.response.body.should.have.property( 'latestCheckIn' );

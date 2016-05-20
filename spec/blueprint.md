@@ -141,6 +141,7 @@ Exchanges credentials for an access token. If the Google account is valid but th
               "accessToken": "defghijklmnopqrst",
               "ribot": {
                 "profile": {
+                  "id": "98ba31e55818861b4870553a008ce16d",
                   "name": {
                     "first": "Lionel",
                     "last": "Rich-Tea"
@@ -149,7 +150,8 @@ Exchanges credentials for an access token. If the Google account is valid but th
                   "hexColor": "#C0FFEE",
                   "avatar": "http://stuff.co.uk/images/lionel-richtea.jpg",
                   "dateOfBirth": "1946-06-20",
-                  "bio": "Say some stuff..."
+                  "bio": "Say some stuff...",
+                  "isActive": true
                 }
               }
             }
@@ -158,7 +160,7 @@ Exchanges credentials for an access token. If the Google account is valid but th
 
             {
               "$schema": "http://json-schema.org/draft-04/schema#",
-              "title": "/auth/register POST response",
+              "title": "/auth/sign-in POST response",
               "type": "object",
               "required": [
                 "accessToken",
@@ -177,18 +179,24 @@ Exchanges credentials for an access token. If the Google account is valid but th
                   ],
                   "properties": {
                     "profile": {
-                      "description": "Object containing the profile of a ribot. This information is mostly static.",
+                      "description": "Object containing the profile of a ribot.",
                       "type": "object",
                       "required": [
+                        "id",
                         "name",
                         "email",
                         "hexColor",
                         "avatar",
-                        "dateOfBirth"
+                        "dateOfBirth",
+                        "isActive"
                       ],
                       "properties": {
+                        "id": {
+                          "description": "The ribot's ID.",
+                          "type": "string"
+                        },
                         "name": {
-                          "descrption": "The ribot's name.",
+                          "description": "The ribot's name.",
                           "type": "object",
                           "required": [
                             "first",
@@ -226,12 +234,19 @@ Exchanges credentials for an access token. If the Google account is valid but th
                         "bio": {
                           "description": "A short biography of the ribot.",
                           "type": "string"
+                        },
+                        "isActive": {
+                          "description": "Flag to see whether the ribot is currently active.",
+                          "type": "boolean"
                         }
-                      }
+                      },
+                      "additionalProperties": false
                     }
-                  }
+                  },
+                  "additionalProperties": false
                 }
-              }
+              },
+              "additionalProperties": false
             }
 
 + Response 400 (application/json)
@@ -277,6 +292,7 @@ Exchanges credentials for an access token. If the Google account is valid but th
 
             {
               "profile": {
+                "id": "98ba31e55818861b4870553a008ce16d",
                 "name": {
                   "first": "Lionel",
                   "last": "Rich-Tea"
@@ -285,7 +301,8 @@ Exchanges credentials for an access token. If the Google account is valid but th
                 "hexColor": "#C0FFEE",
                 "avatar": "http://stuff.co.uk/images/lionel-richtea.jpg",
                 "dateOfBirth": "1946-06-20",
-                "bio": "Say some stuff..."
+                "bio": "Say some stuff...",
+                "isActive": true
               },
               "latestCheckIn": {
                 "id": "98ba31e55818861b4870553a008ce16d",
@@ -325,18 +342,24 @@ Exchanges credentials for an access token. If the Google account is valid but th
               ],
               "properties": {
                 "profile": {
-                  "description": "Object containing the profile of a ribot. This information is mostly static.",
+                  "description": "Object containing the profile of a ribot.",
                   "type": "object",
                   "required": [
+                    "id",
                     "name",
                     "email",
                     "hexColor",
                     "avatar",
-                    "dateOfBirth"
+                    "dateOfBirth",
+                    "isActive"
                   ],
                   "properties": {
+                    "id": {
+                      "description": "The ribot's ID.",
+                      "type": "string"
+                    },
                     "name": {
-                      "descrption": "The ribot's name.",
+                      "description": "The ribot's name.",
                       "type": "object",
                       "required": [
                         "first",
@@ -374,8 +397,13 @@ Exchanges credentials for an access token. If the Google account is valid but th
                     "bio": {
                       "description": "A short biography of the ribot.",
                       "type": "string"
+                    },
+                    "isActive": {
+                      "description": "Flag to see whether the ribot is currently active.",
+                      "type": "boolean"
                     }
-                  }
+                  },
+                  "additionalProperties": false
                 },
                 "latestCheckIn": {
                   "title": "Check-in model",
@@ -629,7 +657,7 @@ Returns the ribot object for the authenticated user.
 ## Collection of ribots [/ribots]
 
 ## Retrieve ribot collection [GET /ribots?embed={embed}]
-Returns a collection of all ribots.
+Returns a collection of all active ribots.
 
 + Parameters
 
@@ -642,6 +670,7 @@ Returns a collection of all ribots.
             [
               {
                 "profile": {
+                  "id": "98ba31e55818861b4870553a008ce16d",
                   "name": {
                     "first": "Lionel",
                     "last": "Rich-Tea"
@@ -650,7 +679,8 @@ Returns a collection of all ribots.
                   "hexColor": "#C0FFEE",
                   "avatar": "http://stuff.co.uk/images/lionel-richtea.jpg",
                   "dateOfBirth": "1946-06-20",
-                  "bio": "Say some stuff..."
+                  "bio": "Say some stuff...",
+                  "isActive": true
                 },
                 "latestCheckIn": {
                   "id": "98ba31e55818861b4870553a008ce16d",
@@ -661,6 +691,7 @@ Returns a collection of all ribots.
               },
               {
                 "profile": {
+                  "id": "98ba31e55818861b4870553a008ce16d",
                   "name": {
                     "first": "Lionel",
                     "last": "Rich-Tea"
@@ -669,7 +700,8 @@ Returns a collection of all ribots.
                   "hexColor": "#C0FFEE",
                   "avatar": "http://stuff.co.uk/images/lionel-richtea.jpg",
                   "dateOfBirth": "1946-06-20",
-                  "bio": "Say some stuff..."
+                  "bio": "Say some stuff...",
+                  "isActive": true
                 },
                 "latestCheckIn": {
                   "id": "98ba31e55818861b4870553a008ce16d",
@@ -718,16 +750,22 @@ Returns a collection of all ribots.
                 ],
                 "properties": {
                   "profile": {
-                    "description": "Object containing the profile of a ribot. This information is mostly static.",
+                    "description": "Object containing the profile of a ribot.",
                     "type": "object",
                     "required": [
+                      "id",
                       "name",
                       "email",
                       "hexColor",
                       "avatar",
-                      "dateOfBirth"
+                      "dateOfBirth",
+                      "isActive"
                     ],
                     "properties": {
+                      "id": {
+                        "description": "The ribot's ID.",
+                        "type": "string"
+                      },
                       "name": {
                         "descrption": "The ribot's name.",
                         "type": "object",
@@ -767,8 +805,17 @@ Returns a collection of all ribots.
                       "bio": {
                         "description": "A short biography of the ribot.",
                         "type": "string"
+                      },
+                      "bio": {
+                        "description": "A short biography of the ribot.",
+                        "type": "boolean"
+                      },
+                      "isActive": {
+                        "description": "Flag to see whether the ribot is currently active.",
+                        "type": "boolean"
                       }
-                    }
+                    },
+                    "additionalProperties": false
                   },
                   "latestCheckIn": {
                     "title": "Check-in model",
@@ -1080,7 +1127,7 @@ To perform a beacon check-in, see the *Beacons* section.
                       "format": "date-time"
                     },
                     "ribot": {
-                      "description": "Minima ribot model",
+                      "description": "Minimal ribot model",
                       "type": "object",
                       "required": [
                         "id"
@@ -1089,6 +1136,10 @@ To perform a beacon check-in, see the *Beacons* section.
                         "id": {
                           "description": "The ribot's id.",
                           "type": "string"
+                        },
+                        "isActive": {
+                          "description": "Flag to see whether the ribot is currently active.",
+                          "type": "boolean"
                         }
                       }
                     }

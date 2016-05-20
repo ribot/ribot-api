@@ -21,8 +21,7 @@ var AccessToken = BaseModel.extend( {
     'id',
     'ribotId',
     'lastUsedDate',
-    'token',
-    '_sys'
+    'token'
   ] ),
 
   virtuals: _.extend( {}, BaseModel.prototype.virtuals, {

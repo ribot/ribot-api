@@ -45,7 +45,7 @@ var sortTables = function sortTables( schema ) {
 
   } );
 
-  return depGraph.overallOrder();
+  return depGraph.overallOrder().reverse();
 };
 
 /**
@@ -272,7 +272,7 @@ Db.prototype = {
   createTables: function createTables( schema, seed ) {
     this.foreignKeyStatements = [];
 
-    var sortedTableNames = sortTables( schema.schema ).reverse();
+    var sortedTableNames = sortTables( schema.schema );
 
     return this.knex.transaction( function( trx ) {
       return Promise.all( [
@@ -365,7 +365,7 @@ Db.prototype = {
    * Drop all tables
    */
   dropTables: function dropTables( schema ) {
-    var sortedTableNames = sortTables( schema ).reverse();
+    var sortedTableNames = sortTables( schema );
     return Promise.each( sortedTableNames, this.knex.schema.dropTableIfExists );
   },
 

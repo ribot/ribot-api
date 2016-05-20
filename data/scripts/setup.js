@@ -11,7 +11,6 @@ var db = require( '../index' ),
 
 
 var init = function() {
-
   var args = process.argv[ 2 ],
       shouldSeed = ( args && ( args === '--seed' || args === '-s' ) ),
       records = ( shouldSeed ) ? seed : null;

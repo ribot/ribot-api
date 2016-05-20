@@ -17,8 +17,7 @@ var Beacon = BaseModel.extend( {
   tableName: 'beacon',
 
   hidden: _.union( BaseModel.prototype.hidden, [
-    'zoneId',
-    '_sys'
+    'zoneId'
   ] ),
 
   zone: function zone() {
