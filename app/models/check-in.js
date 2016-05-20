@@ -19,8 +19,7 @@ var CheckIn = BaseModel.extend( {
 
   hidden: _.union( BaseModel.prototype.hidden, [
     'ribotId',
-    'venueId',
-    '_sys'
+    'venueId'
   ] ),
 
   virtuals: _.extend( {}, BaseModel.prototype.virtuals, {

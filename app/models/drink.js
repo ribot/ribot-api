@@ -20,8 +20,7 @@ var Drink = BaseModel.extend( {
 
   hidden: _.union( BaseModel.prototype.hidden, [
     'ribotId',
-    'ribot',
-    '_sys'
+    'ribot'
   ] ),
 
   ribot: function ribot() {

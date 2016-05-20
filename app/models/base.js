@@ -42,16 +42,7 @@ var BaseModel = db.bookshelf.Model.extend( {
 
   hidden: [ 'createdDate', 'updatedDate' ],
 
-  virtuals: {
-
-    _sys: function _sys() {
-      return {
-        createdDate: utils.formatDateTime( this.get( 'createdDate' ) ),
-        updatedDate: utils.formatDateTime( this.get( 'updatedDate' ) )
-      };
-    }
-
-  },
+  virtuals: {},
 
   /**
    * Constructor override

@@ -111,7 +111,9 @@ var requestGetRibotCollection = function requestGetRibotCollection( request, res
           options.withRelated = checkInRelations;
         }
 
-        return Ribot.collection().fetch( options )
+        return Ribot.collection()
+          .query( { where: { is_active: true } } )
+          .fetch( options )
           .then( function( ribots ) {
             var payload = ribots.map( function( ribot ) {
               return createRibotPayload( ribot );

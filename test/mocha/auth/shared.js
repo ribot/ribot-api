@@ -51,10 +51,7 @@ var shared = {
     it( 'should return an access token and user profile', function() {
       // Response assertions
       this.response.body.should.have.property( 'accessToken' ).and.be.type( 'string' );
-      this.response.body.should.have.propertyByPath( 'ribot', 'profile' )
-        .and.have.properties( {
-          isAuthenticated: true
-        } );
+      this.response.body.should.have.propertyByPath( 'ribot', 'profile' );
       this.response.body.should.have.propertyByPath( 'ribot', 'profile', 'name' )
         .and.have.properties( {
           first: this.googleProfileResponse.name.givenName,

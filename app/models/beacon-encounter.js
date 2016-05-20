@@ -18,8 +18,7 @@ var BeaconEncounter = BaseModel.extend( {
 
   hidden: _.union( BaseModel.prototype.hidden, [
     'beaconId',
-    'checkInId',
-    '_sys'
+    'checkInId'
   ] ),
 
   virtuals: _.extend( {}, BaseModel.prototype.virtuals, {

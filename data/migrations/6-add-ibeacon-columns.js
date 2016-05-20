@@ -21,7 +21,7 @@ var alterTable = function alterTable( trx ) {
 
 
 /**
- * Adds new default values to all the beacon entires in the database
+ * Adds new default values to all the beacon entities in the database
  */
 var alterData = function alterData( trx ) {
   return Beacon.fetchAll( { transacting: trx } )

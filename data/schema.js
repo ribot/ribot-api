@@ -1,4 +1,4 @@
-var version = 8;
+var version = 9;
 
 var schema = {
 
@@ -22,6 +22,7 @@ var schema = {
       hex_color:               { type: 'text' },
       bio:                     { type: 'text' },
       is_authenticated:        { type: 'boolean', nullable: false },
+      is_active:               { type: 'boolean', nullable: false },
       created_date:            { type: 'dateTime', nullable: false },
       updated_date:            { type: 'dateTime', nullable: false }
     }

@@ -23,11 +23,13 @@ var Ribot = BaseModel.extend( {
     'providerCredentials',
     'accessTokens',
     'checkIns',
-    'latestCheckIn'
+    'latestCheckIn',
+    'isAuthenticated'
   ] ),
 
   defaults: {
-    isAuthenticated: false
+    isAuthenticated: false,
+    isActive: true
   },
 
   virtuals: _.extend( {}, BaseModel.prototype.virtuals, {
@@ -110,11 +112,6 @@ var Ribot = BaseModel.extend( {
 
   update: function personUpdate( attributes, options ) {
 
-    // Remove isAuthenticated (read-only)
-    if ( attributes.hasOwnProperty( 'isAuthenticated' ) ) {
-      delete attributes.isAuthenticated;
-    }
-
     // If person is authenticated
     if ( this.get( 'isAuthenticated' ) === true ) {
 
@@ -132,11 +129,30 @@ var Ribot = BaseModel.extend( {
 
     this.set( attributes );
 
-    return this
-      .save( null, {
-        method: 'update',
-        transacting: options.transacting
-      } );
+    return this.save( null, {
+      method: 'update',
+      transacting: options.transacting
+    } );
+  },
+
+  deactivate: function( options ) {
+
+    this.set( { active: false } );
+
+    return this.save( null, {
+      method: 'update',
+      transacting: options.transacting
+    } );
+  },
+
+  reactivate: function( options ) {
+
+    this.set( { active: true } );
+
+    return this.save( null, {
+      method: 'update',
+      transacting: options.transacting
+    } );
   },
 
   createOrUpdateProviderCredential: function createOrUpdateProviderCredential( query, attributes, options ) {

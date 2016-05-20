@@ -66,7 +66,7 @@ var fullRibotRoutesTestSuite = function fullRibotRoutesTestSuite( expectSomeChec
 
       } );
 
-      describe( 'Handle profile with checkins', function() {
+      describe( 'Handle profile with check-ins', function() {
         before( function( done ) {
           // Set up scope for assertions
           this.expectedStatusCode = 200;
@@ -128,10 +128,11 @@ var fullRibotRoutesTestSuite = function fullRibotRoutesTestSuite( expectSomeChec
       shared.shouldRespondWithCorrectStatusCode();
       shared.shouldReturnValidResponseSchema();
       shared.shouldNotHaveCheckinsInFirstObject();
+      shared.shouldNotHaveInactiveRibotsInResponseBody();
 
     } );
 
-    describe( 'Get ribots with checkins', function() {
+    describe( 'Get ribots with check-ins', function() {
 
       describe( 'Handle invalid access token', function() {
 
@@ -177,6 +178,7 @@ var fullRibotRoutesTestSuite = function fullRibotRoutesTestSuite( expectSomeChec
 
         shared.shouldRespondWithCorrectStatusCode();
         shared.shouldReturnValidResponseSchema();
+        shared.shouldNotHaveInactiveRibotsInResponseBody();
 
         if ( expectSomeCheckIns || expectBeaconCheckIns ) {
           if ( expectSomeCheckIns ) {
@@ -197,7 +199,7 @@ var fullRibotRoutesTestSuite = function fullRibotRoutesTestSuite( expectSomeChec
 
   describe( 'Get single ribot: /ribots/:ribotId', function( done ) {
 
-    describe( 'Handle getting just the ribots', function() {
+    describe( 'Handle getting just the ribot', function() {
 
       before( function( done ) {
         // Needed for blueprint validation
@@ -221,7 +223,7 @@ var fullRibotRoutesTestSuite = function fullRibotRoutesTestSuite( expectSomeChec
 
     } );
 
-    describe( 'Handle getting invalid ribots', function() {
+    describe( 'Handle getting invalid ribot', function() {
 
       before( function( done ) {
         // Needed for blueprint validation
@@ -246,7 +248,7 @@ var fullRibotRoutesTestSuite = function fullRibotRoutesTestSuite( expectSomeChec
 
     } );
 
-    describe( 'Get ribot with checkins', function() {
+    describe( 'Get ribot with check-ins', function() {
 
       before( function() {
         // Needed for blueprint validation
@@ -323,7 +325,7 @@ var fullRibotRoutesTestSuite = function fullRibotRoutesTestSuite( expectSomeChec
 // Start the tests
 describe( 'ribot resource', function( done ) {
 
-  describe( 'ribots with no checkins', function() {
+  describe( 'ribots with no check-ins', function() {
 
     before( function( done ) {
       // Set up db tables and seed
@@ -337,7 +339,7 @@ describe( 'ribot resource', function( done ) {
 
   } );
 
-  describe( 'ribots with non-beacon checkin', function() {
+  describe( 'ribots with non-beacon check-in', function() {
 
     before( function( done ) {
       // Set up db tables and seed
@@ -360,7 +362,7 @@ describe( 'ribot resource', function( done ) {
 
   } );
 
-  describe( 'ribots with beacon checkin', function() {
+  describe( 'ribots with beacon check-in', function() {
 
     before( function( done ) {
       // Set up db tables and seed
