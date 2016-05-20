@@ -22,11 +22,9 @@ var createColumn = function createColumn( trx ) {
  * Adds new default values to all the ribot entities in the database
  */
 var alterData = function alterData( trx ) {
-  return Ribot.fetchAll( { transacting: trx } )
+  return Ribot.collection().fetch( { transacting: trx } )
     .then( function( ribots ) {
-      return ribots.map( function( ribot ) {
-        return ribot.save( { isActive: true }, { patch: true, transacting: trx } );
-      } );
+      return ribots.invokeThen( 'save', { isActive: true }, { patch: true, transacting: trx } );
     } );
 };
 

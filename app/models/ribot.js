@@ -137,7 +137,7 @@ var Ribot = BaseModel.extend( {
 
   deactivate: function( options ) {
 
-    this.set( { active: false } );
+    this.set( { isActive: false } );
 
     return this.save( null, {
       method: 'update',
@@ -147,7 +147,7 @@ var Ribot = BaseModel.extend( {
 
   reactivate: function( options ) {
 
-    this.set( { active: true } );
+    this.set( { isActive: true } );
 
     return this.save( null, {
       method: 'update',
