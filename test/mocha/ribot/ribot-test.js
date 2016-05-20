@@ -1,5 +1,7 @@
 // External dependencies
-var Promise = require( 'bluebird' );
+var Promise = require( 'bluebird' ),
+    _ = require( 'lodash' );
+
 
 // Dependencies
 var seed = require( '../../../data/seed' ),
@@ -220,6 +222,34 @@ var fullRibotRoutesTestSuite = function fullRibotRoutesTestSuite( expectSomeChec
       shared.shouldRespondWithCorrectStatusCode();
       shared.shouldReturnValidResponseSchema();
       shared.shouldNotHaveCheckinsInResponseBody();
+
+    } );
+
+    describe( 'Handle getting inactive ribot', function() {
+
+      before( function( done ) {
+
+        this.inactiveRibot = _.findWhere( seed.ribot, { is_active: false } );
+
+        // Needed for blueprint validation
+        this.blueprintRoute = '/ribots/{ribotId}';
+        this.route = this.blueprintRoute.replace( /\{ribotId\}/g, this.inactiveRibot.id );
+        this.method = 'get';
+
+        // Set up scope for assertions
+        this.expectedStatusCode = 404;
+        this.expectedError = new ResponseError( 'notFound' );
+
+        // Make request
+        helpers.request.bind( this )( {
+          method: this.method,
+          route: this.route
+        }, done );
+      } );
+
+      shared.shouldRespondWithCorrectStatusCode();
+      shared.shouldRespondWithCorrectError();
+      shared.shouldReturnValidErrorSchema();
 
     } );
 

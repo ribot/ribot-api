@@ -264,7 +264,8 @@ Ribot.findByEmail = function findByEmail( email, options ) {
  */
 Ribot.findById = function findById( id, options ) {
   return new Ribot( {
-    id: id
+    id: id,
+    isActive: true
   } )
     .fetch( options )
     .then( function( ribot ) {
