@@ -39,7 +39,13 @@ var alterColumn = function alterColumn( trx ) {
 
 // Migrate function
 var migrate = function migrate( trx ) {
-  return Promise.all( [ createColumn( trx ), alterData( trx ), alterColumn( trx ) ] );
+  return createColumn( trx )
+    .then( function() {
+      return alterData( trx );
+    } )
+    .then( function() {
+      return alterColumn( trx );
+    } );
 };
 
 
