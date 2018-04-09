@@ -4,32 +4,9 @@
 This API allows you to access information about each ribot, as well as perform actions on your own profile such as update your location, status and availability. It will also allow access to health information such as water consumption.
 
 ## Setting up your development environment
-We are using [Vagrant](https://www.vagrantup.com/) to manage the development environment. This ensure that all developers can be set up very quickly and in the same configuration. This in turn avoids issues where "it works on my machine".
+Make sure you have [node](https://nodejs.org/en/), if not it's probably simplest to install them through [brew](https://brew.sh).
 
-To get started you must [install Vagrant](https://www.vagrantup.com/downloads.html) and [install Virtualbox](https://www.virtualbox.org/wiki/Downloads). If you are using [Homebrew](http://brew.sh) you can install box from the command line by running:
-
-```sh
-brew install caskroom/cask/brew-cask
-brew cask install virtualbox
-brew cask install vagrant
-```
-
-Once both of these tools are installed, you need to make sure vagrant has the [Chef](http://chef.io) cookbooks needed to start the VM. Install [Librarian-chef](https://github.com/applicationsonline/librarian-chef) and then install the cookbooks:
-
-```sh
-gem install librarian-chef
-librarian-chef install
-```
-
-Once the download is complete, you can start the development environment by running this command from the root of the project:
-
-```sh
-vagrant up
-```
-
-This will download the required virtual machine, install all the project dependancies and start the virtual machine. The virtual machine will then be used to run the project code, in an enviroment that is the same on every developers machine.
-
-While this is happening, set up the development environment variables by duplicating the `.env.example` file to one called `.env`. Inside that file replace any example values (denoted by `<replace>`) with real values. Take a look at the table below if you are unsure what any of the enviornment variables do.
+Set up the development environment variables by duplicating the `.env.example` file to one called `.env`. Inside that file replace any example values (denoted by `<replace>`) with real values. Take a look at the table below if you are unsure what any of the environment variables do.
 
 | Variable Name          | Description                                                                                                                                                                               |
 |------------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
@@ -43,11 +20,11 @@ While this is happening, set up the development environment variables by duplica
 | `GOOGLE_CLIENT_ID`     | The server's client ID from the [Google Developer Console](https://console.developers.google.com)                                                                                         |
 | `GOOGLE_CLIENT_SECRET` | The server's client secret from the [Google Developer Console](https://console.developers.google.com)                                                                                     |
 
-To start the node project on the VM you now need to SSH into it, change into the `app` directory, install node dependancies and start the node server:
+You need to install [postgresSQL](https://www.postgresql.org/download/macosx/), create a `ribot` user, and create two databases `ribot-api` and `ribot-api-test`, making sure to assign the `ribot` user as owner of these databases.
 
-```sh
-vagrant ssh
-cd app
+To start the node project you now need to install node dependancies and start the node server:
+
+```
 npm install
 npm start
 ```
@@ -59,10 +36,9 @@ node data/scripts/setup.js --seed
 ```
 
 ## Running the tests
-The best way to run tests is from inside the Vagrant VM:
+The best way to run tests is:
 
-```sh
-vagrant ssh
+```
 npm test
 ```
 
@@ -89,47 +65,10 @@ You then need to write a migration script that makes all the changes needed to m
 3. Add a new line to the `exports` of the `data/migrations/index.js` file with the new schema number and a `require` to your migration script. There is an example at the top of the file
 4. Test your migration works on your local machine!
 
-## Adding a new dependency to the VM
-Sometimes you may want to add a new dependency to the VM, for example MongoDB, Redis or Postgres. These sort of dependencies are installed on the VM using [Chef](https://www.chef.io/).
-
-Chef installs dependancies using [Cookbooks](https://supermarket.chef.io/) (sigh... developer puns...). Cookbooks are simply a file which tells chef how to install a specific piece of software. All cookbooks for this project (along with dependancies) are stored in the `cookbooks` folder. This project is written using nodejs, so we have a cookbook for that, along with ones for all the dependancies it needs.
-
-Managing these cookbooks is not complex, however it is boring, so we have chosen to use [Librarian](https://github.com/applicationsonline/librarian-chef) to manage them. To install this tool you can run:
-
-```sh
-gem install librarian-chef
-```
-
-Dependancies are managed using the `Cheffile`. To add a new dependency, add a new line to the file, for example:
-
-```ruby
-cookbook 'mongodb', '~> 0.16.2'
-```
-
-And then run:
-
-```sh
-librarian-chef install
-```
-
-This will download all the cookbooks needed for MongoDB and place them in the `cookbooks` folder.
-
-You now need to tell Vagrant to install this recipe when provisoning. Add a new line to the `Vagrantfile` with the name of the new cookbook:
-
-```sh
-chef.add_recipe "mongodb"
-```
-
-The last step is to "provision" your VM again. This means that the VM will be restarted with all the new dependancies by running Chef again. This also needs to be done by every other developer who created the VM before the changes to the `cookbooks` folder were made. Thankfully it's a simple command!
-
-```sh
-vagrant provision
-```
-
 ## Deploying the app
 Changes to master will automatically cause the app to be deployed to [Dokku](https://api.ribot.io). You should not need to deploy manually. If you do however you can set up your machine by adding a new git remote and then push to it:
 
-```sh
+```
 git remote add deploy dokku@ribot.io:api
 git push deploy master
 ```
