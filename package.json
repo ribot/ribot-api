@@ -5,7 +5,7 @@
   "main": "app.js",
   "scripts": {
     "start": "./node_modules/supervisor/lib/cli-wrapper.js --watch app app.js",
-    "test": "env NODE_ENV=test PORT=8988 BASE_URL=http://localhost:8988 LOG_LEVEL=error DATABASE_DEBUG=false DATABASE_URL=postgresql://vagrant@localhost/ribot-api-test multi='xunit=test/reports/xunit.xml html-cov=test/reports/coverage.html mocha-cobertura-reporter=test/reports/coverage.xml spec=-' node_modules/mocha/bin/mocha"
+    "test": "env NODE_ENV=test PORT=8988 BASE_URL=http://localhost:8988 LOG_LEVEL=error DATABASE_DEBUG=false DATABASE_URL=postgresql://ribot@localhost/ribot-api-test multi='xunit=test/reports/xunit.xml html-cov=test/reports/coverage.html mocha-cobertura-reporter=test/reports/coverage.xml spec=-' node_modules/mocha/bin/mocha"
   },
   "author": "",
   "license": "ISC",
