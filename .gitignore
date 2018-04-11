@@ -51,3 +51,6 @@ cookbooks
 
 # App
 data/jobs/*
+
+# OS files to ignore
+.DS_Store
