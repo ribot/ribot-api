@@ -2606,10 +2606,6 @@ Triggers an application event based on the NFC scan. E.g. creates a drink.
 
 + Request (application/json)
 
-    + Headers
-
-            Authorization: Bearer <token>
-
     + Body
 
             {
