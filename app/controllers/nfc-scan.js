@@ -16,8 +16,10 @@ var logger = require( '../lib/logger' ),
  */
 var init = function init() {
 
+//  router.post( '/nfc-scans',
+//    middleware.validateBody,
+//    requestPostNfcScan );
   router.post( '/nfc-scans',
-    middleware.validateBody,
     requestPostNfcScan );
 
 };

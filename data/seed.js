@@ -29,7 +29,8 @@ var seedData = {
   ribot: [
     { id: uuids[ 0 ], first_name: 'Robert', last_name: 'Douglas', email: 'rob@douglas.com', date_of_birth: '1970-01-01', avatar: 'http://example.com/avatar.png', hex_color: '#C0FFEE', is_authenticated: true, is_active: true, created_date: date, updated_date: date },
     { id: uuids[ 1 ], first_name: 'Matt', last_name: 'Oakes', email: 'matt@ribot.co.uk', date_of_birth: '1970-02-02', avatar: 'http://example.com/avatar2.png', hex_color: '#C0FFEE', is_authenticated: false, is_active: true, created_date: date, updated_date: date },
-    { id: uuids[ 2 ], first_name: 'Olly', last_name: 'Thomas', email: 'olly@ribot.co.uk', date_of_birth: '1970-03-03', avatar: 'http://example.com/avatar3.png', hex_color: '#C0FFEE', is_authenticated: true, is_active: false, created_date: date, updated_date: date }
+    { id: uuids[ 2 ], first_name: 'Olly', last_name: 'Thomas', email: 'olly@ribot.co.uk', date_of_birth: '1970-03-03', avatar: 'http://example.com/avatar3.png', hex_color: '#C0FFEE', is_authenticated: true, is_active: false, created_date: date, updated_date: date },
+    { id: uuids[ 3 ], first_name: 'William', last_name: 'Wragg', email: 'will@ribot.co.uk', date_of_birth: '1970-03-03', avatar: 'http://example.com/avatar4.png', hex_color: '#C0FFEE', is_authenticated: true, is_active: true, created_date: date, updated_date: date }
   ],
 
   access_token: [
